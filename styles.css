@@ -381,50 +381,31 @@ body {
     font-size: 1.05rem;
 }
 
-/* Benefits Hub / Spider Diagram */
-.benefits-hub {
+/* Benefits Section - Flexbox approach */
+.benefits-wrapper {
     position: relative;
-    width: 100%;
-    max-width: 900px;
-    height: 580px;
-    margin: 0 auto;
-}
-
-.benefits-center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 140px;
-    height: 140px;
-    background: var(--gradient-primary);
-    border-radius: 50%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 0;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.benefits-middle {
+    display: flex;
+    align-items: center;
     justify-content: center;
-    color: white;
-    z-index: 10;
-    box-shadow: 0 0 60px rgba(59, 130, 246, 0.4);
-    border: 3px solid rgba(255, 255, 255, 0.2);
+    gap: 0;
+    width: 100%;
 }
 
-.benefits-center-icon {
-    margin-bottom: 0.25rem;
+.benefit-item {
+    display: flex;
+    justify-content: center;
 }
 
-.benefits-center-text {
-    font-size: 0.85rem;
-    font-weight: 600;
-    text-align: center;
-}
-
-.benefit-node {
-    position: absolute;
-    z-index: 5;
-}
-
-.benefit-node-inner {
+.benefit-card {
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
     border: 2px solid var(--primary-light);
@@ -435,19 +416,20 @@ body {
     align-items: center;
     text-align: center;
     min-width: 200px;
+    max-width: 220px;
     transition: all 0.3s ease;
     color: white;
 }
 
-.benefit-node-inner:hover {
+.benefit-card:hover {
     transform: scale(1.05);
     background: rgba(59, 130, 246, 0.15);
     box-shadow: 0 8px 32px rgba(59, 130, 246, 0.3);
 }
 
-.benefit-node-inner svg {
+.benefit-card svg {
     color: var(--primary-light);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
 }
 
 .benefit-label {
@@ -463,73 +445,65 @@ body {
     line-height: 1.4;
 }
 
-/* Position the nodes around the center - using calc for precise positioning */
-.benefit-node-1 {
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
+.benefit-center-hub {
+    width: 140px;
+    height: 140px;
+    min-width: 140px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    box-shadow: 0 0 60px rgba(59, 130, 246, 0.4);
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    margin: 0 2rem;
+    z-index: 2;
 }
 
-.benefit-node-2 {
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
+.benefit-center-hub span {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 0.25rem;
 }
 
-.benefit-node-3 {
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.benefit-node-4 {
-    top: 50%;
-    left: 20px;
-    transform: translateY(-50%);
-}
-
-/* Connecting lines - drawn from center outward */
-.benefit-connector {
+/* SVG connecting lines */
+.benefit-lines {
     position: absolute;
-    background: var(--primary-light);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    color: var(--primary-light);
     opacity: 0.5;
     z-index: 1;
 }
 
-/* Top connector - from node down toward center */
-.connector-1 {
-    width: 2px;
-    height: 70px;
-    bottom: -70px;
-    left: 50%;
-    transform: translateX(-50%);
+/* Spacing for top and bottom items to allow lines */
+.benefit-top {
+    margin-bottom: 1.5rem;
 }
 
-/* Right connector - from node left toward center */
-.connector-2 {
-    width: 90px;
-    height: 2px;
-    top: 50%;
-    right: calc(100% + 1px);
-    transform: translateY(-50%);
+.benefit-bottom {
+    margin-top: 1.5rem;
 }
 
-/* Bottom connector - from node up toward center */
-.connector-3 {
-    width: 2px;
-    height: 70px;
-    top: -70px;
-    left: 50%;
-    transform: translateX(-50%);
+.benefit-left,
+.benefit-right {
+    flex: 1;
+    display: flex;
 }
 
-/* Left connector - from node right toward center */
-.connector-4 {
-    width: 90px;
-    height: 2px;
-    top: 50%;
-    left: calc(100% + 1px);
-    transform: translateY(-50%);
+.benefit-left {
+    justify-content: flex-end;
+    padding-right: 1.5rem;
+}
+
+.benefit-right {
+    justify-content: flex-start;
+    padding-left: 1.5rem;
 }
 
 /* Process Cards */
@@ -805,27 +779,24 @@ body {
         grid-template-columns: repeat(2, 1fr);
     }
     
-    .benefits-hub {
-        height: 520px;
-        max-width: 700px;
-    }
-    
-    .benefit-node-inner {
+    .benefit-card {
         min-width: 160px;
-        padding: 1.25rem 1.5rem;
+        padding: 1.25rem 1.25rem;
     }
     
-    .connector-1, .connector-3 {
-        height: 50px;
-    }
-    
-    .connector-2, .connector-4 {
-        width: 60px;
-    }
-    
-    .benefits-center {
+    .benefit-center-hub {
         width: 120px;
         height: 120px;
+        min-width: 120px;
+        margin: 0 1rem;
+    }
+    
+    .benefit-left {
+        padding-right: 1rem;
+    }
+    
+    .benefit-right {
+        padding-left: 1rem;
     }
 }
 
@@ -877,37 +848,37 @@ body {
     }
     
     /* Stacked benefits on mobile */
-    .benefits-hub {
-        height: auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+    .benefits-wrapper {
         gap: 1.5rem;
-        padding: 2rem 0;
     }
     
-    .benefits-center {
-        position: relative;
-        top: auto;
-        left: auto;
-        transform: none;
-        margin-bottom: 1rem;
+    .benefits-middle {
+        flex-direction: column;
+        gap: 1.5rem;
     }
     
-    .benefit-node {
-        position: relative;
-        top: auto !important;
-        left: auto !important;
-        right: auto !important;
-        bottom: auto !important;
-        transform: none !important;
+    .benefit-left,
+    .benefit-right {
+        justify-content: center;
+        padding: 0;
     }
     
-    .benefit-node-inner {
-        min-width: 280px;
+    .benefit-top,
+    .benefit-bottom {
+        margin: 0;
     }
     
-    .benefit-connector {
+    .benefit-card {
+        min-width: 260px;
+        max-width: 300px;
+    }
+    
+    .benefit-center-hub {
+        margin: 0;
+        order: -1;
+    }
+    
+    .benefit-lines {
         display: none;
     }
 
@@ -968,13 +939,15 @@ body {
         font-size: 2.5rem;
     }
     
-    .benefits-center {
-        width: 120px;
-        height: 120px;
+    .benefits-center-hub {
+        width: 110px;
+        height: 110px;
+        min-width: 110px;
     }
     
-    .benefit-node-inner {
-        min-width: 240px;
+    .benefit-card {
+        min-width: 220px;
+        max-width: 280px;
     }
 
     .sticky-cta span {
@@ -1002,7 +975,7 @@ body {
 
 .service-card-modern,
 .process-card,
-.benefit-node {
+.benefit-card {
     animation: fadeInUp 0.6s ease-out;
 }
 
