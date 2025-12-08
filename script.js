@@ -66,7 +66,7 @@ window.addEventListener('load', () => {
 // Observe all cards and steps
 document.addEventListener('DOMContentLoaded', () => {
     const animatedElements = document.querySelectorAll(
-        '.service-card-modern, .process-card, .benefit-node'
+        '.service-card-modern, .process-card, .benefit-card'
     );
     
     animatedElements.forEach((el, index) => {
