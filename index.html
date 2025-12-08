@@ -77,27 +77,18 @@
         </div>
     </section>
 
-    <!-- Benefits Hub Section -->
+    <!-- Benefits Section -->
     <section class="section section-benefits">
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title-white">What You Get</h2>
                 <p class="section-subtitle-white">Real outcomes, not empty promises.</p>
             </div>
-            <div class="benefits-hub">
-                <div class="benefits-center">
-                    <div class="benefits-center-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-                            <path d="M2 17l10 5 10-5"></path>
-                            <path d="M2 12l10 5 10-5"></path>
-                        </svg>
-                    </div>
-                    <span class="benefits-center-text">Your Business</span>
-                </div>
-                
-                <div class="benefit-node benefit-node-1">
-                    <div class="benefit-node-inner">
+            
+            <div class="benefits-wrapper">
+                <!-- Top benefit -->
+                <div class="benefit-item benefit-top">
+                    <div class="benefit-card">
                         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="12" cy="12" r="10"></circle>
                             <polyline points="12 6 12 12 16 14"></polyline>
@@ -105,43 +96,60 @@
                         <span class="benefit-label">Hours Back</span>
                         <span class="benefit-desc">Reclaim time lost to repetitive tasks</span>
                     </div>
-                    <div class="benefit-connector connector-1"></div>
                 </div>
                 
-                <div class="benefit-node benefit-node-2">
-                    <div class="benefit-node-inner">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="12" y1="1" x2="12" y2="23"></line>
-                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                        </svg>
-                        <span class="benefit-label">Lower Costs</span>
-                        <span class="benefit-desc">Reduce operational overhead</span>
+                <!-- Middle row: Left - Center - Right -->
+                <div class="benefits-middle">
+                    <div class="benefit-item benefit-left">
+                        <div class="benefit-card">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                                <polyline points="17 6 23 6 23 12"></polyline>
+                            </svg>
+                            <span class="benefit-label">Room to Grow</span>
+                            <span class="benefit-desc">Systems that scale with you</span>
+                        </div>
                     </div>
-                    <div class="benefit-connector connector-2"></div>
+                    
+                    <div class="benefit-center-hub">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                            <path d="M2 17l10 5 10-5"></path>
+                            <path d="M2 12l10 5 10-5"></path>
+                        </svg>
+                        <span>Your Business</span>
+                    </div>
+                    
+                    <div class="benefit-item benefit-right">
+                        <div class="benefit-card">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="1" x2="12" y2="23"></line>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                            </svg>
+                            <span class="benefit-label">Lower Costs</span>
+                            <span class="benefit-desc">Reduce operational overhead</span>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="benefit-node benefit-node-3">
-                    <div class="benefit-node-inner">
+                <!-- Bottom benefit -->
+                <div class="benefit-item benefit-bottom">
+                    <div class="benefit-card">
                         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
                         </svg>
                         <span class="benefit-label">Faster Decisions</span>
                         <span class="benefit-desc">Get the right info when you need it</span>
                     </div>
-                    <div class="benefit-connector connector-3"></div>
                 </div>
                 
-                <div class="benefit-node benefit-node-4">
-                    <div class="benefit-node-inner">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
-                            <polyline points="17 6 23 6 23 12"></polyline>
-                        </svg>
-                        <span class="benefit-label">Room to Grow</span>
-                        <span class="benefit-desc">Systems that scale with you</span>
-                    </div>
-                    <div class="benefit-connector connector-4"></div>
-                </div>
+                <!-- SVG lines connecting everything -->
+                <svg class="benefit-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
+                    <line x1="50" y1="18" x2="50" y2="38" stroke="currentColor" stroke-width="0.5"/>
+                    <line x1="50" y1="62" x2="50" y2="82" stroke="currentColor" stroke-width="0.5"/>
+                    <line x1="22" y1="50" x2="38" y2="50" stroke="currentColor" stroke-width="0.5"/>
+                    <line x1="62" y1="50" x2="78" y2="50" stroke="currentColor" stroke-width="0.5"/>
+                </svg>
             </div>
         </div>
     </section>
