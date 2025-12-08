@@ -66,7 +66,7 @@ window.addEventListener('load', () => {
 // Observe all cards and steps
 document.addEventListener('DOMContentLoaded', () => {
     const animatedElements = document.querySelectorAll(
-        '.service-card-modern, .process-card, .stat-card'
+        '.service-card-modern, .process-card, .benefit-node'
     );
     
     animatedElements.forEach((el, index) => {
@@ -94,10 +94,3 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial check for sticky CTA
     updateStickyCta();
 });
-
-// Form submission handler (if you add a form later)
-function handleFormSubmit(event) {
-    event.preventDefault();
-    // Add your form handling logic here
-    console.log('Form submitted');
-}
