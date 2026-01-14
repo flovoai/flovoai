@@ -141,26 +141,27 @@ body {
    NEW HERO SECTION
    ========================== */
 .hero-new {
-    padding: 8rem 0 6rem;
+    padding: 12rem 0 12rem;
     background: var(--gray-900);
-    min-height: 60vh;
+    min-height: 80vh;
     display: flex;
     align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .hero-new-content {
-    max-width: 900px;
+    max-width: 1000px;
     margin: 0 auto;
     text-align: center;
 }
 
 .hero-new-title {
-    font-size: 4.5rem;
+    font-size: 5rem;
     font-weight: 800;
     color: white;
-    line-height: 1.2;
+    line-height: 1.15;
     letter-spacing: -0.03em;
-    margin-bottom: 3rem;
+    margin-bottom: 0;
     opacity: 0;
     animation: heroFadeIn 1.2s ease-out 0.3s forwards;
 }
@@ -175,52 +176,30 @@ body {
     }
 }
 
-.alignment-line {
-    width: 100%;
-    max-width: 600px;
-    height: 3px;
-    margin: 0 auto;
-    background: var(--primary-light);
-    opacity: 0;
-    transform: translateX(-30px) rotate(-2deg);
-    animation: lineAlign 1.5s ease-out 1.5s forwards;
-}
-
-@keyframes lineAlign {
-    0% {
-        opacity: 0;
-        transform: translateX(-30px) rotate(-2deg);
-    }
-    60% {
-        opacity: 1;
-        transform: translateX(15px) rotate(1deg);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0) rotate(0deg);
-    }
-}
-
 /* ==========================
    RECOGNITION SECTION
    ========================== */
 .recognition-section {
-    padding: 8rem 0;
+    padding: 10rem 0 8rem;
     background: var(--gray-900);
 }
 
 .recognition-content {
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
     text-align: center;
 }
 
 .recognition-text {
-    font-size: 2.25rem;
+    font-size: 2.5rem;
     font-weight: 700;
-    color: white;
+    color: var(--gray-400);
     line-height: 1.4;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.recognition-text:last-of-type {
+    margin-bottom: 4rem;
 }
 
 .fragmentation-visual {
@@ -873,16 +852,16 @@ body {
 
 @media (max-width: 768px) {
     .hero-new {
-        padding: 5rem 0 4rem;
-        min-height: auto;
+        padding: 6rem 0 6rem;
+        min-height: 70vh;
     }
 
     .hero-new-title {
-        font-size: 2.5rem;
+        font-size: 2.75rem;
     }
 
-    .alignment-line {
-        max-width: 100%;
+    .recognition-section {
+        padding: 6rem 0 4rem;
     }
 
     .recognition-text {
@@ -928,19 +907,24 @@ body {
 
 @media (max-width: 480px) {
     .hero-new {
-        padding: 4rem 0 3rem;
+        padding: 5rem 0 5rem;
+        min-height: 60vh;
     }
 
     .hero-new-title {
-        font-size: 2rem;
+        font-size: 2.25rem;
     }
 
     .logo-img {
         height: 65px;
     }
 
+    .recognition-section {
+        padding: 5rem 0 3rem;
+    }
+
     .recognition-text {
-        font-size: 1.35rem;
+        font-size: 1.5rem;
     }
 
     .cost-new-title,
