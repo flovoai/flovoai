@@ -18,7 +18,7 @@ function updateScrollProgress() {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     const scrollPercentage = (scrollTop / scrollHeight) * 100;
-    
+
     if (scrollProgress) {
         scrollProgress.style.width = scrollPercentage + '%';
     }
@@ -28,7 +28,7 @@ function updateScrollProgress() {
 function updateStickyCta() {
     const stickyCta = document.getElementById('stickyCta');
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    
+
     if (stickyCta) {
         if (scrollTop > 800) {
             stickyCta.classList.add('visible');
@@ -38,43 +38,54 @@ function updateStickyCta() {
     }
 }
 
-// Add scroll animation for elements
+// Intersection Observer for scroll-triggered animations
 const observerOptions = {
     threshold: 0.3,
-    rootMargin: '0px 0px -50px 0px'
+    rootMargin: '0px 0px -100px 0px'
 };
 
-// Intersection Observer for scroll-triggered animations
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            // Problem card cracks
-            if (entry.target.classList.contains('problem-card')) {
-                entry.target.classList.add('in-view');
-            }
-
-            // Cost items fade in
-            if (entry.target.classList.contains('cost-item')) {
-                entry.target.classList.add('fade-in');
-            }
-
-            // Node animations
-            if (entry.target.classList.contains('nodes-container')) {
-                const lines = entry.target.querySelectorAll('.node-line');
-                const circles = entry.target.querySelectorAll('.node-circle');
+            // Fragmentation animation
+            if (entry.target.classList.contains('fragmentation-visual')) {
+                const lines = entry.target.querySelectorAll('.frag-line');
                 lines.forEach(line => line.classList.add('animate'));
-                circles.forEach(circle => circle.classList.add('animate'));
+                observer.unobserve(entry.target);
             }
 
-            // Work lines reveal
-            if (entry.target.classList.contains('how-work-content')) {
-                const lines = entry.target.querySelectorAll('.work-line');
-                lines.forEach(line => line.classList.add('reveal'));
+            // Drain animation
+            if (entry.target.classList.contains('drain-visual')) {
+                const items = entry.target.querySelectorAll('.drain-item');
+                const flows = entry.target.querySelectorAll('.drain-flow');
+                items.forEach(item => item.classList.add('visible'));
+                flows.forEach(flow => flow.classList.add('animate'));
+                observer.unobserve(entry.target);
             }
 
-            // Alignment shapes
-            if (entry.target.classList.contains('alignment-shapes')) {
-                entry.target.classList.add('align');
+            // Adaptation animation
+            if (entry.target.classList.contains('adaptation-visual')) {
+                const shape = entry.target.querySelector('.adapt-shape-final');
+                if (shape) shape.classList.add('animate');
+                observer.unobserve(entry.target);
+            }
+
+            // Journey animation
+            if (entry.target.classList.contains('journey-path')) {
+                const line = entry.target.querySelector('.journey-line');
+                const dots = entry.target.querySelectorAll('.journey-dot');
+                if (line) line.classList.add('animate');
+                dots.forEach(dot => dot.classList.add('animate'));
+                observer.unobserve(entry.target);
+            }
+
+            // Convergence animation
+            if (entry.target.classList.contains('convergence-visual')) {
+                const lines = entry.target.querySelectorAll('.converge-line');
+                const center = entry.target.querySelector('.converge-center');
+                lines.forEach(line => line.classList.add('animate'));
+                if (center) center.classList.add('animate');
+                observer.unobserve(entry.target);
             }
         }
     });
@@ -90,30 +101,27 @@ window.addEventListener('load', () => {
     }, 100);
 });
 
-// Observe all animated elements
+// Initialize all observers
 document.addEventListener('DOMContentLoaded', () => {
-    // Problem card
-    const problemCard = document.querySelector('.problem-card');
-    if (problemCard) observer.observe(problemCard);
+    // Observe fragmentation
+    const fragmentationVisual = document.querySelector('.fragmentation-visual');
+    if (fragmentationVisual) observer.observe(fragmentationVisual);
 
-    // Cost items
-    const costItems = document.querySelectorAll('.cost-item');
-    costItems.forEach((item, index) => {
-        item.style.transitionDelay = `${index * 0.1}s`;
-        observer.observe(item);
-    });
+    // Observe drain
+    const drainVisual = document.querySelector('.drain-visual');
+    if (drainVisual) observer.observe(drainVisual);
 
-    // Nodes container
-    const nodesContainer = document.querySelector('.nodes-container');
-    if (nodesContainer) observer.observe(nodesContainer);
+    // Observe adaptation
+    const adaptationVisual = document.querySelector('.adaptation-visual');
+    if (adaptationVisual) observer.observe(adaptationVisual);
 
-    // How we work content
-    const howWorkContent = document.querySelector('.how-work-content');
-    if (howWorkContent) observer.observe(howWorkContent);
+    // Observe journey
+    const journeyPath = document.querySelector('.journey-path');
+    if (journeyPath) observer.observe(journeyPath);
 
-    // Alignment shapes
-    const alignmentShapes = document.querySelector('.alignment-shapes');
-    if (alignmentShapes) observer.observe(alignmentShapes);
+    // Observe convergence
+    const convergenceVisual = document.querySelector('.convergence-visual');
+    if (convergenceVisual) observer.observe(convergenceVisual);
 
     // Add active state to nav on scroll
     const nav = document.querySelector('.nav');
