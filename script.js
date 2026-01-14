@@ -40,7 +40,7 @@ function updateStickyCta() {
 
 // Scroll event listeners
 document.addEventListener('DOMContentLoaded', () => {
-    const nav = document.querySelector('.nav');
+    const nav = document.querySelector('.nav-premium');
 
     window.addEventListener('scroll', () => {
         // Update scroll progress and sticky CTA
@@ -49,9 +49,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Add shadow to nav on scroll
         if (window.scrollY > 50) {
-            nav.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
+            if (nav) {
+                nav.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.3)';
+            }
         } else {
-            nav.style.boxShadow = 'none';
+            if (nav) {
+                nav.style.boxShadow = 'none';
+            }
         }
     });
 

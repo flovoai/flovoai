@@ -3,158 +3,220 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="FlovoAI - Software built around how your business actually works. We design systems that adapt to you.">
-    <title>FlovoAI | Custom Business Software</title>
+    <meta name="description" content="FlovoAI - AI-powered business automation. Software that adapts to your business, not the other way around.">
+    <title>FlovoAI | AI Business Automation</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="dark-theme">
     <!-- Navigation -->
-    <nav class="nav">
+    <nav class="nav-premium">
         <div class="container">
-            <div class="nav-content">
-                <img src="logo.png" alt="FlovoAI" class="logo-img">
-                <a href="https://cal.com/flovoai/15min" target="_blank" rel="noopener" class="btn-primary">Let's Talk</a>
+            <div class="nav-content-premium">
+                <img src="logo.png" alt="FlovoAI" class="logo-large">
+                <a href="https://cal.com/flovoai/15min" target="_blank" rel="noopener" class="btn-glow">Let's Talk</a>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero-premium">
         <div class="container">
-            <div class="hero-content">
-                <div class="hero-badge">Custom Business Software</div>
-                <h1 class="hero-title">
+            <div class="hero-content-premium">
+                <h1 class="hero-title-premium">
                     Software built around<br>
                     how your business<br>
-                    <span class="hero-accent">actually works</span>
+                    <span class="hero-highlight">actually works</span>
                 </h1>
-                <p class="hero-subtitle">Most tools force you to adapt. We build systems that adapt to you.</p>
+                <p class="hero-subtitle-premium">Most tools force you to adapt. We build systems that adapt to you.</p>
+                <a href="https://cal.com/flovoai/15min" target="_blank" rel="noopener" class="btn-glow btn-large">Get Started</a>
             </div>
         </div>
     </section>
 
-    <!-- Problem Cards Section -->
-    <section class="section section-light">
+    <!-- Problem Section -->
+    <section class="problem-section-premium">
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Most businesses don't fail</h2>
-                <p class="section-lead">They slowly outgrow their tools</p>
-            </div>
-
-            <div class="problem-grid">
-                <div class="problem-card">
-                    <div class="problem-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="3" y="3" width="7" height="7"></rect>
-                            <rect x="14" y="3" width="7" height="7"></rect>
-                            <rect x="14" y="14" width="7" height="7"></rect>
-                            <rect x="3" y="14" width="7" height="7"></rect>
-                        </svg>
+            <div class="problem-layout">
+                <div class="problem-text-side">
+                    <h2 class="section-title-premium">
+                        Why most businesses <span class="text-electric">FAIL</span><br>
+                        to scale effectively
+                    </h2>
+                    <p class="problem-desc">They don't break overnight. They slowly outgrow their tools.</p>
+                    <div class="problem-points">
+                        <div class="problem-point">
+                            <div class="point-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="7" height="7"></rect>
+                                    <rect x="14" y="3" width="7" height="7"></rect>
+                                    <rect x="14" y="14" width="7" height="7"></rect>
+                                    <rect x="3" y="14" width="7" height="7"></rect>
+                                </svg>
+                            </div>
+                            <span>Fragmented workflows</span>
+                        </div>
+                        <div class="problem-point">
+                            <div class="point-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="23 4 23 10 17 10"></polyline>
+                                    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                                </svg>
+                            </div>
+                            <span>Manual workarounds</span>
+                        </div>
+                        <div class="problem-point">
+                            <div class="point-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                                </svg>
+                            </div>
+                            <span>Invisible friction</span>
+                        </div>
                     </div>
-                    <h3 class="problem-card-title">Fragmented workflows</h3>
-                    <p class="problem-card-text">Spreadsheets, workarounds, and disconnected tools</p>
                 </div>
-
-                <div class="problem-card">
-                    <div class="problem-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 2v20M2 12h20"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                        </svg>
+                <div class="problem-visual-side">
+                    <div class="complexity-visual">
+                        <div class="complexity-node"></div>
+                        <div class="complexity-node"></div>
+                        <div class="complexity-node"></div>
+                        <div class="complexity-node"></div>
+                        <div class="complexity-lines"></div>
                     </div>
-                    <h3 class="problem-card-title">Manual compensation</h3>
-                    <p class="problem-card-text">Systems still work, but only because people fill the gaps</p>
-                </div>
-
-                <div class="problem-card">
-                    <div class="problem-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-                        </svg>
-                    </div>
-                    <h3 class="problem-card-title">Invisible friction</h3>
-                    <p class="problem-card-text">Processes fragment gradually as businesses grow</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Cost Section -->
-    <section class="section section-dark">
+    <!-- Services Cards -->
+    <section class="services-section-premium">
         <div class="container">
-            <div class="cost-content">
-                <h2 class="section-title-white">The cost isn't obvious</h2>
-                <p class="section-lead-white">It shows up in places you don't measure</p>
+            <div class="section-header-center">
+                <h2 class="section-title-premium">What we do</h2>
+                <p class="section-lead-premium">AI-powered solutions that actually work</p>
+            </div>
 
-                <div class="cost-grid">
-                    <div class="cost-item">
-                        <div class="cost-icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="23 4 23 10 17 10"></polyline>
-                                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
-                            </svg>
-                        </div>
-                        <span>Reworked tasks</span>
+            <div class="services-grid-premium">
+                <div class="glass-card">
+                    <div class="service-icon-large">
+                        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M12 2a10 10 0 0 0-9.95 9h11.64L9.74 7.05a1 1 0 0 1 1.41-1.41l5.66 5.65a1 1 0 0 1 0 1.42l-5.66 5.65a1 1 0 0 1-1.41 0 1 1 0 0 1 0-1.41L13.69 13H2.05A10 10 0 1 0 12 2z"></path>
+                        </svg>
                     </div>
-                    <div class="cost-item">
-                        <div class="cost-icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <line x1="12" y1="8" x2="12" y2="12"></line>
-                                <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                            </svg>
-                        </div>
-                        <span>Missed details</span>
-                    </div>
-                    <div class="cost-item">
-                        <div class="cost-icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
-                            </svg>
-                        </div>
-                        <span>Manual fixes</span>
-                    </div>
-                    <div class="cost-item">
-                        <div class="cost-icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                <polyline points="7 10 12 15 17 10"></polyline>
-                                <line x1="12" y1="15" x2="12" y2="3"></line>
-                            </svg>
-                        </div>
-                        <span>Decisions without context</span>
-                    </div>
+                    <h3 class="service-title-premium">AI Strategy</h3>
+                    <p class="service-desc-premium">Cut through the AI hype. We identify where intelligent automation genuinely moves the needle for your business.</p>
                 </div>
 
-                <div class="insight-box">
-                    <p class="insight-text">None of this feels dramatic.<br><strong>It's just expensive over time.</strong></p>
+                <div class="glass-card">
+                    <div class="service-icon-large">
+                        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                            <path d="M3 9h18M9 21V9"></path>
+                        </svg>
+                    </div>
+                    <h3 class="service-title-premium">Process Automation</h3>
+                    <p class="service-desc-premium">Transform manual workflows into intelligent systems. Built around how you work, not how a generic tool expects you to.</p>
                 </div>
+
+                <div class="glass-card">
+                    <div class="service-icon-large">
+                        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+                            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+                            <path d="M12 12l7-4"></path>
+                        </svg>
+                    </div>
+                    <h3 class="service-title-premium">Data Integration</h3>
+                    <p class="service-desc-premium">Connect disconnected tools. Give your team the full picture without manual data transfers or spreadsheet gymnastics.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Section -->
+    <section class="comparison-section-premium">
+        <div class="container">
+            <h2 class="section-title-premium text-center">The cost isn't obvious</h2>
+            <p class="section-lead-premium text-center">Until you compare the old way vs. the right way</p>
+
+            <div class="comparison-grid">
+                <div class="comparison-side comparison-old">
+                    <div class="comparison-label">Traditional Approach</div>
+                    <div class="comparison-icon-large">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                        </svg>
+                    </div>
+                    <ul class="comparison-list">
+                        <li>Reworked tasks daily</li>
+                        <li>Missed details constantly</li>
+                        <li>Manual fixes everywhere</li>
+                        <li>Decisions without context</li>
+                    </ul>
+                    <p class="comparison-result">Expensive. Slow. Frustrating.</p>
+                </div>
+
+                <div class="comparison-divider">
+                    <div class="vs-badge">VS</div>
+                </div>
+
+                <div class="comparison-side comparison-new">
+                    <div class="comparison-label">AI Automation</div>
+                    <div class="comparison-icon-large">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                        </svg>
+                    </div>
+                    <ul class="comparison-list">
+                        <li>Automated workflows</li>
+                        <li>Nothing falls through cracks</li>
+                        <li>Self-correcting systems</li>
+                        <li>Full context, every decision</li>
+                    </ul>
+                    <p class="comparison-result">Fast. Reliable. Scalable.</p>
+                </div>
+            </div>
+
+            <div class="insight-box-premium">
+                <p>None of this feels dramatic. <strong>It's just expensive over time.</strong></p>
             </div>
         </div>
     </section>
 
     <!-- Philosophy Section -->
-    <section class="section section-light">
+    <section class="philosophy-section-premium">
         <div class="container">
-            <div class="philosophy-layout">
-                <div class="philosophy-text">
-                    <h2 class="section-title">Software should adapt to your business</h2>
-                    <p class="philosophy-lead">Not the other way around</p>
-                    <p class="philosophy-body">We design and build internal software that connects the parts of your business that should already be working together.</p>
-                    <p class="philosophy-body">Built around how you operate — not how a generic tool expects you to.</p>
+            <div class="philosophy-layout-premium">
+                <div class="philosophy-text-premium">
+                    <h2 class="section-title-premium">Software should adapt to your business</h2>
+                    <p class="philosophy-lead-premium">Not the other way around</p>
+                    <p class="philosophy-body-premium">We design and build internal software that connects the parts of your business that should already be working together.</p>
+                    <p class="philosophy-body-premium">Built around how you operate — not how a generic tool expects you to.</p>
                 </div>
-                <div class="philosophy-visual">
-                    <div class="philosophy-card">
-                        <div class="philosophy-icon-large">
-                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <circle cx="12" cy="12" r="3"></circle>
-                                <path d="M12 1v6m0 6v6m8.66-13l-3 3m-11.32 0l-3-3m0 11.32l3-3m11.32 0l3 3"></path>
-                            </svg>
+                <div class="philosophy-visual-premium">
+                    <div class="business-circle">
+                        <div class="circle-center">
+                            <span class="business-label">BUSINESS</span>
                         </div>
-                        <span class="philosophy-card-label">Your Business at the Center</span>
+                        <div class="connection-line line-1"></div>
+                        <div class="connection-line line-2"></div>
+                        <div class="connection-line line-3"></div>
+                        <div class="connection-line line-4"></div>
+                        <div class="connection-node node-1">
+                            <span>Software</span>
+                        </div>
+                        <div class="connection-node node-2">
+                            <span>Software</span>
+                        </div>
+                        <div class="connection-node node-3">
+                            <span>Software</span>
+                        </div>
+                        <div class="connection-node node-4">
+                            <span>Software</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -162,44 +224,44 @@
     </section>
 
     <!-- Journey Section -->
-    <section class="section section-white">
+    <section class="journey-section-premium">
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">How we work</h2>
+            <div class="section-header-center">
+                <h2 class="section-title-premium">How we work</h2>
             </div>
 
-            <div class="journey-grid">
-                <div class="journey-card">
+            <div class="journey-grid-premium">
+                <div class="glass-card journey-card">
                     <div class="journey-number">1</div>
-                    <h3 class="journey-title">Start small</h3>
-                    <p class="journey-text">Focus on the biggest friction first</p>
+                    <h3 class="journey-title-premium">Start small</h3>
+                    <p class="journey-text-premium">Focus on the biggest friction first</p>
                 </div>
 
-                <div class="journey-card">
+                <div class="glass-card journey-card">
                     <div class="journey-number">2</div>
-                    <h3 class="journey-title">Build together</h3>
-                    <p class="journey-text">We stay involved as your system evolves</p>
+                    <h3 class="journey-title-premium">Build together</h3>
+                    <p class="journey-text-premium">We stay involved as your system evolves</p>
                 </div>
 
-                <div class="journey-card">
+                <div class="glass-card journey-card">
                     <div class="journey-number">3</div>
-                    <h3 class="journey-title">Keep adapting</h3>
-                    <p class="journey-text">As your business grows, so does the system</p>
+                    <h3 class="journey-title-premium">Keep adapting</h3>
+                    <p class="journey-text-premium">As your business grows, so does the system</p>
                 </div>
             </div>
 
-            <div class="section-cta">
-                <a href="https://cal.com/flovoai/15min" target="_blank" rel="noopener" class="btn-primary btn-large">Book a Call</a>
+            <div class="cta-standalone">
+                <a href="https://cal.com/flovoai/15min" target="_blank" rel="noopener" class="btn-glow btn-large">Book a Call</a>
             </div>
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section class="section section-gray" id="contact">
+    <section class="contact-section-premium" id="contact">
         <div class="container">
-            <div class="contact-box">
-                <h2 class="section-title text-center">Let's Talk</h2>
-                <p class="section-subtitle text-center">Tell us about your business and what you're looking to solve.</p>
+            <div class="contact-content-premium">
+                <h2 class="section-title-premium text-center">Let's Talk</h2>
+                <p class="section-subtitle-premium text-center">Tell us about your business and what you're looking to solve.</p>
 
                 <div class="tally-form-wrapper">
                     <iframe
@@ -220,28 +282,29 @@
     <script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);}</script>
 
     <!-- CTA Section -->
-    <section class="section section-cta">
+    <section class="cta-section-premium">
         <div class="container">
-            <div class="cta-box">
-                <h2 class="cta-title">You don't need more tools</h2>
-                <p class="cta-subtitle">You need alignment</p>
+            <div class="cta-content-premium">
+                <h2 class="cta-title-premium">You don't need more tools</h2>
+                <p class="cta-subtitle-premium">You need alignment</p>
+                <a href="https://cal.com/flovoai/15min" target="_blank" rel="noopener" class="btn-glow btn-large">Get Started</a>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer-premium">
         <div class="container">
-            <div class="footer-content">
-                <img src="logo.png" alt="FlovoAI" class="footer-logo">
-                <div class="social-icons">
-                    <a href="mailto:henry@flovoai.com" class="social-icon" aria-label="Email">
+            <div class="footer-content-premium">
+                <img src="logo.png" alt="FlovoAI" class="footer-logo-premium">
+                <div class="social-icons-premium">
+                    <a href="mailto:henry@flovoai.com" class="social-icon-premium" aria-label="Email">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                             <polyline points="22,6 12,13 2,6"></polyline>
                         </svg>
                     </a>
-                    <a href="https://linkedin.com/company/flovoai" target="_blank" rel="noopener" class="social-icon" aria-label="LinkedIn">
+                    <a href="https://linkedin.com/company/flovoai" target="_blank" rel="noopener" class="social-icon-premium" aria-label="LinkedIn">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
                             <rect x="2" y="9" width="4" height="12"></rect>
@@ -249,13 +312,13 @@
                         </svg>
                     </a>
                 </div>
-                <p>&copy; 2025 FlovoAI. All rights reserved.</p>
+                <p class="footer-copyright">&copy; 2025 FlovoAI. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <!-- Sticky CTA Button -->
-    <a href="https://cal.com/flovoai/15min" target="_blank" rel="noopener" class="sticky-cta" id="stickyCta">
+    <a href="https://cal.com/flovoai/15min" target="_blank" rel="noopener" class="sticky-cta-premium" id="stickyCta">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
             <line x1="16" y1="2" x2="16" y2="6"></line>
@@ -266,7 +329,7 @@
     </a>
 
     <!-- Scroll Progress Bar -->
-    <div class="scroll-progress" id="scrollProgress"></div>
+    <div class="scroll-progress-premium" id="scrollProgress"></div>
 
     <script src="script.js"></script>
 </body>
