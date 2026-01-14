@@ -206,29 +206,57 @@ body {
     z-index: 1;
 }
 
-.hero-badge {
-    display: inline-block;
-    padding: 0.5rem 1.25rem;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    border-radius: 50px;
-    font-size: 0.875rem;
-    font-weight: 600;
-    margin-bottom: 2rem;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
 .hero-title {
     font-size: 4rem;
     font-weight: 800;
     margin-bottom: 1.5rem;
     line-height: 1.1;
     letter-spacing: -0.02em;
+    animation: heroFadeIn 1s ease-out forwards;
+    opacity: 0;
+}
+
+@keyframes heroFadeIn {
+    to {
+        opacity: 1;
+    }
 }
 
 .hero-title-accent {
     color: rgba(15, 23, 42, 0.85);
     display: inline;
+    position: relative;
+}
+
+.hero-underline {
+    position: relative;
+    white-space: nowrap;
+}
+
+.hero-underline::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0;
+    height: 2px;
+    background: rgba(15, 23, 42, 0.85);
+    animation: underlineDraw 0.8s ease-out 0.5s forwards, underlineMisalign 0.4s ease-in-out 1.3s forwards;
+}
+
+@keyframes underlineDraw {
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes underlineMisalign {
+    0%, 100% {
+        transform: translateX(0) rotate(0deg);
+    }
+    50% {
+        transform: translateX(8px) rotate(1deg);
+    }
 }
 
 .hero-subtitle {
@@ -379,6 +407,302 @@ body {
     color: var(--gray-300);
     line-height: 1.7;
     font-size: 1.05rem;
+}
+
+/* Problem Section */
+.problem-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.problem-text {
+    font-size: 1.75rem;
+    color: white;
+    font-weight: 600;
+    line-height: 1.5;
+    margin-bottom: 3rem;
+}
+
+.problem-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.6s ease;
+}
+
+.problem-card::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 20%;
+    width: 60%;
+    height: 1px;
+    background: transparent;
+    transform: translateY(-50%);
+    transition: background 0.8s ease;
+}
+
+.problem-card::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 20%;
+    width: 1px;
+    height: 60%;
+    background: transparent;
+    transform: translateX(-50%);
+    transition: background 0.8s ease;
+}
+
+.problem-card.in-view::before,
+.problem-card.in-view::after {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.problem-detail {
+    font-size: 1.15rem;
+    color: var(--gray-300);
+    line-height: 1.7;
+    position: relative;
+    z-index: 1;
+}
+
+/* Hidden Cost Section */
+.cost-content {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cost-title {
+    font-size: 2.75rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 3rem;
+    letter-spacing: -0.02em;
+}
+
+.cost-wrapper {
+    margin-bottom: 4rem;
+    position: relative;
+}
+
+.cost-main {
+    font-size: 1.5rem;
+    color: white;
+    font-weight: 600;
+    margin-bottom: 2rem;
+}
+
+.cost-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.cost-item {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+    font-size: 1.05rem;
+    color: var(--gray-300);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+}
+
+.cost-item.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.cost-item:hover {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: var(--primary-light);
+    color: white;
+    transform: translateY(-4px);
+}
+
+.cost-stillness {
+    margin-top: 4rem;
+    padding: 2rem;
+}
+
+.cost-still-text {
+    font-size: 1.5rem;
+    color: var(--gray-400);
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+/* What We Do Section */
+.what-content {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.what-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: white;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+}
+
+.what-subtitle {
+    font-size: 1.25rem;
+    color: var(--gray-400);
+    margin-bottom: 3rem;
+}
+
+.nodes-container {
+    margin-top: 3rem;
+}
+
+.nodes-svg {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+}
+
+.node-line {
+    stroke: var(--primary-light);
+    stroke-width: 2;
+    opacity: 0;
+    stroke-dasharray: 300;
+    stroke-dashoffset: 300;
+}
+
+.node-line.animate {
+    animation: drawLine 1s ease-out forwards;
+}
+
+.node-line:nth-child(1) { animation-delay: 0s; }
+.node-line:nth-child(2) { animation-delay: 0.2s; }
+.node-line:nth-child(3) { animation-delay: 0.4s; }
+.node-line:nth-child(4) { animation-delay: 0.6s; }
+.node-line:nth-child(5) { animation-delay: 0.8s; }
+
+@keyframes drawLine {
+    to {
+        opacity: 0.6;
+        stroke-dashoffset: 0;
+    }
+}
+
+.node-circle {
+    fill: rgba(255, 255, 255, 0.1);
+    stroke: var(--primary-light);
+    stroke-width: 2;
+    opacity: 0;
+}
+
+.node-circle.animate {
+    animation: fadeInNode 0.5s ease-out forwards;
+}
+
+.node-circle:nth-child(6) { animation-delay: 0s; }
+.node-circle:nth-child(7) { animation-delay: 0.2s; }
+.node-circle:nth-child(8) { animation-delay: 0.4s; }
+.node-circle:nth-child(9) { animation-delay: 0.6s; }
+.node-circle:nth-child(10) { animation-delay: 0.8s; }
+
+@keyframes fadeInNode {
+    to {
+        opacity: 1;
+    }
+}
+
+/* How We Work Section */
+.how-work-content {
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.work-line {
+    font-size: 1.5rem;
+    color: white;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.work-line.reveal {
+    animation: revealLine 0.6s ease-out forwards;
+}
+
+.work-line:nth-child(1) { animation-delay: 0s; }
+.work-line:nth-child(2) { animation-delay: 0.3s; }
+.work-line:nth-child(3) { animation-delay: 0.6s; }
+
+@keyframes revealLine {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Alignment Shapes in Final CTA */
+.alignment-shapes {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 100px;
+    z-index: 0;
+    opacity: 0.15;
+}
+
+.shape {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border: 3px solid rgba(255, 255, 255, 0.4);
+    border-radius: 12px;
+}
+
+.shape-left {
+    left: 0;
+    top: 10px;
+    transform: rotate(-5deg) translateX(-10px);
+}
+
+.shape-right {
+    right: 0;
+    top: 10px;
+    transform: rotate(5deg) translateX(10px);
+}
+
+.alignment-shapes.align .shape-left {
+    animation: alignLeft 1.2s ease-out forwards;
+}
+
+.alignment-shapes.align .shape-right {
+    animation: alignRight 1.2s ease-out forwards;
+}
+
+@keyframes alignLeft {
+    to {
+        transform: rotate(0deg) translateX(0);
+        left: 40px;
+    }
+}
+
+@keyframes alignRight {
+    to {
+        transform: rotate(0deg) translateX(0);
+        right: 40px;
+    }
 }
 
 /* Benefits Section - Flexbox approach */
@@ -837,7 +1161,7 @@ body {
     .hero {
         padding: 3rem 0 4rem;
     }
-    
+
     .hero-content {
         padding: 3rem 2rem 3rem 2rem;
     }
@@ -863,6 +1187,55 @@ body {
         font-size: 1.125rem;
     }
 
+    /* Problem Section */
+    .problem-text {
+        font-size: 1.35rem;
+    }
+
+    .problem-card {
+        padding: 2rem;
+    }
+
+    .problem-detail {
+        font-size: 1rem;
+    }
+
+    /* Hidden Cost Section */
+    .cost-title {
+        font-size: 2rem;
+    }
+
+    .cost-main {
+        font-size: 1.25rem;
+    }
+
+    .cost-items {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .cost-still-text {
+        font-size: 1.25rem;
+    }
+
+    /* What We Do Section */
+    .what-title {
+        font-size: 1.5rem;
+    }
+
+    .what-subtitle {
+        font-size: 1.05rem;
+    }
+
+    .nodes-svg {
+        max-width: 100%;
+    }
+
+    /* How We Work Section */
+    .work-line {
+        font-size: 1.25rem;
+    }
+
     .cta-title {
         font-size: 2rem;
     }
@@ -870,7 +1243,7 @@ body {
     .cta-subtitle {
         font-size: 1.25rem;
     }
-    
+
     .cta-content {
         padding: 3rem 2rem 3rem 2rem;
     }
@@ -879,38 +1252,38 @@ body {
     .process-grid {
         grid-template-columns: 1fr;
     }
-    
+
     /* Stacked benefits on mobile */
     .benefits-wrapper {
         gap: 1.5rem;
     }
-    
+
     .benefits-middle {
         flex-direction: column;
         gap: 1.5rem;
     }
-    
+
     .benefit-left,
     .benefit-right {
         justify-content: center;
         padding: 0;
     }
-    
+
     .benefit-top,
     .benefit-bottom {
         margin: 0;
     }
-    
+
     .benefit-card {
         min-width: 260px;
         max-width: 300px;
     }
-    
+
     .benefit-center-hub {
         margin: 0;
         order: -1;
     }
-    
+
     /* Hide lines on mobile */
     .benefit-center-hub::before,
     .benefit-center-hub::after {
@@ -927,7 +1300,7 @@ body {
     .contact-card {
         padding: 2.5rem 1.5rem;
     }
-    
+
     .process-card {
         min-height: auto;
     }
@@ -937,7 +1310,7 @@ body {
     .hero {
         padding: 2rem 0 3rem;
     }
-    
+
     .hero-content {
         padding: 2.5rem 1.5rem 2.5rem 1.5rem;
     }
@@ -955,31 +1328,75 @@ body {
         height: 65px;
     }
 
+    /* Problem Section */
+    .problem-text {
+        font-size: 1.15rem;
+    }
+
+    .problem-card {
+        padding: 1.5rem;
+    }
+
+    /* Hidden Cost Section */
+    .cost-title {
+        font-size: 1.75rem;
+    }
+
+    .cost-main {
+        font-size: 1.1rem;
+    }
+
+    .cost-still-text {
+        font-size: 1.1rem;
+    }
+
+    /* What We Do Section */
+    .what-title {
+        font-size: 1.25rem;
+    }
+
+    .what-subtitle {
+        font-size: 0.95rem;
+    }
+
+    /* How We Work Section */
+    .work-line {
+        font-size: 1.1rem;
+    }
+
     .contact-card {
         padding: 2rem 1.25rem;
     }
-    
+
     .cta-content {
         padding: 2.5rem 1.5rem 2.5rem 1.5rem;
     }
-    
+
+    .cta-title {
+        font-size: 1.75rem;
+    }
+
+    .cta-subtitle {
+        font-size: 1.1rem;
+    }
+
     .process-card {
         padding-top: 4rem;
         margin-top: 1.5rem;
     }
-    
+
     .process-number-modern {
         width: 70px;
         height: 70px;
         font-size: 2.5rem;
     }
-    
+
     .benefits-center-hub {
         width: 110px;
         height: 110px;
         min-width: 110px;
     }
-    
+
     .benefit-card {
         min-width: 220px;
         max-width: 280px;
@@ -993,6 +1410,17 @@ body {
         padding: 1rem;
         bottom: 1rem;
         right: 1rem;
+    }
+
+    /* Alignment shapes smaller on mobile */
+    .alignment-shapes {
+        width: 150px;
+        height: 80px;
+    }
+
+    .shape {
+        width: 60px;
+        height: 60px;
     }
 }
 
