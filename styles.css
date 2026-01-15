@@ -296,6 +296,82 @@ body {
     background: var(--slate-900);
 }
 
+/* ========================================
+   REAL IMPACT / STATS SECTION
+   ======================================== */
+.stats-section-premium {
+    padding: 4rem 0;
+    background: var(--slate-900);
+    position: relative;
+}
+
+.stats-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.stats-headline {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--slate-50);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.stats-subtext {
+    font-size: 1.25rem;
+    color: var(--slate-400);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.stat-card {
+    text-align: center;
+    padding: 2.5rem 2rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(59, 130, 246, 0.4);
+    box-shadow: 0 8px 30px rgba(59, 130, 246, 0.2);
+}
+
+.stat-number {
+    font-size: 3.5rem;
+    font-weight: 900;
+    background: var(--gradient-electric);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 1.125rem;
+    color: var(--slate-300);
+    font-weight: 600;
+    margin-top: 0.75rem;
+}
+
+.stat-description {
+    font-size: 0.95rem;
+    color: var(--slate-500);
+    margin-top: 0.5rem;
+}
+
 .section-header-center {
     text-align: center;
     margin-bottom: 3rem;
@@ -618,7 +694,7 @@ body {
 }
 
 /* ========================================
-   CONTACT SECTION
+   CONTACT SECTION (COLLAPSIBLE)
    ======================================== */
 .contact-section-premium {
     padding: 4rem 0;
@@ -630,6 +706,45 @@ body {
     margin: 0 auto;
 }
 
+.contact-collapsed {
+    text-align: center;
+}
+
+.contact-collapsed h2 {
+    margin-bottom: 2rem;
+}
+
+.expand-form-btn {
+    display: inline-block;
+    padding: 1.125rem 2.75rem;
+    background: var(--gradient-electric);
+    color: white;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    font-size: 1.125rem;
+    box-shadow: 0 0 30px var(--electric-glow), 0 4px 12px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+}
+
+.expand-form-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 40px var(--electric-glow), 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.contact-expanded {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out;
+}
+
+.contact-expanded.show {
+    max-height: 2500px;
+    margin-top: 3rem;
+}
+
 .section-subtitle-premium {
     font-size: 1.125rem;
     color: var(--slate-400);
@@ -637,7 +752,7 @@ body {
 }
 
 .tally-form-wrapper {
-    margin-top: 3rem;
+    margin-top: 2rem;
 }
 
 .tally-form-wrapper iframe {
@@ -889,8 +1004,26 @@ body {
     .philosophy-section-premium,
     .journey-section-premium,
     .contact-section-premium,
-    .cta-section-premium {
+    .cta-section-premium,
+    .stats-section-premium {
         padding: 2.5rem 0;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .stats-headline {
+        font-size: 2rem;
+    }
+
+    .stats-subtext {
+        font-size: 1.125rem;
+    }
+
+    .stat-number {
+        font-size: 3rem;
     }
 
     .cta-title-premium {
@@ -962,12 +1095,22 @@ body {
     .philosophy-section-premium,
     .journey-section-premium,
     .contact-section-premium,
-    .cta-section-premium {
+    .cta-section-premium,
+    .stats-section-premium {
         padding: 2rem 0;
     }
 
-    .section-header-center {
+    .section-header-center,
+    .stats-header {
         margin-bottom: 2rem;
+    }
+
+    .stats-headline {
+        font-size: 1.75rem;
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
     }
 
     .cta-title-premium {

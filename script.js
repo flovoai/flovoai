@@ -61,4 +61,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initial check for sticky CTA
     updateStickyCta();
+
+    // Collapsible Contact Form
+    const expandFormBtn = document.getElementById('expandFormBtn');
+    const contactForm = document.getElementById('contactForm');
+
+    if (expandFormBtn && contactForm) {
+        expandFormBtn.addEventListener('click', () => {
+            if (contactForm.classList.contains('show')) {
+                contactForm.classList.remove('show');
+                expandFormBtn.textContent = 'Start a Conversation';
+            } else {
+                contactForm.classList.add('show');
+                expandFormBtn.textContent = 'Hide Form';
+                // Scroll to form smoothly
+                setTimeout(() => {
+                    contactForm.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 100);
+            }
+        });
+    }
 });
