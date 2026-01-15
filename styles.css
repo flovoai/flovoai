@@ -90,7 +90,7 @@ body {
 }
 
 .logo-large {
-    height: 140px;
+    height: 70px;
     width: auto;
 }
 
@@ -803,11 +803,15 @@ body {
         width: 60px;
         height: 60px;
     }
+
+    .connection-node span {
+        font-size: 0.5rem;
+    }
 }
 
 @media (max-width: 768px) {
     .logo-large {
-        height: 100px;
+        height: 50px;
     }
 
     .hero-title-premium {
@@ -878,7 +882,7 @@ body {
 
 @media (max-width: 480px) {
     .logo-large {
-        height: 80px;
+        height: 40px;
     }
 
     .hero-title-premium {
@@ -914,6 +918,15 @@ body {
 
     .business-label {
         font-size: 1rem;
+    }
+
+    .connection-node {
+        width: 55px;
+        height: 55px;
+    }
+
+    .connection-node span {
+        font-size: 0.4rem;
     }
 }
 
