@@ -310,6 +310,28 @@ body {
     margin-bottom: 3rem;
 }
 
+.stats-testimonial {
+    max-width: 56rem;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.testimonial-quote {
+    font-size: 1.25rem;
+    font-style: italic;
+    color: var(--slate-200);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+}
+
+.testimonial-attribution {
+    display: block;
+    font-size: 1rem;
+    font-style: normal;
+    color: var(--electric-cyan);
+    font-weight: 600;
+}
+
 .stats-headline {
     font-size: 2.5rem;
     font-weight: 800;
@@ -764,7 +786,7 @@ body {
    CTA SECTION
    ======================================== */
 .cta-section-premium {
-    padding: 4rem 0;
+    padding: 3rem 0;
     background: var(--gradient-dark);
     text-align: center;
     position: relative;
@@ -797,7 +819,7 @@ body {
 .cta-subtitle-premium {
     font-size: 1.75rem;
     color: var(--electric-cyan);
-    margin-bottom: 3rem;
+    margin-bottom: 0;
     font-weight: 600;
 }
 
@@ -967,8 +989,15 @@ body {
         text-align: center;
     }
 
+    .problem-points-side {
+        display: flex;
+        justify-content: center;
+    }
+
     .problem-points {
         align-items: center;
+        width: 100%;
+        max-width: 500px;
     }
 
     .problem-point {
@@ -977,6 +1006,7 @@ body {
 
     .problem-point span {
         font-size: 1.05rem;
+        text-align: center;
     }
 
     .point-icon {
@@ -1004,14 +1034,21 @@ body {
     .philosophy-section-premium,
     .journey-section-premium,
     .contact-section-premium,
-    .cta-section-premium,
     .stats-section-premium {
         padding: 2.5rem 0;
+    }
+
+    .cta-section-premium {
+        padding: 2rem 0;
     }
 
     .stats-grid {
         grid-template-columns: 1fr;
         gap: 2rem;
+    }
+
+    .testimonial-quote {
+        font-size: 1.125rem;
     }
 
     .stats-headline {
@@ -1095,14 +1132,21 @@ body {
     .philosophy-section-premium,
     .journey-section-premium,
     .contact-section-premium,
-    .cta-section-premium,
     .stats-section-premium {
         padding: 2rem 0;
+    }
+
+    .cta-section-premium {
+        padding: 1.5rem 0;
     }
 
     .section-header-center,
     .stats-header {
         margin-bottom: 2rem;
+    }
+
+    .testimonial-quote {
+        font-size: 1rem;
     }
 
     .stats-headline {
