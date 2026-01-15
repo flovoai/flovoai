@@ -135,6 +135,26 @@ body {
     box-shadow: 0 0 40px var(--electric-glow), 0 8px 20px rgba(0, 0, 0, 0.5);
 }
 
+.btn-ghost {
+    display: inline-block;
+    padding: 0.875rem 2rem;
+    background: transparent;
+    color: var(--electric-cyan);
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 50px;
+    border: 2px solid var(--electric-cyan);
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.btn-ghost:hover {
+    background: rgba(6, 182, 212, 0.1);
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+    transform: translateY(-2px);
+}
+
 .btn-large {
     padding: 1.125rem 2.75rem;
     font-size: 1.125rem;
@@ -825,6 +845,19 @@ body {
     .section-title-premium {
         font-size: 2rem;
         line-height: 1.3;
+        text-align: center;
+    }
+
+    .problem-text-side {
+        text-align: center;
+    }
+
+    .problem-points {
+        align-items: center;
+    }
+
+    .problem-point {
+        justify-content: center;
     }
 
     .problem-point span {
@@ -834,6 +867,30 @@ body {
     .point-icon {
         width: 48px;
         height: 48px;
+    }
+
+    .philosophy-text-premium {
+        text-align: center;
+    }
+
+    .philosophy-lead-premium,
+    .philosophy-body-premium {
+        text-align: center;
+    }
+
+    /* Reduce vertical padding on mobile */
+    .hero-premium {
+        padding: 2.5rem 0 3rem;
+    }
+
+    .problem-section-premium,
+    .services-section-premium,
+    .comparison-section-premium,
+    .philosophy-section-premium,
+    .journey-section-premium,
+    .contact-section-premium,
+    .cta-section-premium {
+        padding: 2.5rem 0;
     }
 
     .cta-title-premium {
@@ -892,6 +949,25 @@ body {
     .section-title-premium {
         font-size: 1.75rem;
         line-height: 1.35;
+    }
+
+    /* Tighter spacing on small mobile */
+    .hero-premium {
+        padding: 2rem 0 2.5rem;
+    }
+
+    .problem-section-premium,
+    .services-section-premium,
+    .comparison-section-premium,
+    .philosophy-section-premium,
+    .journey-section-premium,
+    .contact-section-premium,
+    .cta-section-premium {
+        padding: 2rem 0;
+    }
+
+    .section-header-center {
+        margin-bottom: 2rem;
     }
 
     .cta-title-premium {
