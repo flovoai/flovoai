@@ -690,3 +690,85 @@ section:first-of-type { border-top: 0; }
   .contact-card-left { padding: 28px 20px; }
   .brand-logo { height: 24px; }
 }
+
+/* ========================================
+   HERO — GLOW + DOT GRID
+   ======================================== */
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+/* Radial blue glow behind the headline */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  height: 700px;
+  background: radial-gradient(ellipse at center, rgba(59, 110, 224, 0.16) 0%, transparent 68%);
+  pointer-events: none;
+  z-index: 0;
+}
+/* Dot grid overlay */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, var(--ink) 1px, transparent 1px);
+  background-size: 28px 28px;
+  opacity: 0.055;
+  pointer-events: none;
+  z-index: 0;
+}
+.hero .wrap {
+  position: relative;
+  z-index: 1;
+}
+
+/* ========================================
+   COMPARE — "NOW" COLUMN ACCENT TREATMENT
+   ======================================== */
+.compare-col.now {
+  position: relative;
+  background: var(--accent-soft);
+}
+.compare-col.now::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 0;
+}
+
+/* ========================================
+   SERVICES — HOVER ACCENT LINE
+   ======================================== */
+.service {
+  position: relative;
+}
+.service::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  height: 2px;
+  width: 0;
+  background: var(--accent);
+  transition: width 0.35s ease;
+}
+.service:hover::before { width: 100%; }
+
+/* ========================================
+   SCROLL ENTRANCE ANIMATIONS
+   ======================================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.reveal.in-view {
+  opacity: 1;
+  transform: none;
+}
