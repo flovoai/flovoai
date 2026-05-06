@@ -21,32 +21,19 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // ── Scroll entrance animations ────────────────────────────────────────────
-  // Groups to animate in with a left-to-right stagger
-  var staggerGroups = [
-    '.prob-item',
-    '.stat',
-    '.service',
-    '.process-step',
-  ];
-  // Single elements that just fade in
-  var singleEls = [
-    '.compare',
-    '.quote',
-    '.contact-card',
-  ];
-
+  var staggerGroups = ['.prob-item', '.stat', '.service', '.process-step-compact', '.industry-stat'];
+  var singleEls     = ['.compare', '.quote', '.contact-cta', '.case-head'];
   var allReveal = [];
 
-  staggerGroups.forEach(function (selector) {
-    document.querySelectorAll(selector).forEach(function (el, i) {
+  staggerGroups.forEach(function (sel) {
+    document.querySelectorAll(sel).forEach(function (el, i) {
       el.classList.add('reveal');
       el.style.transitionDelay = (i * 90) + 'ms';
       allReveal.push(el);
     });
   });
-
-  singleEls.forEach(function (selector) {
-    document.querySelectorAll(selector).forEach(function (el) {
+  singleEls.forEach(function (sel) {
+    document.querySelectorAll(sel).forEach(function (el) {
       el.classList.add('reveal');
       allReveal.push(el);
     });
@@ -58,32 +45,30 @@ document.addEventListener('DOMContentLoaded', function () {
       var el = entry.target;
       el.classList.add('in-view');
       revealObserver.unobserve(el);
-      // Clear stagger delay once the animation has settled so hover
-      // transitions on services etc. aren't also delayed.
       var delay = parseFloat(el.style.transitionDelay) || 0;
-      setTimeout(function () { el.style.transitionDelay = ''; }, 600 + delay);
+      setTimeout(function () { el.style.transitionDelay = ''; }, 650 + delay);
     });
   }, { threshold: 0.12 });
 
   allReveal.forEach(function (el) { revealObserver.observe(el); });
 
-  // ── Stat counter animation ────────────────────────────────────────────────
-  var statNums = document.querySelectorAll('.stat-num[data-target]');
-
+  // ── Number counter animation ──────────────────────────────────────────────
+  // Handles both .stat-num[data-target] and .industry-num[data-target]
   function animateCount(el) {
     var target = parseInt(el.dataset.target, 10);
-    // The numeric text is the first child text node; <small> stays in place
-    var textNode = el.childNodes[0];
-    if (!textNode || textNode.nodeType !== 3) return;
+    // Find first text node (the number); leave any child elements (.industry-unit, <small>) in place
+    var textNode = null;
+    for (var i = 0; i < el.childNodes.length; i++) {
+      if (el.childNodes[i].nodeType === 3) { textNode = el.childNodes[i]; break; }
+    }
+    if (!textNode) return;
 
     var duration = 1400;
     var startTime = null;
 
     function tick(now) {
       if (!startTime) startTime = now;
-      var elapsed = now - startTime;
-      var progress = Math.min(elapsed / duration, 1);
-      // Ease-out cubic
+      var progress = Math.min((now - startTime) / duration, 1);
       var eased = 1 - Math.pow(1 - progress, 3);
       textNode.nodeValue = Math.round(eased * target);
       if (progress < 1) requestAnimationFrame(tick);
@@ -94,6 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
     requestAnimationFrame(tick);
   }
 
+  var countEls = document.querySelectorAll('.stat-num[data-target], .industry-num[data-target]');
   var countObserver = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
       if (!entry.isIntersecting) return;
@@ -102,6 +88,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }, { threshold: 0.5 });
 
-  statNums.forEach(function (el) { countObserver.observe(el); });
+  countEls.forEach(function (el) { countObserver.observe(el); });
 
 });

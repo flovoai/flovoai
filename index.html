@@ -21,12 +21,7 @@
       <nav class="nav-links" aria-label="Primary">
         <a class="nav-link" href="#approach">Approach</a>
         <a class="nav-link" href="#services">Services</a>
-        <a class="nav-link" href="#process">Process</a>
         <a class="nav-link" href="#contact">Contact</a>
-        <a class="btn btn-ghost" href="https://cal.com/flovoai/15min" target="_blank" rel="noopener">
-          Book a call
-          <span class="btn-arrow" aria-hidden="true">→</span>
-        </a>
       </nav>
     </div>
   </header>
@@ -51,12 +46,11 @@
             Book a 15-min call
             <span class="btn-arrow" aria-hidden="true">→</span>
           </a>
-          <a class="btn btn-ghost btn-lg" href="#approach">See how we work</a>
         </div>
       </div>
     </section>
 
-    <!-- PROBLEM -->
+    <!-- 01 PROBLEM -->
     <section class="sec-tint-problem">
       <div class="wrap">
         <div class="sec-grid">
@@ -82,12 +76,31 @@
                 <p>None of it feels dramatic. It's just expensive over time, and it caps your growth.</p>
               </article>
             </div>
+
+            <!-- Industry stats -->
+            <div class="industry-stats">
+              <div class="industry-stat">
+                <div class="industry-num" data-target="94">94<span class="industry-unit">%</span></div>
+                <p class="industry-desc">of workers perform repetitive tasks that could be automated</p>
+                <span class="industry-source">Zapier · 2021</span>
+              </div>
+              <div class="industry-stat">
+                <div class="industry-num" data-target="58">58<span class="industry-unit">%</span></div>
+                <p class="industry-desc">of the workday lost to coordination, not actual work</p>
+                <span class="industry-source">Asana · 2023</span>
+              </div>
+              <div class="industry-stat">
+                <div class="industry-num">4<span class="industry-unit">wks</span></div>
+                <p class="industry-desc">of productivity lost per year to app-switching alone</p>
+                <span class="industry-source">Qatalog · 2022</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- CASE STUDY -->
+    <!-- 02 CASE STUDY -->
     <section class="sec-tint-case">
       <div class="wrap">
         <div class="sec-grid">
@@ -126,7 +139,7 @@
       </div>
     </section>
 
-    <!-- COMPARE -->
+    <!-- 03 COMPARE -->
     <section class="sec-tint-compare">
       <div class="wrap">
         <div class="sec-grid">
@@ -161,7 +174,7 @@
       </div>
     </section>
 
-    <!-- APPROACH -->
+    <!-- 04 APPROACH -->
     <section id="approach" class="approach sec-tint-approach">
       <div class="wrap">
         <div class="sec-grid">
@@ -198,7 +211,7 @@
                 </g>
                 <g>
                   <circle cx="400" cy="230" r="34" fill="var(--bg)" stroke="var(--rule-strong)" />
-                  <text x="400" y="234" text-anchor="middle" font-family="Geist Mono, monospace" font-size="10" fill="var(--ink-2)">QUOTES</text>
+                  <text x="400" y="234" text-anchor="middle" font-family="Geist Mono, monospace" font-size="10" fill="var(--ink-2)">LEADS</text>
                 </g>
                 <g>
                   <circle cx="230" cy="400" r="34" fill="var(--bg)" stroke="var(--rule-strong)" />
@@ -218,7 +231,7 @@
       </div>
     </section>
 
-    <!-- SERVICES -->
+    <!-- 05 SERVICES + PROCESS (merged) -->
     <section id="services" class="sec-tint-services">
       <div class="wrap">
         <div class="sec-grid">
@@ -230,48 +243,44 @@
                 <div class="num">SVC / 01</div>
                 <h4>Strategic architecture</h4>
                 <p>We map the bottlenecks slowing your team down, then design systems that eliminate friction and unlock real efficiency.</p>
-                <span class="arrow">Discovery → Blueprint <span aria-hidden="true">→</span></span>
               </article>
               <article class="service">
                 <div class="num">SVC / 02</div>
                 <h4>Process automation</h4>
                 <p>Manual workflows become intelligent systems, built around how you actually work, not how a generic tool expects you to.</p>
-                <span class="arrow">Build → Deploy <span aria-hidden="true">→</span></span>
               </article>
               <article class="service">
                 <div class="num">SVC / 03</div>
                 <h4>Data integration</h4>
                 <p>Connect disconnected tools so your team has the full picture, without manual transfers or spreadsheet gymnastics.</p>
-                <span class="arrow">Connect → Trust <span aria-hidden="true">→</span></span>
               </article>
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- PROCESS -->
-    <section id="process" class="sec-tint-process">
-      <div class="wrap">
-        <div class="sec-grid">
-          <div class="sec-label"><span class="num">06</span><span>How we work</span></div>
-          <div>
-            <h2 class="prob-head">Three steps. No long discovery.</h2>
-            <div class="process-list">
-              <div class="process-step">
-                <div class="step-num">1</div>
-                <h4>Start small</h4>
-                <p>We focus on the biggest source of friction first, the one that pays for itself.</p>
-              </div>
-              <div class="process-step">
-                <div class="step-num">2</div>
-                <h4>Build together</h4>
-                <p>We stay involved as your system evolves, week by week, with you in the room.</p>
-              </div>
-              <div class="process-step">
-                <div class="step-num">3</div>
-                <h4>Keep adapting</h4>
-                <p>As your business grows, the system grows with it, without rewrites or rip-and-replace.</p>
+            <!-- Process steps — compact, inline -->
+            <div class="process-sub">
+              <p class="eyebrow">How it works</p>
+              <div class="process-steps-compact" id="process">
+                <div class="process-step-compact">
+                  <span class="step-n">01</span>
+                  <div>
+                    <h5>Start small</h5>
+                    <p>Focus on the biggest friction point first — the one that pays for itself.</p>
+                  </div>
+                </div>
+                <div class="process-step-compact">
+                  <span class="step-n">02</span>
+                  <div>
+                    <h5>Build together</h5>
+                    <p>Week by week, with you in the room. No disappearing for three months.</p>
+                  </div>
+                </div>
+                <div class="process-step-compact">
+                  <span class="step-n">03</span>
+                  <div>
+                    <h5>Keep adapting</h5>
+                    <p>The system grows as your business does, without rewrites or rip-and-replace.</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -282,21 +291,15 @@
     <!-- CONTACT -->
     <section id="contact" class="contact">
       <div class="wrap">
-        <div class="contact-card">
-          <div class="contact-card-left">
-            <div class="contact-kicker"><span class="contact-dot"></span><span>Get in touch</span></div>
-            <h2 class="contact-title">Let's see if there's a fit.</h2>
-            <p class="contact-sub">Fifteen minutes, no pitch. Tell us what's slowing your team down and we'll tell you honestly whether we can help.</p>
-            <div class="contact-actions">
-              <a class="btn btn-primary btn-lg" href="https://cal.com/flovoai/15min" target="_blank" rel="noopener">
-                Book a 15-min call
-                <span class="btn-arrow" aria-hidden="true">→</span>
-              </a>
-              <a class="btn btn-ghost btn-lg" href="mailto:henry@flovoai.com">
-                henry@flovoai.com
-              </a>
-            </div>
-          </div>
+        <div class="contact-cta">
+          <div class="contact-kicker"><span class="contact-dot"></span><span>Get in touch</span></div>
+          <h2 class="contact-title">Let's see if there's a fit.</h2>
+          <p class="contact-sub">Fifteen minutes, no pitch. Tell us what's slowing your team down and we'll tell you honestly whether we can help.</p>
+          <a class="btn btn-primary btn-lg contact-btn" href="https://cal.com/flovoai/15min" target="_blank" rel="noopener">
+            Book a 15-min call
+            <span class="btn-arrow" aria-hidden="true">→</span>
+          </a>
+          <p class="contact-meta">15 minutes · No pitch · Honest answer</p>
         </div>
       </div>
     </section>
@@ -312,7 +315,6 @@
       <div class="footer-links">
         <a href="#approach">Approach</a>
         <a href="#services">Services</a>
-        <a href="#process">Process</a>
         <a href="#contact">Contact</a>
       </div>
       <div class="footer-meta">© 2026 FlovoAI · All rights reserved</div>
