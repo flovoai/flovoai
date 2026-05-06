@@ -1,386 +1,342 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="FlovoAI - AI-powered business automation. Software that adapts to your business, not the other way around.">
-    <title>FlovoAI | AI Business Automation</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="FlovoAI — software built around how your business actually works." />
+  <title>FlovoAI — software that adapts to your business</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="dark-theme">
-    <!-- Navigation -->
-    <nav class="nav-premium">
-        <div class="container">
-            <div class="nav-content-premium">
-                <img src="logo.png" alt="FlovoAI" class="logo-large">
-                <a href="https://cal.com/flovoai/15min" target="_blank" rel="noopener" class="btn-ghost">Let's Talk</a>
-            </div>
-        </div>
-    </nav>
+<body>
 
-    <!-- Hero Section -->
-    <section class="hero-premium">
-        <div class="container">
-            <div class="hero-content-premium">
-                <h1 class="hero-title-premium">
-                    Software built around<br>
-                    how your business<br>
-                    <span class="hero-highlight">actually works</span>
-                </h1>
-                <p class="hero-subtitle-premium">Most tools force you to adapt. We build systems that adapt to you.</p>
-                <a href="https://cal.com/flovoai/15min" target="_blank" rel="noopener" class="btn-glow btn-large">Get Started</a>
-            </div>
+  <!-- Navigation -->
+  <header class="nav" id="nav">
+    <div class="wrap nav-row">
+      <a class="brand" href="#top" aria-label="FlovoAI home">
+        <img src="logo.png" alt="FlovoAI" class="brand-logo" />
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a class="nav-link" href="#approach">Approach</a>
+        <a class="nav-link" href="#services">Services</a>
+        <a class="nav-link" href="#process">Process</a>
+        <a class="nav-link" href="#contact">Contact</a>
+        <a class="btn btn-ghost" href="https://cal.com/flovoai/15min" target="_blank" rel="noopener">
+          Book a call
+          <span class="btn-arrow" aria-hidden="true">→</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="wrap">
+        <div class="hero-eyebrow">
+          <span class="dot" aria-hidden="true"></span>
+          <span>Now taking projects · Q2 2026</span>
         </div>
+        <h1>
+          Software built around <em>how your business actually works.</em>
+        </h1>
+        <p class="hero-sub">
+          Most tools force you to adapt. We design and build internal systems that adapt to you, so the parts of your business that should work together, finally do.
+        </p>
+        <div class="hero-cta">
+          <a class="btn btn-primary btn-lg" href="https://cal.com/flovoai/15min" target="_blank" rel="noopener">
+            Book a 15-min call
+            <span class="btn-arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="btn btn-ghost btn-lg" href="#approach">See how we work</a>
+        </div>
+      </div>
     </section>
 
-    <!-- Problem Section -->
-    <section class="problem-section-premium">
-        <div class="container">
-            <div class="problem-layout">
-                <div class="problem-text-side">
-                    <h2 class="section-title-premium">
-                        Why most businesses <span class="text-electric">FAIL</span> to scale effectively
-                    </h2>
-                </div>
-                <div class="problem-points-side">
-                    <div class="problem-points">
-                        <div class="problem-point">
-                            <div class="point-icon">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <rect x="3" y="3" width="7" height="7"></rect>
-                                    <rect x="14" y="3" width="7" height="7"></rect>
-                                    <rect x="14" y="14" width="7" height="7"></rect>
-                                    <rect x="3" y="14" width="7" height="7"></rect>
-                                </svg>
-                            </div>
-                            <span>Fragmented workflows</span>
-                        </div>
-                        <div class="problem-point">
-                            <div class="point-icon">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <polyline points="23 4 23 10 17 10"></polyline>
-                                    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
-                                </svg>
-                            </div>
-                            <span>Manual workarounds</span>
-                        </div>
-                        <div class="problem-point">
-                            <div class="point-icon">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-                                </svg>
-                            </div>
-                            <span>Invisible friction</span>
-                        </div>
-                    </div>
-                </div>
+    <!-- PROBLEM -->
+    <section class="sec-tint-problem">
+      <div class="wrap">
+        <div class="sec-grid">
+          <div class="sec-label"><span class="num">01</span><span>The problem</span></div>
+          <div>
+            <h2 class="prob-head">
+              Why most businesses fail to scale, quietly, not dramatically.
+            </h2>
+            <div class="prob-list">
+              <article class="prob-item">
+                <div class="num">001</div>
+                <h4>Fragmented workflows</h4>
+                <p>Three tools, two spreadsheets and a group chat, none of them talking to each other.</p>
+              </article>
+              <article class="prob-item">
+                <div class="num">002</div>
+                <h4>Manual workarounds</h4>
+                <p>Re-keying data, re-formatting exports, re-explaining the same context every week.</p>
+              </article>
+              <article class="prob-item">
+                <div class="num">003</div>
+                <h4>Invisible friction</h4>
+                <p>None of it feels dramatic. It's just expensive over time, and it caps your growth.</p>
+              </article>
             </div>
+          </div>
         </div>
+      </div>
     </section>
 
-    <!-- Real Impact / Stats Section -->
-    <section class="stats-section-premium">
-        <div class="container">
-            <div class="stats-header">
-                <blockquote class="stats-testimonial">
-                    <p class="testimonial-quote">"Being able to manage everything on one system, fundamentally has meant we can price things so much quicker, being able to do this not only means I save time in the day today it means I have the opportunity to go after a significant amount more work. This software has truly changed the game for us."</p>
-                    <cite class="testimonial-attribution">— Exworks Ltd</cite>
-                </blockquote>
+    <!-- CASE STUDY -->
+    <section class="sec-tint-case">
+      <div class="wrap">
+        <div class="sec-grid">
+          <div class="sec-label"><span class="num">02</span><span>Case study</span></div>
+          <div>
+            <div class="case-head">
+              <div class="case-kicker"><span class="case-dot"></span><span>Case study · Exworks Ltd</span></div>
+              <h2 class="case-title">From two-hour quotes to thirty minutes.</h2>
             </div>
-
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number">75%</div>
-                    <div class="stat-label">Less Admin</div>
-                    <div class="stat-description">Process time reduced from 2h to 30m</div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-number">15+</div>
-                    <div class="stat-label">Hours</div>
-                    <div class="stat-description">Saved per week</div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-number">4x</div>
-                    <div class="stat-label">Capacity</div>
-                    <div class="stat-description">Increase in quote volume</div>
-                </div>
+            <blockquote class="quote">
+              Being able to manage everything on one system means we can price things so much quicker. It saves time day to day, and lets us go after a significant amount more work. This software has truly changed the game for us.
+            </blockquote>
+            <div class="cite">
+              <span class="avatar">E</span>
+              <span>Exworks Ltd · Operations</span>
             </div>
+            <div class="stats">
+              <div class="stat">
+                <div class="stat-num">75<small>%</small></div>
+                <div class="stat-label">Less admin</div>
+                <div class="stat-desc">Process time reduced from 2h to 30m.</div>
+              </div>
+              <div class="stat">
+                <div class="stat-num">15<small>+ hrs</small></div>
+                <div class="stat-label">Saved weekly</div>
+                <div class="stat-desc">Recovered across the operations team.</div>
+              </div>
+              <div class="stat">
+                <div class="stat-num">4<small>×</small></div>
+                <div class="stat-label">Capacity</div>
+                <div class="stat-desc">Increase in quote volume handled.</div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </section>
 
-    <!-- Comparison Section -->
-    <section class="comparison-section-premium">
-        <div class="container">
-            <h2 class="section-title-premium text-center">The cost isn't obvious</h2>
-            <p class="section-lead-premium text-center">Until you compare the old way vs. the right way</p>
-
-            <div class="comparison-grid">
-                <div class="comparison-side comparison-old">
-                    <div class="comparison-label">Traditional Approach</div>
-                    <ul class="comparison-list-with-icons">
-                        <li>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="23 4 23 10 17 10"></polyline>
-                                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
-                            </svg>
-                            <span>Reworked tasks daily</span>
-                        </li>
-                        <li>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="11" cy="11" r="8"></circle>
-                                <path d="m21 21-4.35-4.35"></path>
-                            </svg>
-                            <span>Missed details constantly</span>
-                        </li>
-                        <li>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
-                            </svg>
-                            <span>Manual fixes everywhere</span>
-                        </li>
-                        <li>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-                            </svg>
-                            <span>Decisions without context</span>
-                        </li>
-                    </ul>
-                    <p class="comparison-result">Expensive. Slow. Frustrating.</p>
-                </div>
-
-                <div class="comparison-divider">
-                    <div class="vs-badge">VS</div>
-                </div>
-
-                <div class="comparison-side comparison-new">
-                    <div class="comparison-label">THE NEW APPROACH</div>
-                    <ul class="comparison-list-with-icons">
-                        <li>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-                            </svg>
-                            <span>Automated workflows</span>
-                        </li>
-                        <li>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                            </svg>
-                            <span>Nothing falls through cracks</span>
-                        </li>
-                        <li>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                            </svg>
-                            <span>Self-correcting systems</span>
-                        </li>
-                        <li>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
-                            </svg>
-                            <span>Full context, every decision</span>
-                        </li>
-                    </ul>
-                    <p class="comparison-result"><strong>Fast. Reliable. Scalable.</strong></p>
-                </div>
+    <!-- COMPARE -->
+    <section class="sec-tint-compare">
+      <div class="wrap">
+        <div class="sec-grid">
+          <div class="sec-label"><span class="num">03</span><span>Old vs. right</span></div>
+          <div>
+            <h2 class="compare-head">The cost isn't obvious, until you compare side by side.</h2>
+            <p class="compare-sub">Generic tools accumulate friction. The right system removes it.</p>
+            <div class="compare">
+              <div class="compare-col then">
+                <h5>Traditional approach</h5>
+                <ul class="compare-list">
+                  <li><span class="glyph">·</span><span>Tasks reworked daily</span></li>
+                  <li><span class="glyph">·</span><span>Details missed constantly</span></li>
+                  <li><span class="glyph">·</span><span>Manual fixes everywhere</span></li>
+                  <li><span class="glyph">·</span><span>Decisions without context</span></li>
+                </ul>
+                <div class="compare-foot">Expensive · slow · frustrating</div>
+              </div>
+              <div class="compare-col now">
+                <h5>The right approach</h5>
+                <ul class="compare-list">
+                  <li><span class="glyph">+</span><span>Automated workflows</span></li>
+                  <li><span class="glyph">+</span><span>Nothing falls through the cracks</span></li>
+                  <li><span class="glyph">+</span><span>Self-correcting systems</span></li>
+                  <li><span class="glyph">+</span><span>Full context on every decision</span></li>
+                </ul>
+                <div class="compare-foot">Fast · reliable · scalable</div>
+              </div>
             </div>
-
-            <div class="insight-box-premium">
-                <p>None of this feels dramatic. <strong>It's just expensive over time.</strong></p>
-            </div>
+          </div>
         </div>
+      </div>
     </section>
 
-    <!-- Philosophy Section -->
-    <section class="philosophy-section-premium">
-        <div class="container">
-            <div class="philosophy-layout-premium">
-                <div class="philosophy-text-premium">
-                    <h2 class="section-title-premium">Software should adapt to your business</h2>
-                    <p class="philosophy-lead-premium">Not the other way around</p>
-                    <p class="philosophy-body-premium">We design and build internal software that connects the parts of your business that should already be working together.</p>
-                    <p class="philosophy-body-premium">Built around how you operate — not how a generic tool expects you to.</p>
-                </div>
-                <div class="philosophy-visual-premium">
-                    <div class="business-circle">
-                        <div class="circle-center">
-                            <span class="business-label">BUSINESS</span>
-                        </div>
-                        <div class="connection-node node-1">
-                            <span>Software</span>
-                        </div>
-                        <div class="connection-node node-2">
-                            <span>Software</span>
-                        </div>
-                        <div class="connection-node node-3">
-                            <span>Software</span>
-                        </div>
-                        <div class="connection-node node-4">
-                            <span>Software</span>
-                        </div>
-                    </div>
-                </div>
+    <!-- APPROACH -->
+    <section id="approach" class="approach sec-tint-approach">
+      <div class="wrap">
+        <div class="sec-grid">
+          <div class="sec-label"><span class="num">04</span><span>Approach</span></div>
+          <div class="approach-grid">
+            <div>
+              <h2>Software should adapt to your business.</h2>
+              <p class="lead">Not the other way around.</p>
+              <p>
+                We design and build internal software that connects the parts of your business that should already be working together, built around how you operate, not how a generic tool expects you to.
+              </p>
+              <p>
+                The result is fewer tools, fewer workarounds, and a single system your team actually trusts.
+              </p>
             </div>
+            <div class="diagram" aria-hidden="true">
+              <svg viewBox="0 0 460 460" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                    <path d="M 20 0 L 0 0 0 20" fill="none" stroke="currentColor" stroke-opacity="0.06" stroke-width="1"/>
+                  </pattern>
+                </defs>
+                <rect x="0" y="0" width="460" height="460" fill="url(#grid)" color="var(--ink)" />
+                <g stroke="var(--rule-strong)" stroke-width="1" fill="none">
+                  <line x1="230" y1="230" x2="230" y2="60" />
+                  <line x1="230" y1="230" x2="400" y2="230" />
+                  <line x1="230" y1="230" x2="230" y2="400" />
+                  <line x1="230" y1="230" x2="60" y2="230" />
+                  <circle cx="230" cy="230" r="160" stroke-dasharray="2 6" />
+                </g>
+                <g>
+                  <circle cx="230" cy="60" r="34" fill="var(--bg)" stroke="var(--rule-strong)" />
+                  <text x="230" y="64" text-anchor="middle" font-family="Geist Mono, monospace" font-size="10" fill="var(--ink-2)">CRM</text>
+                </g>
+                <g>
+                  <circle cx="400" cy="230" r="34" fill="var(--bg)" stroke="var(--rule-strong)" />
+                  <text x="400" y="234" text-anchor="middle" font-family="Geist Mono, monospace" font-size="10" fill="var(--ink-2)">QUOTES</text>
+                </g>
+                <g>
+                  <circle cx="230" cy="400" r="34" fill="var(--bg)" stroke="var(--rule-strong)" />
+                  <text x="230" y="404" text-anchor="middle" font-family="Geist Mono, monospace" font-size="10" fill="var(--ink-2)">OPS</text>
+                </g>
+                <g>
+                  <circle cx="60" cy="230" r="34" fill="var(--bg)" stroke="var(--rule-strong)" />
+                  <text x="60" y="234" text-anchor="middle" font-family="Geist Mono, monospace" font-size="10" fill="var(--ink-2)">DATA</text>
+                </g>
+                <circle cx="230" cy="230" r="56" fill="var(--ink)" />
+                <text x="230" y="226" text-anchor="middle" font-family="Fraunces, serif" font-size="14" fill="var(--bg)" font-style="italic">your</text>
+                <text x="230" y="244" text-anchor="middle" font-family="Geist Mono, monospace" font-size="11" fill="var(--bg)" letter-spacing="1">BUSINESS</text>
+              </svg>
+            </div>
+          </div>
         </div>
+      </div>
     </section>
 
-    <!-- Journey Section -->
-    <section class="journey-section-premium">
-        <div class="container">
-            <div class="section-header-center">
-                <h2 class="section-title-premium">How we work</h2>
+    <!-- SERVICES -->
+    <section id="services" class="sec-tint-services">
+      <div class="wrap">
+        <div class="sec-grid">
+          <div class="sec-label"><span class="num">05</span><span>What we do</span></div>
+          <div>
+            <h2 class="prob-head">Three disciplines. One coherent system.</h2>
+            <div class="services">
+              <article class="service">
+                <div class="num">SVC / 01</div>
+                <h4>Strategic architecture</h4>
+                <p>We map the bottlenecks slowing your team down, then design systems that eliminate friction and unlock real efficiency.</p>
+                <span class="arrow">Discovery → Blueprint <span aria-hidden="true">→</span></span>
+              </article>
+              <article class="service">
+                <div class="num">SVC / 02</div>
+                <h4>Process automation</h4>
+                <p>Manual workflows become intelligent systems, built around how you actually work, not how a generic tool expects you to.</p>
+                <span class="arrow">Build → Deploy <span aria-hidden="true">→</span></span>
+              </article>
+              <article class="service">
+                <div class="num">SVC / 03</div>
+                <h4>Data integration</h4>
+                <p>Connect disconnected tools so your team has the full picture, without manual transfers or spreadsheet gymnastics.</p>
+                <span class="arrow">Connect → Trust <span aria-hidden="true">→</span></span>
+              </article>
             </div>
-
-            <div class="journey-grid-premium">
-                <div class="glass-card journey-card">
-                    <div class="journey-number">1</div>
-                    <h3 class="journey-title-premium">Start small</h3>
-                    <p class="journey-text-premium">Focus on the biggest friction first</p>
-                </div>
-
-                <div class="glass-card journey-card">
-                    <div class="journey-number">2</div>
-                    <h3 class="journey-title-premium">Build together</h3>
-                    <p class="journey-text-premium">We stay involved as your system evolves</p>
-                </div>
-
-                <div class="glass-card journey-card">
-                    <div class="journey-number">3</div>
-                    <h3 class="journey-title-premium">Keep adapting</h3>
-                    <p class="journey-text-premium">As your business grows, so does the system</p>
-                </div>
-            </div>
-
-            <div class="cta-standalone">
-                <a href="https://cal.com/flovoai/15min" target="_blank" rel="noopener" class="btn-glow btn-large">Book a Call</a>
-            </div>
+          </div>
         </div>
+      </div>
     </section>
 
-    <!-- Services Cards -->
-    <section class="services-section-premium">
-        <div class="container">
-            <div class="section-header-center">
-                <h2 class="section-title-premium">What we do</h2>
-                <p class="section-lead-premium">AI-powered solutions that actually work</p>
+    <!-- PROCESS -->
+    <section id="process" class="sec-tint-process">
+      <div class="wrap">
+        <div class="sec-grid">
+          <div class="sec-label"><span class="num">06</span><span>How we work</span></div>
+          <div>
+            <h2 class="prob-head">Three steps. No long discovery.</h2>
+            <div class="process-list">
+              <div class="process-step">
+                <div class="step-num">1</div>
+                <h4>Start small</h4>
+                <p>We focus on the biggest source of friction first, the one that pays for itself.</p>
+              </div>
+              <div class="process-step">
+                <div class="step-num">2</div>
+                <h4>Build together</h4>
+                <p>We stay involved as your system evolves, week by week, with you in the room.</p>
+              </div>
+              <div class="process-step">
+                <div class="step-num">3</div>
+                <h4>Keep adapting</h4>
+                <p>As your business grows, the system grows with it, without rewrites or rip-and-replace.</p>
+              </div>
             </div>
-
-            <div class="services-grid-premium">
-                <div class="glass-card">
-                    <div class="service-icon-large">
-                        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M12 2a10 10 0 0 0-9.95 9h11.64L9.74 7.05a1 1 0 0 1 1.41-1.41l5.66 5.65a1 1 0 0 1 0 1.42l-5.66 5.65a1 1 0 0 1-1.41 0 1 1 0 0 1 0-1.41L13.69 13H2.05A10 10 0 1 0 12 2z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="service-title-premium">Strategic Architecture</h3>
-                    <p class="service-desc-premium">We identify the bottlenecks slowing your team down. Then design systems that eliminate friction and unlock real efficiency.</p>
-                </div>
-
-                <div class="glass-card">
-                    <div class="service-icon-large">
-                        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <rect x="3" y="3" width="18" height="18" rx="2"></rect>
-                            <path d="M3 9h18M9 21V9"></path>
-                        </svg>
-                    </div>
-                    <h3 class="service-title-premium">Process Automation</h3>
-                    <p class="service-desc-premium">Transform manual workflows into intelligent systems. Built around how you work, not how a generic tool expects you to.</p>
-                </div>
-
-                <div class="glass-card">
-                    <div class="service-icon-large">
-                        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
-                            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
-                            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
-                            <path d="M12 12l7-4"></path>
-                        </svg>
-                    </div>
-                    <h3 class="service-title-premium">Data Integration</h3>
-                    <p class="service-desc-premium">Connect disconnected tools. Give your team the full picture without manual data transfers or spreadsheet gymnastics.</p>
-                </div>
-            </div>
+          </div>
         </div>
+      </div>
     </section>
 
-    <!-- Contact Section (Collapsible) -->
-    <section class="contact-section-premium" id="contact">
-        <div class="container">
-            <div class="contact-content-premium">
-                <p class="section-subtitle-premium text-center">Tell us about your business and what you're looking to solve.</p>
-                <div class="tally-form-wrapper">
-                    <iframe
-                        data-tally-src="https://tally.so/embed/Pdp08V?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
-                        loading="lazy"
-                        width="100%"
-                        height="1929"
-                        frameborder="0"
-                        marginheight="0"
-                        marginwidth="0"
-                        title="Help Us Understand Your World">
-                    </iframe>
-                </div>
+    <!-- CONTACT -->
+    <section id="contact" class="contact">
+      <div class="wrap">
+        <div class="contact-card">
+          <div class="contact-card-left">
+            <div class="contact-kicker"><span class="contact-dot"></span><span>Get in touch</span></div>
+            <h2 class="contact-title">Let's see if there's a fit.</h2>
+            <p class="contact-sub">Fifteen minutes, no pitch. Tell us what's slowing your team down and we'll tell you honestly whether we can help.</p>
+            <div class="contact-actions">
+              <a class="btn btn-primary btn-lg" href="https://cal.com/flovoai/15min" target="_blank" rel="noopener">
+                Book a 15-min call
+                <span class="btn-arrow" aria-hidden="true">→</span>
+              </a>
+              <a class="btn btn-ghost btn-lg" href="mailto:henry@flovoai.com">
+                henry@flovoai.com
+              </a>
             </div>
+          </div>
+          <aside class="contact-card-right">
+            <div class="contact-row">
+              <span class="k">Email</span>
+              <a class="v" href="mailto:henry@flovoai.com">henry@flovoai.com</a>
+            </div>
+            <div class="contact-row">
+              <span class="k">LinkedIn</span>
+              <a class="v" href="https://linkedin.com/company/flovoai" target="_blank" rel="noopener">/company/flovoai</a>
+            </div>
+            <div class="contact-row">
+              <span class="k">Response</span>
+              <span class="v">Within one working day</span>
+            </div>
+            <div class="contact-row">
+              <span class="k">Based</span>
+              <span class="v">Remote, UK</span>
+            </div>
+          </aside>
         </div>
+      </div>
     </section>
 
-    <script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);}</script>
+  </main>
 
-    <!-- CTA Section -->
-    <section class="cta-section-premium">
-        <div class="container">
-            <div class="cta-content-premium">
-                <h2 class="cta-title-premium">You don't need more tools</h2>
-                <p class="cta-subtitle-premium">You need alignment</p>
-            </div>
-        </div>
-    </section>
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="wrap footer-row">
+      <a class="brand" href="#top" aria-label="FlovoAI home">
+        <img src="logo.png" alt="FlovoAI" class="brand-logo" />
+      </a>
+      <div class="footer-links">
+        <a href="#approach">Approach</a>
+        <a href="#services">Services</a>
+        <a href="#process">Process</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="footer-meta">© 2026 FlovoAI · All rights reserved</div>
+    </div>
+  </footer>
 
-    <!-- Footer -->
-    <footer class="footer-premium">
-        <div class="container">
-            <div class="footer-content-premium">
-                <img src="logo.png" alt="FlovoAI" class="footer-logo-premium">
-                <div class="social-icons-premium">
-                    <a href="mailto:henry@flovoai.com" class="social-icon-premium" aria-label="Email">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                            <polyline points="22,6 12,13 2,6"></polyline>
-                        </svg>
-                    </a>
-                    <a href="https://linkedin.com/company/flovoai" target="_blank" rel="noopener" class="social-icon-premium" aria-label="LinkedIn">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                            <rect x="2" y="9" width="4" height="12"></rect>
-                            <circle cx="4" cy="4" r="2"></circle>
-                        </svg>
-                    </a>
-                </div>
-                <p class="footer-copyright">&copy; 2025 FlovoAI. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Sticky CTA Button -->
-    <a href="https://cal.com/flovoai/15min" target="_blank" rel="noopener" class="sticky-cta-premium" id="stickyCta">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-            <line x1="16" y1="2" x2="16" y2="6"></line>
-            <line x1="8" y1="2" x2="8" y2="6"></line>
-            <line x1="3" y1="10" x2="21" y2="10"></line>
-        </svg>
-        <span>Book a Call</span>
-    </a>
-
-    <!-- Scroll Progress Bar -->
-    <div class="scroll-progress-premium" id="scrollProgress"></div>
-
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
