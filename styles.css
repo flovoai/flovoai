@@ -1000,3 +1000,211 @@ section:first-of-type { border-top: 0; }
   background: var(--accent);
   transition: width 1s ease;
 }
+
+/* ── Section header split layout ──────────────────────────────────────────── */
+.sec-header-split {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  margin-bottom: 56px;
+}
+.sec-heading-lg {
+  font-family: var(--serif);
+  font-size: clamp(28px, 3.8vw, 52px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  max-width: 620px;
+}
+.sec-heading-lg em {
+  font-style: italic;
+  color: var(--accent-ink);
+}
+.sec-meta {
+  text-align: right;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  text-transform: uppercase;
+  line-height: 2;
+  white-space: nowrap;
+  padding-top: 6px;
+}
+
+/* ── Problem cards ─────────────────────────────────────────────────────────── */
+.prob-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.prob-card {
+  background: var(--bg-elev);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+.prob-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 28px;
+  color: var(--muted);
+}
+.prob-badge {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+.prob-card h3 {
+  font-family: var(--serif);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 10px;
+}
+.prob-card p {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.65;
+  flex: 1;
+}
+.prob-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--rule-strong);
+}
+.prob-footer-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+.prob-footer-value {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* ── Service card updates ─────────────────────────────────────────────────── */
+.service-icon-box {
+  width: 52px;
+  height: 52px;
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-2);
+  margin: 20px 0 20px;
+}
+.svc-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-top: 24px;
+  padding-top: 14px;
+  border-top: 1px solid var(--rule);
+}
+.svc-foot-line {
+  flex: 1;
+  height: 1px;
+  background: var(--rule-strong);
+}
+.svc-foot-arrow { color: var(--muted); }
+
+/* ── Process timeline ─────────────────────────────────────────────────────── */
+.sec-tint-process { background: var(--bg); }
+.process-timeline {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  position: relative;
+}
+.process-timeline::before {
+  content: '';
+  position: absolute;
+  top: 40px;
+  left: 16.67%;
+  width: 66.67%;
+  border-top: 1px dashed var(--rule-strong);
+  z-index: 0;
+}
+.process-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.process-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--bg-elev);
+  border: 1px solid var(--rule-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 20px;
+}
+.process-circle em {
+  font-family: var(--serif);
+  font-size: 28px;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1;
+}
+.process-week {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.process-node h4 {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 10px;
+}
+.process-node p {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.65;
+  max-width: 260px;
+}
+
+/* ── Responsive: sec-header-split + new cards ─────────────────────────────── */
+@media (max-width: 760px) {
+  .sec-header-split { flex-direction: column; gap: 16px; margin-bottom: 36px; }
+  .sec-meta { text-align: left; }
+  .prob-card-grid { grid-template-columns: 1fr; }
+  .process-timeline { grid-template-columns: 1fr; gap: 32px; }
+  .process-timeline::before { display: none; }
+  .process-node { align-items: flex-start; text-align: left; }
+}
+@media (max-width: 480px) {
+  .sec-heading-lg { font-size: clamp(24px, 7vw, 32px); }
+}
