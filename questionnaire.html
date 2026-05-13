@@ -17,6 +17,7 @@
   <link rel="icon" type="image/png" href="faviconv2.png" />
   <link rel="apple-touch-icon" href="faviconv2.png" />
   <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 
   <style>
     /* ── Questionnaire Layout ── */
@@ -807,19 +808,48 @@
 
   <script>
     /* ═══════════════════════════════════════════════════
-       AIRTABLE CONFIG — fill in your own values
-       1. Create a free Airtable account at airtable.com
-       2. Create a base called "Audit Leads" with these fields:
-          Name, Email, Company, Score, Industry, TeamSize,
-          Revenue, Stage, Headache, AdminHours, ProjectMgmt,
-          ClientComms, Improvement, FallThrough, Onboarding,
-          TechComfort, OpsScore, ProcessScore, TechScore, AutoScore
-       3. Generate a personal access token at airtable.com/create/tokens
-       4. Replace the placeholders below
+       SUPABASE CONFIG — fill in your own values
+       1. Go to your Supabase project → Settings → API
+       2. Copy the Project URL and the anon/public key
+       3. Paste them below
+       4. Make sure your leads table has an RLS policy that
+          allows anonymous inserts (or use a service-role key
+          server-side if you prefer not to expose it)
+
+       Expected columns in your leads table:
+         name          text
+         email         text
+         company       text
+         score         int2
+         industry      text
+         team_size     text
+         revenue       text
+         stage         text
+         headache      text
+         admin_hours   int2
+         project_mgmt  text
+         client_comms  text
+         improvement   text
+         fall_through  text
+         onboarding    text
+         tech_comfort  int2
+         ops_score     int2
+         process_score int2
+         tech_score    int2
+         auto_score    int2
+         source        text   (will be set to 'audit')
+         created_at    timestamptz (default now())
+
+       If your table uses different column names, adjust the
+       mapping in saveToSupabase() below.
     ═══════════════════════════════════════════════════ */
-    const AIRTABLE_TOKEN  = 'YOUR_AIRTABLE_PERSONAL_ACCESS_TOKEN';
-    const AIRTABLE_BASE   = 'YOUR_AIRTABLE_BASE_ID';
-    const AIRTABLE_TABLE  = 'Audit Leads';
+    const SUPABASE_URL  = 'YOUR_SUPABASE_PROJECT_URL';
+    const SUPABASE_KEY  = 'YOUR_SUPABASE_ANON_KEY';
+    const LEADS_TABLE   = 'leads';
+
+    const _supabase = (SUPABASE_URL && !SUPABASE_URL.startsWith('YOUR'))
+      ? supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+      : null;
 
     /* ═══════════════════════════════════════════════════
        QUESTIONS DATA
@@ -1235,7 +1265,7 @@
       showScreen('screen-results');
 
       // Fire and forget — don't block results on network
-      saveToAirtable(scores, { name, email, company }).catch(() => {});
+      saveToSupabase(scores, { name, email, company }).catch(() => {});
     }
 
     /* ═══════════════════════════════════════════════════
@@ -1416,43 +1446,37 @@
     function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
 
     /* ═══════════════════════════════════════════════════
-       AIRTABLE SUBMISSION
+       SUPABASE SUBMISSION
     ═══════════════════════════════════════════════════ */
-    async function saveToAirtable(scores, contact) {
-      if (!AIRTABLE_TOKEN.startsWith('pat') && !AIRTABLE_TOKEN.startsWith('key')) return;
+    async function saveToSupabase(scores, contact) {
+      if (!_supabase) return;
 
-      const fields = {
-        Name:        contact.name,
-        Email:       contact.email,
-        Company:     contact.company || '',
-        Score:       scores.total,
-        Industry:    state.answers['industry']?.value   || '',
-        TeamSize:    state.answers['teamSize']?.value   || '',
-        Revenue:     state.answers['revenue']?.value    || '',
-        Stage:       state.answers['stage']?.value      || '',
-        Headache:    state.answers['headache']?.value   || '',
-        AdminHours:  state.answers['adminHours']?.rawValue ?? 0,
-        ProjectMgmt: state.answers['projectMgmt']?.value || '',
-        ClientComms: state.answers['clientComms']?.value || '',
-        Improvement: state.answers['improvement']?.value || '',
-        FallThrough: state.answers['fallThrough']?.value || '',
-        Onboarding:  state.answers['onboarding']?.value || '',
-        TechComfort: state.answers['techComfort']?.rawValue ?? 0,
-        OpsScore:    scores.ops,
-        ProcessScore: scores.process,
-        TechScore:   scores.tech,
-        AutoScore:   scores.auto,
-        SubmittedAt: new Date().toISOString(),
+      const row = {
+        name:          contact.name,
+        email:         contact.email,
+        company:       contact.company || null,
+        score:         scores.total,
+        industry:      state.answers['industry']?.value    || null,
+        team_size:     state.answers['teamSize']?.value    || null,
+        revenue:       state.answers['revenue']?.value     || null,
+        stage:         state.answers['stage']?.value       || null,
+        headache:      state.answers['headache']?.value    || null,
+        admin_hours:   state.answers['adminHours']?.rawValue ?? null,
+        project_mgmt:  state.answers['projectMgmt']?.value || null,
+        client_comms:  state.answers['clientComms']?.value || null,
+        improvement:   state.answers['improvement']?.value || null,
+        fall_through:  state.answers['fallThrough']?.value || null,
+        onboarding:    state.answers['onboarding']?.value  || null,
+        tech_comfort:  state.answers['techComfort']?.rawValue ?? null,
+        ops_score:     scores.ops,
+        process_score: scores.process,
+        tech_score:    scores.tech,
+        auto_score:    scores.auto,
+        source:        'audit',
       };
 
-      await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE}/${encodeURIComponent(AIRTABLE_TABLE)}`, {
-        method:  'POST',
-        headers: {
-          'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
-          'Content-Type':  'application/json',
-        },
-        body: JSON.stringify({ fields }),
-      });
+      const { error } = await _supabase.from(LEADS_TABLE).insert(row);
+      if (error) console.warn('Supabase insert failed:', error.message);
     }
 
     /* ═══════════════════════════════════════════════════
