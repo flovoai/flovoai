@@ -113,6 +113,15 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   transition: color .15s ease;
 }
 .nav-link:hover { color: var(--ink); }
+.nav-link-cta {
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+  padding: 6px 14px;
+  border-radius: 100px;
+  border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+  font-weight: 500;
+}
+.nav-link-cta:hover { background: color-mix(in srgb, var(--accent) 18%, transparent); color: var(--ink); }
 
 /* ========================================
    BUTTONS
@@ -127,6 +136,8 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .btn-primary { background: var(--ink); color: var(--bg); }
 .btn-primary:hover { background: var(--accent); }
+.btn-secondary { background: var(--bg-elev); color: var(--ink); border: 1px solid var(--rule-strong); }
+.btn-secondary:hover { border-color: var(--ink); }
 .btn-ghost { border: 1px solid var(--rule-strong); color: var(--ink); }
 .btn-ghost:hover { border-color: var(--ink); }
 .btn-arrow { transition: transform .2s ease; }

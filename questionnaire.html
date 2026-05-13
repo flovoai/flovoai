@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Find out how efficient your business really is. Take the 3-minute FlovoAI Business Efficiency Audit and get a personalised score with actionable recommendations." />
+  <title>Business Efficiency Audit — FlovoAI</title>
+  <link rel="canonical" href="https://flovoai.com/questionnaire" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://flovoai.com/questionnaire" />
+  <meta property="og:title" content="Business Efficiency Audit — FlovoAI" />
+  <meta property="og:description" content="12 quick questions. Instant personalised score out of 100. Find out exactly where your business is losing time and what to fix first." />
+  <meta property="og:image" content="https://flovoai.com/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="faviconv2.png" />
+  <link rel="apple-touch-icon" href="faviconv2.png" />
+  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    /* ── Questionnaire Layout ── */
+    .q-shell {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .q-screen {
+      display: none;
+      flex: 1;
+    }
+    .q-screen.active {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Intro Screen ── */
+    .q-intro-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(48px, 8vh, 96px) var(--gutter);
+    }
+    .q-intro {
+      max-width: 640px;
+      width: 100%;
+    }
+    .q-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent-soft);
+      color: var(--accent-ink);
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 6px 12px;
+      border-radius: 100px;
+      border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+      margin-bottom: 28px;
+    }
+    .q-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+    .q-intro h1 {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 4.5vw, 3rem);
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 20px;
+    }
+    .q-intro h1 em {
+      font-style: normal;
+      color: var(--accent-ink);
+    }
+    .q-intro-sub {
+      font-size: 1.125rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 36px;
+    }
+    .q-meta-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 24px;
+      margin-bottom: 40px;
+    }
+    .q-meta-list li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .q-meta-list li::before {
+      content: '✓';
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* ── Progress Bar ── */
+    .q-progress-track {
+      height: 3px;
+      background: var(--rule);
+      position: relative;
+      overflow: hidden;
+    }
+    .q-progress-fill {
+      height: 100%;
+      background: var(--accent);
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      width: 0%;
+    }
+
+    /* ── Question Area ── */
+    .q-quiz-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 0 var(--gutter);
+    }
+    .q-header {
+      padding: 20px 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .q-counter {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .q-category-tag {
+      font-family: var(--mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      background: var(--bg-sunken);
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    .q-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      max-width: 720px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 32px 0 24px;
+    }
+    .q-text {
+      font-family: var(--serif);
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .q-hint {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 32px;
+    }
+
+    /* ── Choice Cards ── */
+    .q-choices {
+      display: grid;
+      gap: 10px;
+    }
+    .q-choices.cols-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media (max-width: 540px) {
+      .q-choices.cols-2 { grid-template-columns: 1fr; }
+    }
+    .q-choice {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 20px;
+      background: var(--bg-elev);
+      border: 1.5px solid var(--rule);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-align: left;
+      font-size: 0.95rem;
+      color: var(--ink-2);
+      line-height: 1.35;
+    }
+    .q-choice:hover {
+      border-color: var(--accent);
+      background: color-mix(in srgb, var(--accent) 6%, var(--bg-elev));
+    }
+    .q-choice.selected {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      color: var(--ink);
+    }
+    .q-choice-check {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid var(--rule-strong);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+    .q-choice.selected .q-choice-check {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .q-choice.selected .q-choice-check::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--bg);
+      border-radius: 50%;
+    }
+    .q-choice-label {
+      flex: 1;
+    }
+    .q-choice-sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* ── Slider ── */
+    .q-slider-wrap {
+      padding: 8px 0 24px;
+    }
+    .q-slider-display {
+      font-family: var(--serif);
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--accent-ink);
+      margin-bottom: 12px;
+      min-height: 3rem;
+    }
+    .q-range {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: var(--rule);
+      outline: none;
+      cursor: pointer;
+      margin-bottom: 12px;
+    }
+    .q-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 3px solid var(--bg);
+      box-shadow: 0 0 0 2px var(--accent);
+      cursor: pointer;
+      transition: box-shadow 0.15s;
+    }
+    .q-range::-webkit-slider-thumb:hover {
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 30%, transparent);
+    }
+    .q-range::-moz-range-thumb {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 3px solid var(--bg);
+      box-shadow: 0 0 0 2px var(--accent);
+      cursor: pointer;
+    }
+    .q-slider-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-family: var(--mono);
+    }
+
+    /* ── Text Input ── */
+    .q-input {
+      width: 100%;
+      background: var(--bg-elev);
+      border: 1.5px solid var(--rule);
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-family: var(--sans);
+      font-size: 1rem;
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .q-input:focus {
+      border-color: var(--accent);
+    }
+    .q-input::placeholder {
+      color: var(--muted);
+    }
+
+    /* ── Contact Form ── */
+    .q-contact-grid {
+      display: grid;
+      gap: 14px;
+    }
+    .q-field label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-family: var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Navigation ── */
+    .q-nav {
+      padding: 20px 0 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      max-width: 720px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .btn-ghost {
+      background: transparent;
+      border: 1.5px solid var(--rule);
+      color: var(--muted);
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-ghost:hover {
+      border-color: var(--rule-strong);
+      color: var(--ink);
+    }
+    .btn-ghost:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+    .q-nav .btn-primary {
+      padding: 13px 28px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+    }
+
+    /* ── Results Screen ── */
+    .q-results-wrap {
+      flex: 1;
+      padding: clamp(48px, 8vh, 80px) var(--gutter);
+    }
+    .q-results-inner {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+    .q-results-header {
+      text-align: center;
+      margin-bottom: 52px;
+    }
+    .q-results-header h2 {
+      font-family: var(--serif);
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+    .q-results-header p {
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    /* Score ring */
+    .q-score-ring-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 48px;
+    }
+    .q-score-ring {
+      position: relative;
+      width: 200px;
+      height: 200px;
+    }
+    .q-score-ring svg {
+      transform: rotate(-90deg);
+    }
+    .q-score-ring-track {
+      fill: none;
+      stroke: var(--rule);
+      stroke-width: 10;
+    }
+    .q-score-ring-fill {
+      fill: none;
+      stroke-width: 10;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 1.4s cubic-bezier(0.4, 0, 0.2, 1),
+                  stroke 0.3s;
+    }
+    .q-score-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+    }
+    .q-score-number {
+      font-family: var(--serif);
+      font-size: 3.2rem;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--ink);
+    }
+    .q-score-label {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .q-score-verdict {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .q-verdict-badge {
+      display: inline-block;
+      padding: 6px 20px;
+      border-radius: 100px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+    .q-verdict-text {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* Category breakdown */
+    .q-categories {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+    @media (max-width: 540px) {
+      .q-categories { grid-template-columns: 1fr; }
+    }
+    .q-cat-card {
+      background: var(--bg-elev);
+      border: 1px solid var(--rule);
+      border-radius: 14px;
+      padding: 20px 22px;
+    }
+    .q-cat-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-family: var(--mono);
+    }
+    .q-cat-score-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .q-cat-score {
+      font-family: var(--serif);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1;
+    }
+    .q-cat-max {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 3px;
+    }
+    .q-cat-bar-track {
+      height: 6px;
+      background: var(--rule);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .q-cat-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 1s ease 0.4s;
+    }
+
+    /* Recommendations */
+    .q-recs-title {
+      font-family: var(--serif);
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 20px;
+    }
+    .q-recs {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 52px;
+    }
+    .q-rec {
+      display: flex;
+      gap: 16px;
+      background: var(--bg-elev);
+      border: 1px solid var(--rule);
+      border-radius: 12px;
+      padding: 18px 20px;
+    }
+    .q-rec-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: var(--accent-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1rem;
+    }
+    .q-rec-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .q-rec-body {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    /* CTA block */
+    .q-cta-block {
+      background: linear-gradient(135deg,
+        color-mix(in srgb, var(--accent) 10%, var(--bg-elev)),
+        var(--bg-elev)
+      );
+      border: 1px solid color-mix(in srgb, var(--accent) 25%, var(--rule));
+      border-radius: 20px;
+      padding: clamp(32px, 5vw, 52px);
+      text-align: center;
+    }
+    .q-cta-block h3 {
+      font-family: var(--serif);
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+    .q-cta-block p {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 480px;
+      margin: 0 auto 32px;
+      line-height: 1.6;
+    }
+    .q-cta-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    /* Score colour vars */
+    .score-critical  { --score-color: #E85454; }
+    .score-developing { --score-color: #F5A623; }
+    .score-efficient { --score-color: #22C55E; }
+    .score-optimized { --score-color: var(--accent); }
+
+    .score-critical  .q-score-ring-fill { stroke: #E85454; }
+    .score-developing .q-score-ring-fill { stroke: #F5A623; }
+    .score-efficient .q-score-ring-fill { stroke: #22C55E; }
+    .score-optimized .q-score-ring-fill { stroke: var(--accent); }
+
+    .score-critical  .q-verdict-badge { background: rgba(232,84,84,0.14); color: #E85454; }
+    .score-developing .q-verdict-badge { background: rgba(245,166,35,0.14); color: #F5A623; }
+    .score-efficient .q-verdict-badge { background: rgba(34,197,94,0.14); color: #22C55E; }
+    .score-optimized .q-verdict-badge { background: var(--accent-soft); color: var(--accent-ink); }
+
+    .q-cat-bar-fill.critical  { background: #E85454; }
+    .q-cat-bar-fill.developing { background: #F5A623; }
+    .q-cat-bar-fill.efficient { background: #22C55E; }
+    .q-cat-bar-fill.optimized { background: var(--accent); }
+
+    /* Loading state */
+    .q-submitting {
+      text-align: center;
+      padding: 80px 0;
+    }
+    .q-spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid var(--rule);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 20px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Error/validation */
+    .q-field-error {
+      font-size: 0.8rem;
+      color: #E85454;
+      margin-top: 6px;
+    }
+    .q-next-hint {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-left: auto;
+      font-family: var(--mono);
+    }
+
+    /* Fade transition */
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .q-body { animation: fadeSlideUp 0.3s ease; }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header class="nav" id="nav">
+    <div class="wrap nav-row">
+      <a class="brand" href="/" aria-label="FlovoAI home">
+        <img src="logo.png" alt="FlovoAI" class="brand-logo" loading="lazy" />
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a class="nav-link" href="/#approach">Approach</a>
+        <a class="nav-link" href="/#services">Services</a>
+        <a class="nav-link" href="/#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="q-shell" id="top">
+
+    <!-- ── INTRO SCREEN ── -->
+    <div id="screen-intro" class="q-screen active">
+      <div class="q-intro-wrap">
+        <div class="q-intro">
+          <div class="q-badge">Business Efficiency Audit</div>
+          <h1>How efficient is your business — <em>really?</em></h1>
+          <p class="q-intro-sub">
+            Most businesses are losing 10–20 hours a week to inefficient processes and disconnected tools. Answer 12 quick questions to find out where yours stands — and what to fix first.
+          </p>
+          <ul class="q-meta-list">
+            <li>Takes 2–3 minutes</li>
+            <li>12 short questions</li>
+            <li>Instant personalised score out of 100</li>
+          </ul>
+          <button class="btn btn-primary btn-lg" onclick="startQuiz()">Start the Audit →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── QUIZ SCREEN ── -->
+    <div id="screen-quiz" class="q-screen">
+      <div class="q-progress-track">
+        <div class="q-progress-fill" id="progressFill"></div>
+      </div>
+      <div class="q-quiz-wrap wrap">
+        <div class="q-header">
+          <span class="q-counter" id="qCounter">Question 1 of 12</span>
+          <span class="q-category-tag" id="qCategory"></span>
+        </div>
+        <div class="q-body" id="qBody">
+          <!-- rendered by JS -->
+        </div>
+        <div class="q-nav">
+          <button class="btn-ghost" id="prevBtn" onclick="prevQuestion()">← Back</button>
+          <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">Continue →</button>
+          <span class="q-next-hint" id="nextHint"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CONTACT SCREEN ── -->
+    <div id="screen-contact" class="q-screen">
+      <div class="q-progress-track">
+        <div class="q-progress-fill" style="width:95%"></div>
+      </div>
+      <div class="q-quiz-wrap wrap">
+        <div class="q-header">
+          <span class="q-counter">Almost there — one last step</span>
+        </div>
+        <div class="q-body">
+          <p class="q-text">Where should we send your results?</p>
+          <p class="q-hint">Your personalised score and recommendations will be ready instantly. No spam, ever.</p>
+          <div class="q-contact-grid">
+            <div class="q-field">
+              <label for="contactName">Your name</label>
+              <input class="q-input" id="contactName" type="text" placeholder="Jane Smith" autocomplete="name" />
+              <div class="q-field-error" id="errName"></div>
+            </div>
+            <div class="q-field">
+              <label for="contactEmail">Work email</label>
+              <input class="q-input" id="contactEmail" type="email" placeholder="jane@company.com" autocomplete="email" />
+              <div class="q-field-error" id="errEmail"></div>
+            </div>
+            <div class="q-field">
+              <label for="contactCompany">Company name <span style="color:var(--muted);font-weight:400">(optional)</span></label>
+              <input class="q-input" id="contactCompany" type="text" placeholder="Acme Ltd" autocomplete="organization" />
+            </div>
+          </div>
+        </div>
+        <div class="q-nav">
+          <button class="btn-ghost" onclick="showQuiz()">← Back</button>
+          <button class="btn btn-primary" onclick="submitAndShowResults()">See My Score →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── RESULTS SCREEN ── -->
+    <div id="screen-results" class="q-screen">
+      <div class="q-results-wrap">
+        <div class="q-results-inner">
+
+          <div class="q-results-header">
+            <div class="q-badge" style="margin:0 auto 20px">Your Results</div>
+            <h2 id="resultsHeadline">Your Business Efficiency Score</h2>
+            <p id="resultsSubline">Here's how your business stacks up across four key areas.</p>
+          </div>
+
+          <div class="q-score-ring-wrap">
+            <div class="q-score-ring" id="scoreRing">
+              <svg viewBox="0 0 200 200" width="200" height="200">
+                <circle class="q-score-ring-track" cx="100" cy="100" r="84" />
+                <circle class="q-score-ring-fill" id="ringFill" cx="100" cy="100" r="84"
+                  stroke-dasharray="528"
+                  stroke-dashoffset="528" />
+              </svg>
+              <div class="q-score-center">
+                <span class="q-score-number" id="scoreNumber">0</span>
+                <span class="q-score-label">out of 100</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="q-score-verdict" id="scoreVerdict">
+            <div class="q-verdict-badge" id="verdictBadge"></div>
+            <p class="q-verdict-text" id="verdictText"></p>
+          </div>
+
+          <div class="q-categories" id="categoriesGrid">
+            <!-- rendered by JS -->
+          </div>
+
+          <div id="recsSection">
+            <p class="q-recs-title">Your top recommendations</p>
+            <div class="q-recs" id="recsList">
+              <!-- rendered by JS -->
+            </div>
+          </div>
+
+          <div class="q-cta-block">
+            <h3>Ready to fix what's holding you back?</h3>
+            <p>Book a free 30-minute strategy call. We'll walk through your results, identify your biggest quick wins, and show you exactly what a custom solution would look like for your business.</p>
+            <div class="q-cta-actions">
+              <a class="btn btn-primary btn-lg" href="https://cal.com/flovoai/30min" target="_blank" rel="noopener">
+                Book Your Free Strategy Call →
+              </a>
+              <a class="btn-ghost btn" href="/" style="padding:13px 24px;border-radius:10px;font-size:.95rem;">
+                Back to FlovoAI
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    /* ═══════════════════════════════════════════════════
+       AIRTABLE CONFIG — fill in your own values
+       1. Create a free Airtable account at airtable.com
+       2. Create a base called "Audit Leads" with these fields:
+          Name, Email, Company, Score, Industry, TeamSize,
+          Revenue, Stage, Headache, AdminHours, ProjectMgmt,
+          ClientComms, Improvement, FallThrough, Onboarding,
+          TechComfort, OpsScore, ProcessScore, TechScore, AutoScore
+       3. Generate a personal access token at airtable.com/create/tokens
+       4. Replace the placeholders below
+    ═══════════════════════════════════════════════════ */
+    const AIRTABLE_TOKEN  = 'YOUR_AIRTABLE_PERSONAL_ACCESS_TOKEN';
+    const AIRTABLE_BASE   = 'YOUR_AIRTABLE_BASE_ID';
+    const AIRTABLE_TABLE  = 'Audit Leads';
+
+    /* ═══════════════════════════════════════════════════
+       QUESTIONS DATA
+    ═══════════════════════════════════════════════════ */
+    const QUESTIONS = [
+      {
+        id:       'industry',
+        text:     'What industry do you work in?',
+        category: 'About You',
+        type:     'choice',
+        cols:     2,
+        scoring:  null,
+        options: [
+          { label: 'Technology / Software',             value: 'tech' },
+          { label: 'Professional Services',             value: 'professional', sub: 'Legal, accounting, consulting' },
+          { label: 'Construction & Trades',             value: 'construction' },
+          { label: 'E-commerce / Retail',               value: 'ecommerce' },
+          { label: 'Healthcare & Wellness',             value: 'healthcare' },
+          { label: 'Marketing & Creative',              value: 'marketing' },
+          { label: 'Manufacturing & Logistics',         value: 'manufacturing' },
+          { label: 'Finance & Insurance',               value: 'finance' },
+          { label: 'Real Estate & Property',            value: 'realestate' },
+          { label: 'Other',                             value: 'other' },
+        ]
+      },
+      {
+        id:       'teamSize',
+        text:     'How many people work in your business?',
+        category: 'Automation Readiness',
+        type:     'choice',
+        cols:     1,
+        scoring:  { category: 'auto', max: 10 },
+        options: [
+          { label: 'Just me',        value: 'solo',    score: 5 },
+          { label: '2–5 people',     value: 'tiny',    score: 8 },
+          { label: '6–15 people',    value: 'small',   score: 10 },
+          { label: '16–50 people',   value: 'medium',  score: 8 },
+          { label: '50+ people',     value: 'large',   score: 5 },
+        ]
+      },
+      {
+        id:       'revenue',
+        text:     "What's your approximate annual revenue?",
+        hint:     'Drag to select the closest range',
+        category: 'Automation Readiness',
+        type:     'slider',
+        scoring:  { category: 'auto', max: 7 },
+        sliderMin: 0,
+        sliderMax: 5,
+        labels:   ['<£100k', '£100–500k', '£500k–1M', '£1M–3M', '£3M–5M', '£5M+'],
+        scores:   [2, 5, 7, 7, 5, 3],
+        default:  2,
+      },
+      {
+        id:       'stage',
+        text:     'Which word best describes your business right now?',
+        category: 'Automation Readiness',
+        type:     'choice',
+        cols:     2,
+        scoring:  { category: 'auto', max: 8 },
+        options: [
+          { label: 'Growing',     value: 'growing',     score: 8,  sub: "Revenue & team expanding" },
+          { label: 'Scaling',     value: 'scaling',     score: 7,  sub: "Building out systems & processes" },
+          { label: 'Established', value: 'established', score: 6,  sub: "Stable, looking to optimise" },
+          { label: 'Pivoting',    value: 'pivoting',    score: 4,  sub: "Changing direction or model" },
+          { label: 'Struggling',  value: 'struggling',  score: 2,  sub: "Facing real operational challenges" },
+        ]
+      },
+      {
+        id:       'headache',
+        text:     "What's your biggest day-to-day operational headache?",
+        category: 'Operations Efficiency',
+        type:     'choice',
+        cols:     1,
+        scoring:  { category: 'ops', max: 8 },
+        options: [
+          { label: 'Too much manual data entry',              value: 'manual',      score: 2 },
+          { label: 'Poor visibility across the business',     value: 'visibility',  score: 3 },
+          { label: 'Client communication gaps',               value: 'comms',       score: 4 },
+          { label: 'Slow or inconsistent onboarding',         value: 'onboarding',  score: 4 },
+          { label: "Tools don't talk to each other",          value: 'integration', score: 3 },
+          { label: "We're actually doing fine here",          value: 'fine',        score: 8 },
+        ]
+      },
+      {
+        id:       'adminHours',
+        text:     'How many hours per week does your team spend on manual or admin tasks?',
+        hint:     'Include repetitive data entry, chasing updates, copy-pasting between tools, etc.',
+        category: 'Operations Efficiency',
+        type:     'slider',
+        scoring:  { category: 'ops', max: 10 },
+        sliderMin: 0,
+        sliderMax: 40,
+        sliderStep: 1,
+        displayFn: v => v === 40 ? '40+ hrs/week' : `${v} hrs/week`,
+        scoreFn:   v => v <= 5 ? 10 : v <= 10 ? 7 : v <= 20 ? 4 : v <= 30 ? 2 : 0,
+        default:  10,
+      },
+      {
+        id:       'projectMgmt',
+        text:     'How do you currently manage projects and tasks?',
+        category: 'Process Maturity',
+        type:     'choice',
+        cols:     1,
+        scoring:  { category: 'process', max: 10 },
+        options: [
+          { label: 'Dedicated PM tool',      value: 'pm_tool',     score: 10, sub: 'Asana, Monday, ClickUp, Notion, etc.' },
+          { label: 'Shared spreadsheets',    value: 'spreadsheet', score: 6,  sub: 'Google Sheets or Excel' },
+          { label: 'Email and messages',     value: 'email',       score: 3,  sub: 'Threads and WhatsApp' },
+          { label: "Mostly in people's heads", value: 'heads',     score: 0,  sub: 'No formal system' },
+        ]
+      },
+      {
+        id:       'clientComms',
+        text:     'How do you handle client communication and follow-ups?',
+        category: 'Process Maturity',
+        type:     'choice',
+        cols:     1,
+        scoring:  { category: 'process', max: 10 },
+        options: [
+          { label: 'CRM system',            value: 'crm',         score: 10, sub: 'HubSpot, Pipedrive, Salesforce, etc.' },
+          { label: 'Spreadsheet or doc',    value: 'spreadsheet', score: 6 },
+          { label: 'Email chains',          value: 'email',       score: 3 },
+          { label: 'WhatsApp / phone only', value: 'informal',    score: 0 },
+        ]
+      },
+      {
+        id:       'improvement',
+        text:     'What are you most trying to improve right now?',
+        category: 'Tech Adoption',
+        type:     'choice',
+        cols:     2,
+        scoring:  { category: 'tech', max: 5 },
+        options: [
+          { label: 'Automate repetitive tasks',  value: 'automation',   score: 5 },
+          { label: 'Better reporting & insights', value: 'reporting',   score: 4 },
+          { label: 'Client experience',          value: 'client_exp',   score: 4 },
+          { label: 'Team efficiency',            value: 'team_eff',     score: 4 },
+          { label: 'Revenue growth',             value: 'revenue',      score: 3 },
+          { label: 'Cost reduction',             value: 'cost',         score: 3 },
+        ]
+      },
+      {
+        id:       'fallThrough',
+        text:     'How often do important things fall through the cracks?',
+        category: 'Operations Efficiency',
+        type:     'choice',
+        cols:     1,
+        scoring:  { category: 'ops', max: 7 },
+        options: [
+          { label: 'Rarely — we have good systems',     value: 'rarely',    score: 7 },
+          { label: 'Sometimes — a few times a month',   value: 'sometimes', score: 4 },
+          { label: 'Often — a few times a week',        value: 'often',     score: 2 },
+          { label: "All the time — it's a real problem", value: 'always',   score: 0 },
+        ]
+      },
+      {
+        id:       'onboarding',
+        text:     'How long does it typically take to fully onboard a new client?',
+        category: 'Process Maturity',
+        type:     'choice',
+        cols:     1,
+        scoring:  { category: 'process', max: 5 },
+        options: [
+          { label: 'Less than a day',   value: 'fast',    score: 5 },
+          { label: '2–3 days',          value: 'days',    score: 4 },
+          { label: 'About a week',      value: 'week',    score: 2 },
+          { label: '2+ weeks',          value: 'slow',    score: 0 },
+          { label: 'No formal process', value: 'none',    score: 0 },
+        ]
+      },
+      {
+        id:       'techComfort',
+        text:     'How comfortable is your team with adopting new technology?',
+        hint:     '1 = very resistant, 10 = loves trying new tools',
+        category: 'Tech Adoption',
+        type:     'slider',
+        scoring:  { category: 'tech', max: 20 },
+        sliderMin: 1,
+        sliderMax: 10,
+        sliderStep: 1,
+        displayFn: v => {
+          if (v <= 2) return `${v} / 10 — Very resistant`;
+          if (v <= 4) return `${v} / 10 — Cautious`;
+          if (v <= 6) return `${v} / 10 — Willing`;
+          if (v <= 8) return `${v} / 10 — Comfortable`;
+          return `${v} / 10 — Loves it`;
+        },
+        scoreFn: v => Math.round(v * 2),
+        default: 6,
+      },
+    ];
+
+    /* ═══════════════════════════════════════════════════
+       STATE
+    ═══════════════════════════════════════════════════ */
+    const state = {
+      currentQ: 0,
+      answers:  {},   // { questionId: { value, score } }
+      contact:  {},
+    };
+
+    /* ═══════════════════════════════════════════════════
+       SCREEN NAVIGATION
+    ═══════════════════════════════════════════════════ */
+    function showScreen(id) {
+      document.querySelectorAll('.q-screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function startQuiz() {
+      state.currentQ = 0;
+      showScreen('screen-quiz');
+      renderQuestion();
+    }
+
+    function showQuiz() {
+      state.currentQ = QUESTIONS.length - 1;
+      showScreen('screen-quiz');
+      renderQuestion();
+    }
+
+    /* ═══════════════════════════════════════════════════
+       RENDER QUESTION
+    ═══════════════════════════════════════════════════ */
+    function renderQuestion() {
+      const q    = QUESTIONS[state.currentQ];
+      const pct  = ((state.currentQ + 1) / QUESTIONS.length) * 100;
+
+      document.getElementById('progressFill').style.width = pct + '%';
+      document.getElementById('qCounter').textContent =
+        `Question ${state.currentQ + 1} of ${QUESTIONS.length}`;
+      document.getElementById('qCategory').textContent = q.category;
+
+      const body = document.getElementById('qBody');
+      body.style.animation = 'none';
+      requestAnimationFrame(() => {
+        body.style.animation = '';
+        body.innerHTML = buildQuestionHTML(q);
+        if (q.type === 'slider') initSlider(q);
+        else restoreChoice(q);
+      });
+
+      document.getElementById('prevBtn').disabled = state.currentQ === 0;
+      updateNextHint(q);
+    }
+
+    function buildQuestionHTML(q) {
+      const hint = q.hint ? `<p class="q-hint">${q.hint}</p>` : '';
+      let inner = '';
+
+      if (q.type === 'choice') {
+        const cols = q.cols === 2 ? 'cols-2' : '';
+        inner = `<div class="q-choices ${cols}">` +
+          q.options.map(o => `
+            <button class="q-choice" data-value="${o.value}" data-score="${o.score ?? 0}" onclick="selectChoice(this, '${q.id}')">
+              <div class="q-choice-check"></div>
+              <div class="q-choice-label">
+                ${o.label}
+                ${o.sub ? `<div class="q-choice-sub">${o.sub}</div>` : ''}
+              </div>
+            </button>`
+          ).join('') + `</div>`;
+      } else if (q.type === 'slider') {
+        inner = buildSliderHTML(q);
+      }
+
+      return `<p class="q-text">${q.text}</p>${hint}${inner}`;
+    }
+
+    function buildSliderHTML(q) {
+      const val = state.answers[q.id]?.rawValue ?? q.default;
+      return `
+        <div class="q-slider-wrap">
+          <div class="q-slider-display" id="sliderDisplay"></div>
+          <input class="q-range" type="range"
+            id="sliderInput"
+            min="${q.sliderMin}" max="${q.sliderMax}"
+            step="${q.sliderStep ?? 1}"
+            value="${val}"
+            oninput="onSliderMove(this, '${q.id}')" />
+          ${q.labels ? `<div class="q-slider-labels">
+            <span>${q.labels[0]}</span>
+            <span>${q.labels[q.labels.length - 1]}</span>
+          </div>` : ''}
+        </div>`;
+    }
+
+    function initSlider(q) {
+      const input = document.getElementById('sliderInput');
+      if (input) {
+        onSliderMove(input, q.id);
+        updateSliderTrack(input);
+      }
+    }
+
+    function onSliderMove(input, qId) {
+      const q   = QUESTIONS.find(x => x.id === qId);
+      const val = parseInt(input.value);
+      let display, score;
+
+      if (q.displayFn) {
+        display = q.displayFn(val);
+        score   = q.scoreFn(val);
+      } else {
+        const idx = Math.round((val - q.sliderMin) / (q.sliderMax - q.sliderMin) * (q.labels.length - 1));
+        display   = q.labels[idx];
+        score     = q.scores[idx];
+      }
+
+      document.getElementById('sliderDisplay').textContent = display;
+      updateSliderTrack(input);
+
+      state.answers[qId] = { value: display, rawValue: val, score: score ?? 0 };
+    }
+
+    function updateSliderTrack(input) {
+      const pct = (input.value - input.min) / (input.max - input.min) * 100;
+      input.style.background = `linear-gradient(to right, var(--accent) ${pct}%, var(--rule) ${pct}%)`;
+    }
+
+    function restoreChoice(q) {
+      const saved = state.answers[q.id];
+      if (saved) {
+        document.querySelectorAll('.q-choice').forEach(btn => {
+          if (btn.dataset.value === saved.value) btn.classList.add('selected');
+        });
+      }
+    }
+
+    function selectChoice(btn, qId) {
+      document.querySelectorAll('.q-choice').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      state.answers[qId] = {
+        value: btn.dataset.value,
+        score: parseFloat(btn.dataset.score) || 0,
+      };
+      updateNextHint(QUESTIONS[state.currentQ]);
+
+      // Auto-advance after brief pause
+      setTimeout(() => nextQuestion(), 260);
+    }
+
+    function updateNextHint(q) {
+      const hint = document.getElementById('nextHint');
+      if (!hint) return;
+      if (q.type === 'slider') {
+        hint.textContent = '';
+      } else {
+        hint.textContent = state.answers[q.id] ? '' : 'Select an option to continue';
+      }
+    }
+
+    /* ═══════════════════════════════════════════════════
+       NAVIGATION
+    ═══════════════════════════════════════════════════ */
+    function nextQuestion() {
+      const q = QUESTIONS[state.currentQ];
+
+      // Ensure slider answer is captured
+      if (q.type === 'slider' && !state.answers[q.id]) {
+        const input = document.getElementById('sliderInput');
+        if (input) onSliderMove(input, q.id);
+      }
+
+      if (q.type === 'choice' && !state.answers[q.id]) {
+        document.getElementById('nextHint').textContent = '← Please select an option first';
+        return;
+      }
+
+      if (state.currentQ < QUESTIONS.length - 1) {
+        state.currentQ++;
+        renderQuestion();
+      } else {
+        showScreen('screen-contact');
+      }
+    }
+
+    function prevQuestion() {
+      if (state.currentQ > 0) {
+        state.currentQ--;
+        renderQuestion();
+      }
+    }
+
+    /* ═══════════════════════════════════════════════════
+       CONTACT + SUBMIT
+    ═══════════════════════════════════════════════════ */
+    function submitAndShowResults() {
+      const name    = document.getElementById('contactName').value.trim();
+      const email   = document.getElementById('contactEmail').value.trim();
+      const company = document.getElementById('contactCompany').value.trim();
+
+      let valid = true;
+      document.getElementById('errName').textContent  = '';
+      document.getElementById('errEmail').textContent = '';
+
+      if (!name) {
+        document.getElementById('errName').textContent = 'Please enter your name.';
+        valid = false;
+      }
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        document.getElementById('errEmail').textContent = 'Please enter a valid email address.';
+        valid = false;
+      }
+      if (!valid) return;
+
+      state.contact = { name, email, company };
+
+      const scores = calculateScores();
+      buildResults(scores, name);
+      showScreen('screen-results');
+
+      // Fire and forget — don't block results on network
+      saveToAirtable(scores, { name, email, company }).catch(() => {});
+    }
+
+    /* ═══════════════════════════════════════════════════
+       SCORING
+    ═══════════════════════════════════════════════════ */
+    function calculateScores() {
+      const cats = { ops: 0, process: 0, tech: 0, auto: 0 };
+
+      QUESTIONS.forEach(q => {
+        const ans = state.answers[q.id];
+        if (!q.scoring || !ans) return;
+        cats[q.scoring.category] += ans.score || 0;
+      });
+
+      // Clamp to category maxes
+      const maxes = { ops: 25, process: 25, tech: 25, auto: 25 };
+      Object.keys(cats).forEach(k => {
+        cats[k] = Math.min(cats[k], maxes[k]);
+      });
+
+      const total = Object.values(cats).reduce((a, b) => a + b, 0);
+      return { ...cats, total };
+    }
+
+    /* ═══════════════════════════════════════════════════
+       BUILD RESULTS
+    ═══════════════════════════════════════════════════ */
+    function buildResults(scores, name) {
+      const { ops, process, tech, auto, total } = scores;
+
+      // Score tier
+      let tier, label, verdictText;
+      if (total <= 40) {
+        tier = 'critical';
+        label = 'Needs Immediate Attention';
+        verdictText = `Your business is running on manual effort and duct-tape processes. You're losing significant hours every week — and it's likely holding your growth back. The good news: there's a lot of low-hanging fruit.`;
+      } else if (total <= 65) {
+        tier = 'developing';
+        label = 'Room to Grow';
+        verdictText = `You have solid foundations, but there are clear gaps in your systems that are costing you time and consistency. Targeted automation could give you your team back — without rebuilding from scratch.`;
+      } else if (total <= 80) {
+        tier = 'efficient';
+        label = 'Ahead of the Pack';
+        verdictText = `You're operating more efficiently than most businesses at your stage. A few strategic improvements would push you from "well-run" to "fully systematised" — and unlock real scale.`;
+      } else {
+        tier = 'optimized';
+        label = 'Highly Optimised';
+        verdictText = `Your systems are in great shape. The opportunity now is to double down — connecting your tools more deeply and building towards a fully automated operation.`;
+      }
+
+      // Apply tier class to ring wrapper
+      const ring = document.getElementById('scoreRing');
+      ring.className = `q-score-ring score-${tier}`;
+
+      // Animated counter
+      animateCounter(document.getElementById('scoreNumber'), 0, total, 1200);
+
+      // Ring fill (circumference ≈ 528)
+      const fill    = document.getElementById('ringFill');
+      const offset  = 528 - (528 * total / 100);
+      setTimeout(() => { fill.style.strokeDashoffset = offset; }, 100);
+
+      // Verdict
+      document.getElementById('verdictBadge').textContent = label;
+      document.getElementById('verdictBadge').parentElement.className = `q-score-verdict score-${tier}`;
+      document.getElementById('verdictText').textContent  = verdictText;
+
+      // Category cards
+      const catDefs = [
+        { key: 'ops',     label: 'Operations Efficiency', max: 25 },
+        { key: 'process', label: 'Process Maturity',      max: 25 },
+        { key: 'tech',    label: 'Tech Adoption',         max: 25 },
+        { key: 'auto',    label: 'Automation Readiness',  max: 25 },
+      ];
+      const grid = document.getElementById('categoriesGrid');
+      grid.innerHTML = catDefs.map(({ key, label, max }) => {
+        const val     = scores[key];
+        const pct     = Math.round(val / max * 100);
+        const catTier = pct <= 40 ? 'critical' : pct <= 65 ? 'developing' : pct <= 80 ? 'efficient' : 'optimized';
+        return `
+          <div class="q-cat-card">
+            <div class="q-cat-title">${label}</div>
+            <div class="q-cat-score-row">
+              <div class="q-cat-score">${val}<span style="font-size:1rem;color:var(--muted)">/${max}</span></div>
+              <div class="q-cat-max">${pct}%</div>
+            </div>
+            <div class="q-cat-bar-track">
+              <div class="q-cat-bar-fill ${catTier}" style="width:0%" data-width="${pct}%"></div>
+            </div>
+          </div>`;
+      }).join('');
+
+      // Animate bars after paint
+      setTimeout(() => {
+        document.querySelectorAll('.q-cat-bar-fill').forEach(bar => {
+          bar.style.width = bar.dataset.width;
+        });
+      }, 200);
+
+      // Recommendations
+      buildRecommendations(scores, tier);
+    }
+
+    function buildRecommendations(scores, tier) {
+      const recs = [];
+
+      if (scores.ops < 18) {
+        const adminAns = state.answers['adminHours'];
+        const hrs      = adminAns?.rawValue ?? 10;
+        recs.push({
+          icon:  '⚙️',
+          title: 'Automate your manual workflows',
+          body:  `Your team is spending around ${hrs}+ hours a week on tasks that should run themselves. Identifying just 3–4 recurring processes and automating them could reclaim days of capacity every month.`,
+        });
+      }
+
+      if (scores.process < 18) {
+        const pm = state.answers['projectMgmt']?.value;
+        recs.push({
+          icon:  '📋',
+          title: 'Centralise your project and client data',
+          body:  pm === 'heads' || pm === 'email'
+            ? `Right now, too much critical information lives in email threads and people's heads. A single source of truth for projects and clients would reduce errors, speed up handovers, and give you real visibility.`
+            : `Your project management setup has gaps. Connecting your tools and standardising how work moves through your business is the fastest path to consistent delivery.`,
+        });
+      }
+
+      if (scores.tech < 18) {
+        recs.push({
+          icon:  '🔗',
+          title: 'Connect your tools — stop re-entering data',
+          body:  `Most businesses use 6–10 separate tools that don't talk to each other. Custom integrations between the systems you already use can eliminate hours of copy-pasting and drastically reduce human error.`,
+        });
+      }
+
+      if (scores.auto < 18) {
+        const stage = state.answers['stage']?.value;
+        recs.push({
+          icon:  '🚀',
+          title: 'Systematise now — before you scale',
+          body:  stage === 'growing' || stage === 'scaling'
+            ? `You're in a growth phase — the perfect moment to build proper systems. Every process you document and automate now will multiply in value as your team and client base grows.`
+            : `Building the right infrastructure now means your business can grow without proportionally growing your headcount or your chaos.`,
+        });
+      }
+
+      // Always add a data/visibility rec if score is high
+      if (recs.length < 2 || scores.total >= 66) {
+        recs.push({
+          icon:  '📊',
+          title: 'Build a real-time operations dashboard',
+          body:  `Even well-run businesses are flying blind without consolidated reporting. A custom dashboard pulling from your key tools gives you instant visibility across revenue, delivery, and team capacity.`,
+        });
+      }
+
+      const list = document.getElementById('recsList');
+      list.innerHTML = recs.slice(0, 4).map(r => `
+        <div class="q-rec">
+          <div class="q-rec-icon">${r.icon}</div>
+          <div>
+            <div class="q-rec-title">${r.title}</div>
+            <div class="q-rec-body">${r.body}</div>
+          </div>
+        </div>`).join('');
+    }
+
+    function animateCounter(el, from, to, duration) {
+      const start = performance.now();
+      function tick(now) {
+        const t   = Math.min((now - start) / duration, 1);
+        const val = Math.round(from + (to - from) * easeOut(t));
+        el.textContent = val;
+        if (t < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+    /* ═══════════════════════════════════════════════════
+       AIRTABLE SUBMISSION
+    ═══════════════════════════════════════════════════ */
+    async function saveToAirtable(scores, contact) {
+      if (!AIRTABLE_TOKEN.startsWith('pat') && !AIRTABLE_TOKEN.startsWith('key')) return;
+
+      const fields = {
+        Name:        contact.name,
+        Email:       contact.email,
+        Company:     contact.company || '',
+        Score:       scores.total,
+        Industry:    state.answers['industry']?.value   || '',
+        TeamSize:    state.answers['teamSize']?.value   || '',
+        Revenue:     state.answers['revenue']?.value    || '',
+        Stage:       state.answers['stage']?.value      || '',
+        Headache:    state.answers['headache']?.value   || '',
+        AdminHours:  state.answers['adminHours']?.rawValue ?? 0,
+        ProjectMgmt: state.answers['projectMgmt']?.value || '',
+        ClientComms: state.answers['clientComms']?.value || '',
+        Improvement: state.answers['improvement']?.value || '',
+        FallThrough: state.answers['fallThrough']?.value || '',
+        Onboarding:  state.answers['onboarding']?.value || '',
+        TechComfort: state.answers['techComfort']?.rawValue ?? 0,
+        OpsScore:    scores.ops,
+        ProcessScore: scores.process,
+        TechScore:   scores.tech,
+        AutoScore:   scores.auto,
+        SubmittedAt: new Date().toISOString(),
+      };
+
+      await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE}/${encodeURIComponent(AIRTABLE_TABLE)}`, {
+        method:  'POST',
+        headers: {
+          'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
+          'Content-Type':  'application/json',
+        },
+        body: JSON.stringify({ fields }),
+      });
+    }
+
+    /* ═══════════════════════════════════════════════════
+       NAV SCROLL BORDER (reuse from main site)
+    ═══════════════════════════════════════════════════ */
+    const navEl = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      navEl.style.borderBottomColor = window.scrollY > 10 ? 'var(--rule)' : 'transparent';
+    }, { passive: true });
+  </script>
+
+</body>
+</html>
