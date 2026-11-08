@@ -87,10 +87,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     textNode.nodeValue = '0';
-    requestAnimationFrame(tick);
+    // Optional data-delay (ms) lets a number wait for its card to fade in
+    setTimeout(function () { requestAnimationFrame(tick); }, parseInt(el.dataset.delay, 10) || 0);
   }
 
-  var countEls = document.querySelectorAll('.stat-num[data-target], .industry-num[data-target]');
+  var countEls = reduceMotion ? [] : document.querySelectorAll('[data-target]');
   var countObserver = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
       if (!entry.isIntersecting) return;

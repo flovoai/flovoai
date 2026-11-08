@@ -190,3 +190,5 @@ h1 em,h2 em{background:linear-gradient(90deg,#3B6EE0,#6E9BF5);-webkit-background
 .pill{white-space:nowrap}
 .mock th+th,.mock td+td{padding-left:12px}
 @media(max-width:600px){.mock{padding:20px}.mock table{font-size:13px}.job{grid-template-columns:50px 1fr auto}}
+.hero-card-row span.n{display:inline;font-size:inherit;color:inherit}
+.n,.stat-num{font-variant-numeric:tabular-nums}
