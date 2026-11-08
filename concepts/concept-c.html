@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><title>FlovoAI — Concept C: Advisory</title>
+<link rel="icon" href="../faviconv2.png">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,400&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+.wrap{max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+.concept-bar{background:var(--navy);color:#fff;font:500 13px/1 var(--body);text-align:center;padding:10px;letter-spacing:.01em}
+.concept-bar a{text-decoration:underline;opacity:.85}
+.logo{display:block;width:118px;height:36px;background:var(--logo,var(--navy));-webkit-mask:url(../logo.png) center/contain no-repeat;mask:url(../logo.png) center/contain no-repeat}
+.nav{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav-row{display:flex;align-items:center;justify-content:space-between;height:76px}
+.nav-links{display:flex;align-items:center;gap:32px;font-size:15px}
+.nav-link{color:var(--text-soft)}
+.nav-link:hover{color:var(--navy)}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 24px;font-weight:600;font-size:15px;transition:all .15s;white-space:nowrap}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:36px}
+.hero-cta.center{justify-content:center}
+h1,h2,h3,h4{font-family:var(--display);color:var(--navy);font-weight:var(--display-w,600)}
+h1{font-size:clamp(42px,5.6vw,72px);line-height:1.05;letter-spacing:var(--tight,-.02em)}
+h2{font-size:clamp(32px,3.6vw,48px);line-height:1.12;letter-spacing:var(--tight,-.02em)}
+h3{font-size:22px;line-height:1.25;margin-bottom:10px}
+h4{font-size:20px;margin-bottom:8px}
+h1 em,h2 em{font-style:var(--em-style,italic);color:var(--blue)}
+.hero{padding:96px 0 104px}
+.hero-inner{display:grid;grid-template-columns:1.45fr 1fr;gap:64px;align-items:center}
+.hero-sub{font-size:19px;color:var(--text-soft);max-width:600px;margin-top:24px}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:14px;font-weight:600;color:var(--blue);margin-bottom:24px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 4px var(--blue-soft)}
+.hero-trust{display:flex;gap:24px;flex-wrap:wrap;margin-top:32px;font-size:14px;color:var(--text-soft)}
+.hero-trust li::before{content:"✓";color:var(--blue);font-weight:700;margin-right:8px}
+.hero-card{padding:32px}
+.hero-card-label{font-size:13px;font-weight:600;color:var(--blue);text-transform:uppercase;letter-spacing:.08em}
+.hero-card-big{font-family:var(--display);font-size:40px;color:var(--navy);margin:14px 0 8px;font-weight:var(--display-w,600);letter-spacing:-.02em}
+.hero-card p{color:var(--text-soft);font-size:15px}
+.hero-card-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.hero-card-row strong{display:block;font-family:var(--display);font-size:26px;color:var(--navy)}
+.hero-card-row span{font-size:13px;color:var(--text-soft)}
+.sec{padding:104px 0}
+.sec-head{max-width:760px;margin-bottom:56px}
+.kicker{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--blue);margin-bottom:16px}
+.sec-sub{font-size:18px;color:var(--text-soft);margin-top:18px}
+.cards-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.card{padding:32px;display:flex;flex-direction:column}
+.card p{color:var(--text-soft);font-size:16px}
+.card-icon{width:48px;height:48px;display:grid;place-items:center;color:var(--blue);background:var(--blue-soft);margin-bottom:24px}
+.card-icon svg{width:24px;height:24px}
+.card-foot{margin-top:auto;padding-top:20px;border-top:1px solid var(--line);font-size:14px;font-weight:600;color:var(--navy);display:flex;gap:10px}
+.card p+.card-foot{margin-top:24px}
+.card-foot span{color:var(--text-soft);font-weight:500}
+.case{display:grid;grid-template-columns:1.3fr 1fr;gap:72px;align-items:center}
+.case blockquote{font-family:var(--quote,var(--display));font-size:22px;line-height:1.5;color:var(--navy);margin:28px 0;font-weight:400}
+.cite{display:flex;gap:14px;align-items:center;font-size:14px;color:var(--text-soft)}
+.cite strong{color:var(--navy)}
+.avatar{width:44px;height:44px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font-weight:700}
+.stats{display:grid;gap:16px}
+.stat{padding:24px 28px}
+.stat-num{font-family:var(--display);font-size:48px;line-height:1;color:var(--blue);font-weight:var(--display-w,600)}
+.stat-num small{font-size:22px;margin-left:2px}
+.stat-label{font-weight:700;color:var(--navy);margin-top:8px}
+.stat p{font-size:14px;color:var(--text-soft)}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.compare-col{padding:36px}
+.compare-col h4{margin-bottom:20px}
+.compare-col li{padding:12px 0;border-bottom:1px solid var(--line);display:flex;gap:12px;font-size:16px}
+.compare-col.then li::before{content:"✕";color:#B4B8C2}
+.compare-col.now li::before{content:"✓";color:var(--blue);font-weight:700}
+.compare-col.then{color:var(--text-soft)}
+.compare-foot{margin-top:20px;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text-soft)}
+.compare-col.now .compare-foot{color:var(--blue)}
+.mocks{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.mock{background:#fff;padding:24px;font-size:14px;box-shadow:var(--mock-shadow,0 1px 2px rgba(11,35,80,.06),0 12px 32px rgba(11,35,80,.07));border:1px solid var(--line)}
+.mock-head{display:flex;justify-content:space-between;align-items:center;font-weight:700;color:var(--navy);padding-bottom:16px;border-bottom:1px solid var(--line)}
+.mock-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:16px 0;color:var(--navy);font-weight:500}
+.mock-meta span,.kpis span{display:block;font-size:12px;color:var(--text-soft);font-weight:500}
+.mock table{width:100%;border-collapse:collapse}
+.mock th{text-align:left;font-size:12px;color:var(--text-soft);font-weight:600;padding:8px 0;border-bottom:1px solid var(--line)}
+.mock td{padding:10px 0;border-bottom:1px solid var(--line);color:var(--text)}
+.mock th:last-child,.mock td:last-child{text-align:right}
+.mock-total{display:flex;justify-content:space-between;align-items:center;padding-top:16px;color:var(--text-soft)}
+.mock-total strong{font-size:20px;color:var(--navy);margin-left:8px}
+.note{color:var(--blue);font-weight:600}
+.pill{font-size:12px;font-weight:600;padding:4px 10px;border-radius:99px}
+.pill.ok{background:#E7F6EE;color:#18794E}.pill.live,.pill.info{background:var(--blue-soft);color:var(--blue)}
+.pill.warn{background:#FFF4E0;color:#A35C00}.pill.muted{background:#EEF0F4;color:#5B6372}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:16px 0}
+.kpis strong{font-family:var(--display);font-size:28px;color:var(--navy)}
+.job{display:grid;grid-template-columns:60px 1fr 96px 80px;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--line);color:var(--text)}
+.bar{height:6px;background:#EEF0F4;border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:var(--blue);border-radius:9px}
+.approach{display:grid;grid-template-columns:1.1fr 1fr;gap:72px;align-items:center}
+.approach .lead{font-family:var(--display);font-size:22px;color:var(--blue);margin:20px 0}
+.approach p{color:var(--text-soft);margin-bottom:16px}
+.diagram svg{width:100%;max-width:440px;display:block;margin:auto}
+.d-ring{fill:none;stroke:var(--blue);stroke-opacity:.35;stroke-dasharray:3 7}
+.d-ring2{fill:var(--blue-soft);stroke:none}
+.d-node circle{fill:#fff;stroke:var(--line-strong)}
+.d-node text{font:600 13px var(--body);fill:var(--navy);text-anchor:middle}
+.d-core{fill:var(--navy)}
+.d-core-t1,.d-core-t2{fill:#fff;text-anchor:middle;font:400 15px var(--body)}
+.d-core-t2{font:var(--display-w,600) 19px var(--display)}
+.svc-num{font-family:var(--display);font-size:15px;font-weight:700;color:var(--blue);margin-bottom:28px}
+.svc-flow{margin-top:auto;padding-top:24px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--navy)}
+.card p+.svc-flow{margin-top:28px}
+.svc-flow span{color:var(--blue);margin:0 6px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+.step-n{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-size:22px;color:#fff;background:var(--blue);margin-bottom:20px}
+.step-when{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);margin-bottom:8px}
+.step p{color:var(--text-soft)}
+.contact{text-align:center;max-width:760px;margin:0 auto;padding:72px 48px}
+.contact p{font-size:18px;color:var(--text-soft);margin-top:18px}
+.contact-meta{margin-top:24px;font-size:14px;color:var(--text-soft)}
+.footer{padding:40px 0;border-top:1px solid var(--line)}
+.footer-row{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.footer-links{display:flex;gap:28px;font-size:15px;color:var(--text-soft)}
+.footer-meta{font-size:14px;color:var(--text-soft)}
+@media(max-width:900px){
+  .hero-inner,.case,.approach,.compare,.mocks,.cards-3,.steps{grid-template-columns:1fr}
+  .nav-link{display:none}
+  .hero{padding:64px 0}.sec{padding:72px 0}
+  .job{grid-template-columns:50px 1fr 90px}.job .bar{display:none}
+}
+
+/* Concept C — Advisory: editorial, rule lines and large serif type, classic professional services */
+:root{--bg:#fff;--navy:#0A1F44;--blue:#2F5FD0;--blue-soft:#ECF1FB;--text:#1A2436;--text-soft:#5E6779;--line:#DDE3EC;--line-strong:#BFC9D8;
+--display:'Newsreader',Georgia,serif;--body:'Manrope',system-ui,sans-serif;--display-w:400;--tight:-.02em}
+h1{font-size:clamp(46px,6.2vw,84px);line-height:1.02}
+h2{font-size:clamp(34px,4vw,54px)}
+h3,h4{font-family:var(--body);font-weight:700;letter-spacing:-.01em}
+.nav-cta{background:var(--navy);color:#fff;padding:10px 18px;font-weight:600;font-size:14px}
+.btn{border-radius:0}
+.btn-primary{background:var(--blue);color:#fff}.btn-primary:hover{background:var(--navy)}
+.btn-secondary{color:var(--navy);border-bottom:2px solid var(--navy);padding-left:4px;padding-right:4px}
+.eyebrow .dot{display:none}
+.eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:12px;font-weight:700;border-top:2px solid var(--blue);padding-top:12px}
+.hero{border-bottom:1px solid var(--line)}
+.hero-card{border-left:1px solid var(--line);padding:8px 0 8px 40px}
+.hero-card-big{font-size:48px}
+.sec{border-bottom:1px solid var(--line)}
+.sec-head{display:grid;grid-template-columns:200px 1fr;column-gap:48px;max-width:none}
+.sec-head .kicker{grid-row:span 3;border-top:2px solid var(--blue);padding-top:12px;font-size:12px}
+.sec-head .sec-sub{grid-column:2}
+.cards-3{gap:0;border-top:1px solid var(--navy)}
+.card{padding:32px 32px 8px 0;border-right:1px solid var(--line);margin-right:32px}
+.card:last-child{border-right:0;margin-right:0}
+.card-icon{background:none;width:auto;height:auto;justify-content:start;margin-bottom:20px}
+.card-icon svg{width:32px;height:32px}
+.card-foot{border-top:0;padding-top:12px}
+.sec-case{background:var(--navy)}
+.sec-case h2,.sec-case blockquote,.sec-case .cite strong,.sec-case .stat-label{color:#fff}
+.sec-case .kicker,.sec-case .stat-num{color:#8EAEF2}
+.sec-case .cite,.sec-case .stat p{color:#AEBBD4}
+.sec-case blockquote{font-size:28px;font-style:italic}
+.sec-case .stat{border-top:1px solid rgba(255,255,255,.18);padding:20px 0}
+.sec-case .stat-num{font-size:56px}
+.compare{gap:0;border-top:1px solid var(--navy)}
+.compare-col{padding:32px 40px 32px 0}
+.compare-col.now{padding-left:40px;border-left:1px solid var(--line);background:linear-gradient(90deg,var(--blue-soft),transparent)}
+.mock{border-radius:2px}
+.diagram .d-core{fill:var(--blue)}
+.service{border-top:0}
+.svc-num{font-size:64px;font-weight:300;color:var(--line-strong);margin-bottom:12px;line-height:1}
+.steps{border-top:1px solid var(--navy);gap:0}
+.step{padding:32px 32px 0 0;border-right:1px solid var(--line);margin-right:32px}
+.step:last-child{border:0;margin:0}
+.step-n{background:none;color:var(--blue);width:auto;height:auto;font-size:56px;justify-content:start;border-radius:0;margin-bottom:12px}
+.sec-contact{background:var(--blue-soft);border:0}
+.sec-contact .contact{max-width:860px}
+.sec-contact h2{font-size:clamp(40px,5vw,64px)}
+.footer{background:var(--navy);color:#fff;border:0}
+.footer .logo{--logo:#fff}
+.footer-links,.footer-meta{color:#AEBBD4}
+@media(max-width:900px){.sec-head{grid-template-columns:1fr}.sec-head .sec-sub{grid-column:1}.card,.step{border-right:0;margin-right:0;border-bottom:1px solid var(--line)}.hero-card{border-left:0;padding-left:0}}
+
+</style></head><body>
+  <div class="concept-bar">Design concept C · <strong>Advisory</strong> — <a href="index.html">compare all concepts</a></div>
+
+  <header class="nav">
+    <div class="wrap nav-row">
+      <a class="brand" href="#top" aria-label="FlovoAI home"><span class="logo" role="img" aria-label="FlovoAI"></span></a>
+      <nav class="nav-links" aria-label="Primary">
+        <a class="nav-link" href="#approach">Approach</a>
+        <a class="nav-link" href="#services">Services</a>
+        <a class="nav-link" href="#contact">Contact</a>
+        <a class="nav-cta" href="/questionnaire">Free Audit</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="wrap hero-inner">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="dot"></span>Operations consultancy for growing businesses</div>
+          <h1>Operations built around <em>how your business actually works.</em></h1>
+          <p class="hero-sub">We help owner-led businesses find what's slowing them down, redesign the way work flows, and put the right tools in place — so your team spends less time on admin and more time on the work that grows the business.</p>
+          <div class="hero-cta">
+            <a class="btn btn-primary" href="https://cal.com/flovoai/30min">Book a 30-min call <span aria-hidden="true">→</span></a>
+            <a class="btn btn-secondary" href="/questionnaire">Take the Free Business Audit</a>
+          </div>
+          <ul class="hero-trust">
+            <li>Plain-English advice</li>
+            <li>Practical, not theoretical</li>
+            <li>Results in weeks, not months</li>
+          </ul>
+        </div>
+        <aside class="hero-card">
+          <div class="hero-card-label">Recent result · Exworks Ltd</div>
+          <div class="hero-card-big">2 hrs → 30 min</div>
+          <p>Time to produce a customer quote, after we reworked their pricing process end to end.</p>
+          <div class="hero-card-row">
+            <div><strong>15+ hrs</strong><span>saved every week</span></div>
+            <div><strong>4×</strong><span>quote capacity</span></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- PROBLEM -->
+    <section class="sec sec-problem">
+      <div class="wrap">
+        <div class="sec-head">
+          <div class="kicker">The problem</div>
+          <h2>Why most businesses stop scaling <em>quietly,</em> not dramatically.</h2>
+          <p class="sec-sub">We see the same patterns across almost every growing team we work with.</p>
+        </div>
+        <div class="cards-3">
+          <article class="card">
+            <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="5" cy="12" r="2.5"/><circle cx="19" cy="6" r="2.5"/><circle cx="19" cy="18" r="2.5"/><path d="M7.5 11 16.5 7M7.5 13l9 4" stroke-dasharray="2 2.5"/></svg></div>
+            <h3>Fragmented workflows</h3>
+            <p>Three tools, two spreadsheets and a group chat — none of them talking to each other.</p>
+            <div class="card-foot"><span>Effect</span>Context gets lost</div>
+          </article>
+          <article class="card">
+            <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 7h11l-3-3M20 17H9l3 3"/></svg></div>
+            <h3>Manual workarounds</h3>
+            <p>Re-keying data, re-formatting exports, re-explaining the same context every week.</p>
+            <div class="card-foot"><span>Cost</span>Around 6 hrs a week, per person</div>
+          </article>
+          <article class="card">
+            <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 19l5-5 4 3 8-9"/><path d="M15 8h5v5"/></svg></div>
+            <h3>Invisible friction</h3>
+            <p>None of it feels dramatic. It's just expensive over time, and it quietly caps your growth.</p>
+            <div class="card-foot"><span>Trend</span>It compounds</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CASE STUDY -->
+    <section class="sec sec-case">
+      <div class="wrap">
+        <div class="case">
+          <div class="case-left">
+            <div class="kicker">Case study · Exworks Ltd</div>
+            <h2>From two-hour quotes to thirty minutes.</h2>
+            <blockquote>“Being able to manage everything on one system means we can price things so much quicker. It saves time day to day, and lets us go after a significant amount more work. This software has truly changed the game for us.”</blockquote>
+            <div class="cite"><span class="avatar">E</span><span><strong>Exworks Ltd</strong><br>Operations team</span></div>
+          </div>
+          <div class="stats">
+            <div class="stat"><div class="stat-num">75<small>%</small></div><div class="stat-label">Less admin</div><p>Process time reduced from 2h to 30m.</p></div>
+            <div class="stat"><div class="stat-num">15<small>+ hrs</small></div><div class="stat-label">Saved weekly</div><p>Recovered across the operations team.</p></div>
+            <div class="stat"><div class="stat-num">4<small>×</small></div><div class="stat-label">Capacity</div><p>Increase in quote volume handled.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPARE -->
+    <section class="sec sec-compare">
+      <div class="wrap">
+        <div class="sec-head">
+          <div class="kicker">Before &amp; after</div>
+          <h2>The cost isn't obvious — until you compare side by side.</h2>
+          <p class="sec-sub">Workarounds accumulate friction. A well-designed way of working removes it.</p>
+        </div>
+        <div class="compare">
+          <div class="compare-col then">
+            <h4>How most teams work today</h4>
+            <ul>
+              <li>Tasks reworked daily</li>
+              <li>Details missed constantly</li>
+              <li>Manual fixes everywhere</li>
+              <li>Decisions made without context</li>
+            </ul>
+            <div class="compare-foot">Expensive · slow · frustrating</div>
+          </div>
+          <div class="compare-col now">
+            <h4>How it works with Flovo</h4>
+            <ul>
+              <li>Joined-up, automated workflows</li>
+              <li>Nothing falls through the cracks</li>
+              <li>Problems caught early</li>
+              <li>The full picture behind every decision</li>
+            </ul>
+            <div class="compare-foot">Fast · reliable · ready to scale</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- IN PRACTICE -->
+    <section class="sec sec-mocks">
+      <div class="wrap">
+        <div class="sec-head">
+          <div class="kicker">In practice</div>
+          <h2>What it looks like when everything connects.</h2>
+          <p class="sec-sub">Two examples from client work — a quoting process and an operations overview, both working from a single source of truth.</p>
+        </div>
+        <div class="mocks">
+          <div class="mock">
+            <div class="mock-head"><span>Quote #0042 · Exworks Ltd</span><span class="pill ok">Accepted</span></div>
+            <div class="mock-meta"><div><span>Client</span>Exworks Ltd</div><div><span>Created</span>06 May 2026</div><div><span>Valid until</span>20 May 2026</div></div>
+            <table>
+              <thead><tr><th>Service</th><th>Qty</th><th>Rate</th><th>Total</th></tr></thead>
+              <tbody>
+                <tr><td>Express Freight</td><td>12</td><td>£840</td><td>£10,080</td></tr>
+                <tr><td>Customs Handling</td><td>4</td><td>£320</td><td>£1,280</td></tr>
+                <tr><td>Marine Insurance</td><td>1</td><td>£240</td><td>£240</td></tr>
+              </tbody>
+            </table>
+            <div class="mock-total"><span class="note">Prepared in 4 minutes</span><span>Total <strong>£11,600</strong></span></div>
+          </div>
+          <div class="mock">
+            <div class="mock-head"><span>Operations overview</span><span class="pill live">Live</span></div>
+            <div class="kpis"><div><strong>47</strong><span>Active jobs</span></div><div><strong>£128k</strong><span>Pipeline</span></div><div><strong>94%</strong><span>On time</span></div></div>
+            <div class="jobs">
+              <div class="job"><span>#2241</span><span>AMS → HAM</span><span class="pill info">In transit</span><div class="bar"><i style="width:60%"></i></div></div>
+              <div class="job"><span>#2238</span><span>LON → RTM</span><span class="pill ok">Delivered</span><div class="bar"><i style="width:100%"></i></div></div>
+              <div class="job"><span>#2237</span><span>ANR → FXT</span><span class="pill warn">Processing</span><div class="bar"><i style="width:35%"></i></div></div>
+              <div class="job"><span>#2235</span><span>HAM → GLA</span><span class="pill muted">Quoted</span><div class="bar"><i style="width:15%"></i></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- APPROACH -->
+    <section id="approach" class="sec sec-approach">
+      <div class="wrap approach">
+        <div>
+          <div class="kicker">Our approach</div>
+          <h2>Your business shouldn't have to bend around its tools.</h2>
+          <p class="lead">We start with how you work — not with software.</p>
+          <p>We sit down with your team, understand how work really moves through the business, and design a better way of running it. Then we put the right tools in place to support it, whether that's something you already own or something built for you.</p>
+          <p>The result is fewer tools, fewer workarounds, and a way of working your team actually trusts.</p>
+        </div>
+        <div class="diagram" aria-hidden="true">
+          <svg viewBox="0 0 420 420">
+            <circle cx="210" cy="210" r="150" class="d-ring"/>
+            <circle cx="210" cy="210" r="95" class="d-ring2"/>
+            <g class="d-node"><circle cx="210" cy="60" r="40"/><text x="210" y="64">People</text></g>
+            <g class="d-node"><circle cx="360" cy="210" r="40"/><text x="360" y="214">Customers</text></g>
+            <g class="d-node"><circle cx="210" cy="360" r="40"/><text x="210" y="364">Operations</text></g>
+            <g class="d-node"><circle cx="60" cy="210" r="40"/><text x="60" y="214">Finance</text></g>
+            <circle cx="210" cy="210" r="62" class="d-core"/>
+            <text x="210" y="206" class="d-core-t1">Your</text>
+            <text x="210" y="226" class="d-core-t2">business</text>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services" class="sec sec-services">
+      <div class="wrap">
+        <div class="sec-head">
+          <div class="kicker">Services</div>
+          <h2>Three ways we help. <em>One</em> joined-up approach.</h2>
+          <p class="sec-sub">Engagements typically run 2–12 weeks. Take one service, or combine them.</p>
+        </div>
+        <div class="cards-3 services">
+          <article class="card service">
+            <div class="svc-num">01</div>
+            <h3>Operations review</h3>
+            <p>We map how work moves through your business, find the bottlenecks costing you time and money, and give you a clear, prioritised plan.</p>
+            <div class="svc-flow">Discover <span>→</span> Plan</div>
+          </article>
+          <article class="card service">
+            <div class="svc-num">02</div>
+            <h3>Process improvement</h3>
+            <p>We redesign manual, repetitive workflows and automate what should never have been manual — built around how your team actually works.</p>
+            <div class="svc-flow">Redesign <span>→</span> Embed</div>
+          </article>
+          <article class="card service">
+            <div class="svc-num">03</div>
+            <h3>Connected information</h3>
+            <p>We join up the tools you already use so everyone works from the same picture — no re-keying, no spreadsheet gymnastics.</p>
+            <div class="svc-flow">Connect <span>→</span> Clarity</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section class="sec sec-process">
+      <div class="wrap">
+        <div class="sec-head">
+          <div class="kicker">How we work</div>
+          <h2>Three steps. <em>No</em> lengthy discovery.</h2>
+        </div>
+        <div class="steps">
+          <div class="step"><div class="step-n">1</div><div class="step-when">Weeks 0–1</div><h4>Start small</h4><p>We focus on your biggest friction point first — the one that pays for itself.</p></div>
+          <div class="step"><div class="step-n">2</div><div class="step-when">Weeks 2–8</div><h4>Work alongside you</h4><p>Week by week, with you in the room. No disappearing for three months.</p></div>
+          <div class="step"><div class="step-n">3</div><div class="step-when">Week 8 onwards</div><h4>Keep improving</h4><p>Your operations grow as your business does — without starting again from scratch.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="sec sec-contact">
+      <div class="wrap">
+        <div class="contact">
+          <div class="kicker">Get in touch</div>
+          <h2>Let's see if there's a fit.</h2>
+          <p>Thirty minutes, no pitch. Tell us what's slowing your team down and we'll tell you honestly whether we can help.</p>
+          <div class="hero-cta center">
+            <a class="btn btn-primary" href="https://cal.com/flovoai/30min">Book a 30-min call <span aria-hidden="true">→</span></a>
+            <a class="btn btn-secondary" href="/questionnaire">Take the Free Audit</a>
+          </div>
+          <div class="contact-meta">30 minutes · No pitch · Honest answer</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-row">
+      <span class="logo" role="img" aria-label="FlovoAI"></span>
+      <div class="footer-links"><a href="#approach">Approach</a><a href="#services">Services</a><a href="#contact">Contact</a></div>
+      <div class="footer-meta">© 2026 FlovoAI · All rights reserved</div>
+    </div>
+  </footer>
+
+</body></html>
