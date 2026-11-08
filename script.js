@@ -21,8 +21,8 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // ── Scroll entrance animations ────────────────────────────────────────────
-  var staggerGroups = ['.prob-card', '.stat', '.service', '.process-node', '.mock-window'];
-  var singleEls     = ['.compare', '.quote', '.contact-cta', '.case-head'];
+  var staggerGroups = ['.card', '.stat', '.step', '.mock'];
+  var singleEls     = ['.compare', '.case blockquote', '.contact', '.hero-card'];
   var allReveal = [];
 
   staggerGroups.forEach(function (sel) {
