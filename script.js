@@ -21,36 +21,47 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // ── Scroll entrance animations ────────────────────────────────────────────
-  var staggerGroups = ['.card', '.stat', '.step', '.mock'];
-  var singleEls     = ['.compare', '.case blockquote', '.contact', '.hero-card'];
-  var allReveal = [];
+  // Elements fade up as they enter the viewport. Items that share a parent
+  // (e.g. the three cards in a row) are staggered so they arrive one by one.
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var revealSelectors = [
+    '.sec-head > *', '.case-left > *', '.approach > div:first-child > *', '.contact > *',
+    '.card', '.stat', '.step', '.mock', '.compare-col', '.diagram'
+  ];
+  var STAGGER = 110;
 
-  staggerGroups.forEach(function (sel) {
-    document.querySelectorAll(sel).forEach(function (el, i) {
+  if (!reduceMotion && 'IntersectionObserver' in window) {
+    var counts = new Map();
+    document.querySelectorAll(revealSelectors.join(',')).forEach(function (el) {
+      var n = counts.get(el.parentNode) || 0;
+      counts.set(el.parentNode, n + 1);
       el.classList.add('reveal');
-      el.style.transitionDelay = (i * 90) + 'ms';
-      allReveal.push(el);
+      el.style.transitionDelay = (n * STAGGER) + 'ms';
     });
-  });
-  singleEls.forEach(function (sel) {
-    document.querySelectorAll(sel).forEach(function (el) {
-      el.classList.add('reveal');
-      allReveal.push(el);
-    });
-  });
 
-  var revealObserver = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (!entry.isIntersecting) return;
-      var el = entry.target;
-      el.classList.add('in-view');
-      revealObserver.unobserve(el);
-      var delay = parseFloat(el.style.transitionDelay) || 0;
-      setTimeout(function () { el.style.transitionDelay = ''; }, 650 + delay);
-    });
-  }, { threshold: 0.12 });
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var el = entry.target;
+        revealObserver.unobserve(el);
+        el.classList.add('in-view');
+        // Once finished, drop the reveal classes so hover effects feel snappy
+        var delay = parseFloat(el.style.transitionDelay) || 0;
+        setTimeout(function () {
+          el.classList.add('revealed');
+          el.classList.remove('reveal', 'in-view');
+          el.style.transitionDelay = '';
+        }, 900 + delay);
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
 
-  allReveal.forEach(function (el) { revealObserver.observe(el); });
+    document.querySelectorAll('.reveal').forEach(function (el) { revealObserver.observe(el); });
+
+    // Hero plays its entrance on load
+    requestAnimationFrame(function () { document.documentElement.classList.add('hero-in'); });
+  } else {
+    document.documentElement.classList.add('hero-in', 'no-motion');
+  }
 
   // ── Number counter animation ──────────────────────────────────────────────
   // Handles both .stat-num[data-target] and .industry-num[data-target]
@@ -76,10 +87,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     textNode.nodeValue = '0';
-    requestAnimationFrame(tick);
+    // Optional data-delay (ms) lets a number wait for its card to fade in
+    setTimeout(function () { requestAnimationFrame(tick); }, parseInt(el.dataset.delay, 10) || 0);
   }
 
-  var countEls = document.querySelectorAll('.stat-num[data-target], .industry-num[data-target]');
+  var countEls = reduceMotion ? [] : document.querySelectorAll('[data-target]');
   var countObserver = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
       if (!entry.isIntersecting) return;

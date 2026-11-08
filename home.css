@@ -149,12 +149,38 @@ h1 em,h2 em{background:linear-gradient(90deg,#3B6EE0,#6E9BF5);-webkit-background
 .step-n{border-radius:14px}
 .sec-contact .contact{background:linear-gradient(135deg,#E8F0FE,#F7FAFF);border-radius:32px}
 
+/* ===== Motion ===== */
+:root{--ease:cubic-bezier(.22,.61,.36,1)}
 /* Scroll reveal (driven by script.js) */
-.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
-.reveal.in-view{opacity:1;transform:none}
+.js .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.js .reveal.in-view{opacity:1;transform:none}
+/* Hero entrance on page load */
+.js .hero-copy>*,.js .hero-card{opacity:0;transform:translateY(24px)}
+.hero-in .hero-copy>*,.hero-in .hero-card{opacity:1;transform:none;transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.hero-in .hero-copy>:nth-child(2){transition-delay:.1s}
+.hero-in .hero-copy>:nth-child(3){transition-delay:.2s}
+.hero-in .hero-copy>:nth-child(4){transition-delay:.3s}
+.hero-in .hero-copy>:nth-child(5){transition-delay:.4s}
+.hero-in .hero-card{transition-delay:.35s}
+/* Job board progress bars fill once the card appears */
+.js .mock .bar i{transform:scaleX(0);transform-origin:left}
+.mock.in-view .bar i,.mock.revealed .bar i,.no-motion .mock .bar i{transform:none;transition:transform 1.1s var(--ease) .5s}
+/* Approach diagram: nodes settle into place one after another */
+.d-node{transform-box:fill-box;transform-origin:center}
+.js .diagram .d-node,.js .diagram .d-core{opacity:0;transform:scale(.85)}
+.js .diagram .d-core{transform-box:fill-box;transform-origin:center}
+.diagram.in-view .d-node,.diagram.in-view .d-core,.diagram.revealed .d-node,.diagram.revealed .d-core,.no-motion .diagram .d-node,.no-motion .diagram .d-core{opacity:1;transform:none;transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.diagram.in-view .d-core{transition-delay:.15s}
+.diagram.in-view .d-node:nth-of-type(1){transition-delay:.35s}
+.diagram.in-view .d-node:nth-of-type(2){transition-delay:.45s}
+.diagram.in-view .d-node:nth-of-type(3){transition-delay:.55s}
+.diagram.in-view .d-node:nth-of-type(4){transition-delay:.65s}
+/* Subtle hover lift on cards */
+.card,.mock,.step{transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
+.card.revealed:hover,.step.revealed:hover,.no-motion .card:hover{transform:translateY(-4px);box-shadow:0 14px 36px rgba(15,42,95,.10)}
 .nav{transition:box-shadow .2s}
 .nav.scrolled{box-shadow:0 1px 0 var(--line)}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal,.js .hero-copy>*,.js .hero-card,.js .diagram .d-node,.js .diagram .d-core{opacity:1!important;transform:none!important;transition:none!important}.js .mock .bar i{transform:none}}
 @media(max-width:900px){
   .sec-case .case{padding:36px 24px;border-radius:24px;gap:36px}
   .sec-contact .contact{padding:48px 24px;border-radius:24px}
@@ -164,3 +190,5 @@ h1 em,h2 em{background:linear-gradient(90deg,#3B6EE0,#6E9BF5);-webkit-background
 .pill{white-space:nowrap}
 .mock th+th,.mock td+td{padding-left:12px}
 @media(max-width:600px){.mock{padding:20px}.mock table{font-size:13px}.job{grid-template-columns:50px 1fr auto}}
+.hero-card-row span.n{display:inline;font-size:inherit;color:inherit}
+.n,.stat-num{font-variant-numeric:tabular-nums}
