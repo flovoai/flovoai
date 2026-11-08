@@ -161,3 +161,6 @@ h1 em,h2 em{background:linear-gradient(90deg,#3B6EE0,#6E9BF5);-webkit-background
   .hero-cta .btn{width:100%;justify-content:center}
   .case blockquote{font-size:19px}
 }
+.pill{white-space:nowrap}
+.mock th+th,.mock td+td{padding-left:12px}
+@media(max-width:600px){.mock{padding:20px}.mock table{font-size:13px}.job{grid-template-columns:50px 1fr auto}}
