@@ -1,1492 +1,988 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Find out how efficient your business really is. Take the 3-minute FlovoAI Business Efficiency Audit and get a personalised score with actionable recommendations." />
-  <title>Business Efficiency Audit — FlovoAI</title>
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="description" content="How healthy is your business? Answer 13 quick questions and get your FlovoAI Flow Score out of 100, with clear next steps." />
+  <title>Flow Score | FlovoAI</title>
   <link rel="canonical" href="https://flovoai.com/questionnaire" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://flovoai.com/questionnaire" />
-  <meta property="og:title" content="Business Efficiency Audit — FlovoAI" />
-  <meta property="og:description" content="12 quick questions. Instant personalised score out of 100. Find out exactly where your business is losing time and what to fix first." />
+  <meta property="og:title" content="Check your Flow Score | FlovoAI" />
+  <meta property="og:description" content="How healthy is your business? Find out in just a few minutes." />
   <meta property="og:image" content="https://flovoai.com/logo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&display=swap" rel="stylesheet" />
   <link rel="icon" type="image/png" href="faviconv2.png" />
   <link rel="apple-touch-icon" href="faviconv2.png" />
-  <link rel="stylesheet" href="styles.css" />
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <link rel="stylesheet" href="home.css" />
 
   <style>
-    /* ── Questionnaire Layout ── */
-    .q-shell {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+    /* ==========================================================================
+       Flow Score page. Shares tokens, nav, buttons and type with home.css.
+       ========================================================================== */
+    body { background: var(--bg); }
+    .fs { min-height: calc(100vh - 4.25rem); display: flex; flex-direction: column; }
+    .fs-screen { display: none; flex: 1; flex-direction: column; }
+    .fs-screen.active { display: flex; }
+    .fs-col { width: 100%; max-width: 44rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2rem); }
+
+    /* ---------- Intro ---------- */
+    .fs-intro {
+      margin-top: -4.25rem;
+      padding: calc(4.25rem + clamp(3.5rem, 9vw, 6.5rem)) 0 clamp(4rem, 8vw, 6rem);
+      background: radial-gradient(60rem 30rem at 50% -4rem, #E3ECFD, transparent 70%), var(--bg);
+      text-align: center; flex: 1;
+    }
+    .fs-intro .fs-col { max-width: 52rem; }
+    .fs-intro h1 { font-size: clamp(2.75rem, 6vw, 4.75rem); }
+    .fs-intro-sub { font-size: clamp(1.125rem, 1.6vw, 1.3125rem); line-height: 1.55; color: var(--text-soft); max-width: 36rem; margin: 1.5rem auto 0; letter-spacing: -0.01em; }
+    .fs-meta { display: flex; justify-content: center; flex-wrap: wrap; gap: .5rem; margin-top: 1.75rem; }
+    .fs-meta li { font-size: .8125rem; font-weight: 500; color: var(--navy); background: #fff; border: 1px solid var(--line); padding: .375rem .875rem; border-radius: 99px; }
+    .fs-get { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: clamp(3rem, 6vw, 4.5rem) auto 0; max-width: 56rem; text-align: left; }
+    .fs-get div { background: #fff; border-radius: var(--r-md); padding: 1.5rem; box-shadow: var(--shadow-md); }
+    .fs-get strong { display: block; color: var(--navy); font-weight: 650; letter-spacing: -0.015em; margin-bottom: .25rem; }
+    .fs-get span { font-size: .9375rem; color: var(--text-soft); line-height: 1.5; }
+    .fs-get i { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: .75rem; background: var(--blue-soft); color: var(--blue); margin-bottom: 1rem; font-style: normal; }
+    .fs-get svg { width: 1.125rem; height: 1.125rem; }
+
+    /* ---------- Progress ---------- */
+    .fs-progress { position: sticky; top: 4.25rem; z-index: 40; height: 3px; background: var(--line); }
+    .fs-progress i { display: block; height: 100%; background: var(--blue); transform-origin: left; transform: scaleX(0); transition: transform .5s var(--ease); }
+
+    /* ---------- Question ---------- */
+    .fs-quiz { padding: clamp(2.5rem, 6vw, 4.5rem) 0 4rem; flex: 1; }
+    .fs-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+    .fs-count { font-size: .875rem; font-weight: 600; color: var(--text-soft); font-variant-numeric: tabular-nums; }
+    .fs-chip { font-size: .75rem; font-weight: 650; letter-spacing: .06em; text-transform: uppercase; color: var(--blue); background: var(--blue-soft); padding: .375rem .75rem; border-radius: 99px; }
+    .fs-q { font-size: clamp(1.625rem, 3.2vw, 2.25rem); line-height: 1.15; letter-spacing: -0.028em; color: var(--navy); font-weight: 700; text-wrap: balance; }
+    .fs-hint { color: var(--text-soft); margin-top: .75rem; font-size: 1rem; }
+    .fs-body { min-height: 22rem; }
+
+    /* Questions move in the direction you're travelling: forward from the right, back from the left */
+    .fs-body.go-next { animation: fsInNext .55s var(--ease) both; }
+    .fs-body.go-prev { animation: fsInPrev .55s var(--ease) both; }
+    @keyframes fsInNext { from { opacity: 0; transform: translateX(2rem); } to { opacity: 1; transform: none; } }
+    @keyframes fsInPrev { from { opacity: 0; transform: translateX(-2rem); } to { opacity: 1; transform: none; } }
+
+    /* Choices */
+    .fs-choices { display: grid; gap: .625rem; margin-top: 2rem; }
+    .fs-choices.cols-2 { grid-template-columns: 1fr 1fr; }
+    .fs-choice {
+      display: flex; align-items: center; gap: .875rem; width: 100%; text-align: left;
+      font: inherit; font-size: 1rem; color: var(--navy); font-weight: 500; letter-spacing: -0.01em;
+      background: #fff; border: 1.5px solid var(--line); border-radius: 1rem; padding: 1rem 1.125rem; cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: border-color .2s var(--ease-out), background-color .2s var(--ease-out), transform .12s var(--ease-out);
+    }
+    .fs-choice:hover { border-color: var(--line-strong); }
+    .fs-choice:active { transform: scale(.985); transition-duration: 0s; }
+    .fs-choice .key {
+      flex: none; width: 1.625rem; height: 1.625rem; border-radius: .5rem; display: grid; place-items: center;
+      font-size: .75rem; font-weight: 650; color: var(--text-soft); background: var(--tint); border: 1px solid var(--line);
+      transition: background-color .2s var(--ease-out), color .2s var(--ease-out), border-color .2s var(--ease-out);
+    }
+    .fs-choice small { display: block; font-size: .8125rem; font-weight: 400; color: var(--text-soft); margin-top: .125rem; letter-spacing: 0; }
+    .fs-choice.selected { border-color: var(--blue); background: var(--blue-soft); }
+    .fs-choice.selected .key { background: var(--blue); color: #fff; border-color: var(--blue); }
+
+    /* Slider */
+    .fs-slider { margin-top: 2.5rem; padding: 2rem 1.75rem 1.5rem; background: var(--tint); border-radius: var(--r-lg); }
+    .fs-slider-val { text-align: center; font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 700; letter-spacing: -0.035em; color: var(--navy); font-variant-numeric: tabular-nums; margin-bottom: 1.5rem; }
+    .fs-slider-val small { display: block; font-size: .9375rem; font-weight: 500; letter-spacing: -0.01em; color: var(--blue); margin-top: .25rem; }
+    .fs-range { -webkit-appearance: none; appearance: none; width: 100%; height: .375rem; border-radius: 99px; background: var(--line-strong); outline: none; cursor: pointer; }
+    .fs-range::-webkit-slider-thumb { -webkit-appearance: none; width: 1.75rem; height: 1.75rem; border-radius: 50%; background: #fff; border: 0; box-shadow: 0 0 0 1px rgba(15,42,95,.08), 0 4px 12px rgba(15,42,95,.18); transition: transform .12s var(--ease-out); }
+    .fs-range::-moz-range-thumb { width: 1.75rem; height: 1.75rem; border-radius: 50%; background: #fff; border: 0; box-shadow: 0 0 0 1px rgba(15,42,95,.08), 0 4px 12px rgba(15,42,95,.18); }
+    .fs-range:active::-webkit-slider-thumb { transform: scale(1.08); }
+    .fs-range:focus-visible { outline: 2px solid var(--blue); outline-offset: 6px; }
+    .fs-range-labels { display: flex; justify-content: space-between; margin-top: .875rem; font-size: .8125rem; color: var(--text-soft); }
+
+    /* Footer controls */
+    .fs-nav { display: flex; align-items: center; gap: .75rem; margin-top: 2.5rem; }
+    .fs-nav .btn { padding: .875rem 1.5rem; }
+    .btn-ghost { background: transparent; color: var(--navy); border: 1.5px solid var(--line); }
+    .btn-ghost:hover { border-color: var(--line-strong); }
+    .btn-ghost[disabled] { opacity: .4; pointer-events: none; }
+    .fs-keys { margin-left: auto; font-size: .8125rem; color: var(--text-soft); }
+    .fs-keys kbd { font: inherit; font-weight: 600; background: var(--tint); border: 1px solid var(--line); border-radius: .375rem; padding: .0625rem .375rem; }
+    .fs-error { color: #C2410C; font-size: .875rem; margin-top: 1rem; min-height: 1.25rem; }
+    button.btn { border: 0; cursor: pointer; font-family: inherit; }
+    button.btn-ghost { border: 1.5px solid var(--line); }
+
+    /* Contact */
+    .fs-fields { display: grid; gap: 1.125rem; margin-top: 2rem; }
+    .fs-field label { display: block; font-size: .875rem; font-weight: 600; color: var(--navy); margin-bottom: .5rem; }
+    .fs-field label span { font-weight: 400; color: var(--text-soft); }
+    .fs-input {
+      width: 100%; font: inherit; font-size: 1rem; color: var(--navy);
+      background: #fff; border: 1.5px solid var(--line); border-radius: .875rem; padding: .9375rem 1rem;
+      transition: border-color .2s var(--ease-out), box-shadow .2s var(--ease-out);
+    }
+    .fs-input::placeholder { color: #9AA4B8; }
+    .fs-input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 4px var(--blue-soft); }
+    .fs-input.invalid { border-color: #E5484D; }
+    .fs-field-error { color: #C2410C; font-size: .8125rem; margin-top: .375rem; min-height: 1rem; }
+    .fs-preview-note { display: flex; gap: .625rem; align-items: flex-start; margin-top: 1.5rem; padding: .875rem 1rem; border-radius: .875rem; background: var(--tint); font-size: .875rem; color: var(--text-soft); }
+    .fs-preview-note b { color: var(--navy); font-weight: 600; }
+
+    /* ---------- Results ---------- */
+    .fs-results { padding: clamp(3rem, 7vw, 5rem) 0 clamp(4rem, 8vw, 6rem); background: radial-gradient(60rem 26rem at 50% -6rem, #E8EFFD, transparent 70%); }
+    .fs-results .fs-col { max-width: 52rem; }
+    .fs-results-head { text-align: center; }
+    .fs-results-head h1 { font-size: clamp(2.25rem, 5vw, 3.5rem); }
+    .fs-results-head p { color: var(--text-soft); margin-top: .75rem; font-size: 1.125rem; }
+    .fs-results-head .eyebrow { color: var(--blue); font-size: .75rem; margin: 0 0 1rem; }
+
+    .fs-ring { --tone: var(--blue); position: relative; width: 13.5rem; height: 13.5rem; margin: 2.75rem auto 0; }
+    .fs-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+    .fs-ring .track { fill: none; stroke: var(--line); stroke-width: 12; }
+    .fs-ring .fill { fill: none; stroke: var(--tone); stroke-width: 12; stroke-linecap: round; stroke-dasharray: 528; stroke-dashoffset: 528; transition: stroke-dashoffset 1.4s var(--ease); }
+    .fs-ring-center { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
+    .fs-ring-num { font-size: 4rem; font-weight: 700; letter-spacing: -0.05em; line-height: 1; color: var(--navy); font-variant-numeric: tabular-nums; }
+    .fs-ring-of { font-size: .8125rem; color: var(--text-soft); margin-top: .375rem; }
+
+    .tone-critical   { --tone: #E5484D; --tone-soft: #FDECEC; --tone-ink: #B42328; }
+    .tone-developing { --tone: #F5A524; --tone-soft: #FEF4E2; --tone-ink: #9A5B00; }
+    .tone-efficient  { --tone: #30A46C; --tone-soft: #E7F6EE; --tone-ink: #18794E; }
+    .tone-optimised  { --tone: #3B6EE0; --tone-soft: #EBF1FD; --tone-ink: #2A57C4; }
+
+    .fs-verdict { text-align: center; margin-top: 1.75rem; }
+    .fs-verdict-badge { display: inline-block; font-size: .875rem; font-weight: 650; padding: .375rem .875rem; border-radius: 99px; background: var(--tone-soft); color: var(--tone-ink); }
+    .fs-verdict p { color: var(--text-soft); max-width: 36rem; margin: 1rem auto 0; font-size: 1.0625rem; }
+
+    .fs-cost {
+      margin-top: 3rem; border-radius: var(--r-lg); padding: clamp(1.75rem, 4vw, 2.5rem);
+      background: var(--navy); color: #fff; text-align: center; position: relative; overflow: hidden; isolation: isolate;
+    }
+    .fs-cost::before { content: ""; position: absolute; inset: auto auto -14rem -10rem; width: 30rem; height: 30rem; z-index: -1; background: radial-gradient(closest-side, rgba(59,110,224,.4), transparent); }
+    .fs-cost-label { font-size: .75rem; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; color: var(--sky); }
+    .fs-cost-num { font-size: clamp(2.75rem, 7vw, 4rem); font-weight: 700; letter-spacing: -0.045em; line-height: 1.05; margin-top: .5rem; font-variant-numeric: tabular-nums; }
+    .fs-cost-num small { font-size: .35em; font-weight: 500; letter-spacing: -0.01em; color: #C9D5EE; }
+    .fs-cost-maths { font-size: .875rem; color: #AFC0E0; margin-top: .5rem; }
+    .fs-cost-more { display: grid; grid-template-columns: 1fr 1fr; margin: 1.5rem auto 0; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,.14); max-width: 34rem; }
+    .fs-cost-more div { padding: 0 1rem; }
+    .fs-cost-more div + div { border-left: 1px solid rgba(255,255,255,.14); }
+    .fs-cost-more strong { display: block; font-size: 1.625rem; font-weight: 700; letter-spacing: -0.03em; color: #fff; font-variant-numeric: tabular-nums; }
+    .fs-cost-more span { display: block; font-size: .875rem; line-height: 1.45; color: #C9D5EE; margin-top: .25rem; }
+    @media (max-width: 520px) { .fs-cost-more { grid-template-columns: 1fr; gap: 1.25rem; } .fs-cost-more div + div { border-left: 0; border-top: 1px solid rgba(255,255,255,.14); padding-top: 1.25rem; } }
+    .fs-cats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1rem; }
+    .fs-cat { background: #fff; border-radius: var(--r-md); padding: 1.5rem; box-shadow: var(--shadow-md); }
+    .fs-cat-name { font-size: .875rem; font-weight: 600; color: var(--text-soft); }
+    .fs-cat-row { display: flex; justify-content: space-between; align-items: baseline; margin: .375rem 0 .875rem; }
+    .fs-cat-score { font-size: 2rem; font-weight: 700; letter-spacing: -0.035em; color: var(--navy); font-variant-numeric: tabular-nums; }
+    .fs-cat-score small { font-size: 1rem; color: var(--text-soft); font-weight: 500; letter-spacing: 0; }
+    .fs-cat-pct { font-size: .875rem; font-weight: 600; color: var(--tone-ink); }
+    .fs-bar { height: .375rem; background: var(--tint); border-radius: 99px; overflow: hidden; }
+    .fs-bar i { display: block; height: 100%; background: var(--tone); border-radius: 99px; transform-origin: left; transform: scaleX(0); transition: transform 1.1s var(--ease); }
+
+    .fs-recs-title { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.025em; color: var(--navy); margin: 3.5rem 0 1.25rem; }
+    .fs-recs { display: grid; gap: .75rem; }
+    .fs-rec { display: flex; gap: 1.125rem; background: var(--tint); border-radius: var(--r-md); padding: 1.375rem 1.5rem; }
+    .fs-rec-icon { flex: none; width: 2.5rem; height: 2.5rem; border-radius: .75rem; background: #fff; color: var(--blue); display: grid; place-items: center; box-shadow: 0 1px 2px rgba(15,42,95,.06); }
+    .fs-rec-icon svg { width: 1.25rem; height: 1.25rem; }
+    .fs-rec h3 { font-size: 1.0625rem; margin-bottom: .25rem; }
+    .fs-rec p { color: var(--text-soft); font-size: .9375rem; line-height: 1.55; }
+
+    .fs-cta { margin-top: 3.5rem; background: var(--navy); color: #fff; border-radius: 2rem; padding: clamp(2.5rem, 6vw, 3.5rem); text-align: center; position: relative; overflow: hidden; isolation: isolate; }
+    .fs-cta::before { content: ""; position: absolute; inset: -12rem -8rem auto auto; width: 32rem; height: 32rem; z-index: -1; background: radial-gradient(closest-side, rgba(59,110,224,.45), transparent); }
+    .fs-cta h2 { color: #fff; font-size: clamp(1.75rem, 3.4vw, 2.5rem); }
+    .fs-cta p { color: #C9D5EE; max-width: 34rem; margin: 1rem auto 0; }
+    .fs-cta .hero-cta { margin-top: 2rem; }
+    .btn-light { background: rgba(255,255,255,.1); color: #fff; border: 1.5px solid rgba(255,255,255,.2) !important; }
+    .btn-light:hover { background: rgba(255,255,255,.16); }
+    .fs-get-gbp { font-weight: 700; font-size: 1.0625rem; }
+
+    /* After the call to action */
+    .fs-cta-note { text-align: center; font-size: .8125rem; color: var(--text-soft); margin-top: 1rem; }
+    .fs-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: .5rem; margin-top: 1.25rem; }
+    .fs-action {
+      display: inline-flex; align-items: center; gap: .5rem; padding: .625rem 1rem; border-radius: 99px;
+      font: inherit; font-size: .9375rem; font-weight: 500; color: var(--navy); background: #fff; border: 1.5px solid var(--line); cursor: pointer;
+      transition: border-color .2s var(--ease-out), transform .12s var(--ease-out);
+    }
+    .fs-action:hover { border-color: var(--line-strong); }
+    .fs-action:active { transform: scale(.97); transition-duration: 0s; }
+    .fs-action svg { width: 1.125rem; height: 1.125rem; color: var(--blue); }
+    .fs-print-meta, .fs-print-foot { display: none; }
+
+    /* Save as PDF / print: a clean one-document report */
+    @media print {
+      @page { margin: 14mm; }
+      html, body { background: #fff !important; font-size: 10.5pt; }
+      * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .nav, .fs-cta, .fs-cta-note, .fs-actions, .fs-screen:not(#screen-results) { display: none !important; }
+      .fs-results { padding: 0; background: none; }
+      .fs-results .rise { opacity: 1 !important; transform: none !important; transition: none !important; }
+      .fs-print-meta { display: flex; justify-content: space-between; gap: 1rem; font-size: 9pt; color: var(--text-soft); padding-bottom: .75rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--line); }
+      .fs-print-meta strong { color: var(--navy); }
+      .fs-print-foot { display: block; text-align: center; font-size: 8.5pt; color: var(--text-soft); margin-top: 2rem; padding-top: .75rem; border-top: 1px solid var(--line); }
+      .fs-ring { width: 10rem; height: 10rem; margin-top: 1.25rem; }
+      .fs-ring .fill, .fs-bar i { transition: none !important; }
+      .fs-cost, .fs-cat, .fs-rec { break-inside: avoid; box-shadow: none; }
+      .fs-cat { border: 1px solid var(--line); }
+      .fs-cats { grid-template-columns: repeat(3, 1fr) !important; }
+      .fs-cost { margin-top: 1.5rem; }
+      .fs-recs-title { margin-top: 1.75rem; }
     }
 
-    .q-screen {
-      display: none;
-      flex: 1;
-    }
-    .q-screen.active {
-      display: flex;
-      flex-direction: column;
-    }
+    /* Results arrive in sequence */
+    .fs-results .rise { opacity: 0; transform: translateY(1rem); }
+    .fs-results.show .rise { opacity: 1; transform: none; transition: opacity .7s var(--ease), transform .9s var(--ease); }
 
-    /* ── Intro Screen ── */
-    .q-intro-wrap {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: clamp(48px, 8vh, 96px) var(--gutter);
+    @media (prefers-reduced-motion: reduce) {
+      .fs-body.go-next, .fs-body.go-prev { animation: fsFade .25s ease both; }
+      @keyframes fsFade { from { opacity: 0; } to { opacity: 1; } }
+      .fs-results .rise { transform: none !important; }
+      .fs-results.show .rise { transition: opacity .25s ease !important; transition-delay: 0s !important; }
+      .fs-ring .fill, .fs-bar i, .fs-progress i { transition: none; }
+      .fs-choice:active { transform: none; }
+    }
+    @media (max-width: 720px) {
+      .fs-get { grid-template-columns: 1fr; }
+      .fs-choices.cols-2 { grid-template-columns: 1fr; }
+      .fs-cats { grid-template-columns: 1fr; }
+      .fs-keys { display: none; }
+      .fs-nav .btn-primary { flex: 1; justify-content: center; }
+      .fs-body { min-height: 0; }
     }
-    .q-intro {
-      max-width: 640px;
-      width: 100%;
-    }
-    .q-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--accent-soft);
-      color: var(--accent-ink);
-      font-family: var(--mono);
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      padding: 6px 12px;
-      border-radius: 100px;
-      border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
-      margin-bottom: 28px;
-    }
-    .q-badge::before {
-      content: '';
-      width: 6px;
-      height: 6px;
-      background: var(--accent);
-      border-radius: 50%;
-    }
-    .q-intro h1 {
-      font-family: var(--serif);
-      font-size: clamp(2rem, 4.5vw, 3rem);
-      font-weight: 700;
-      line-height: 1.15;
-      color: var(--ink);
-      margin-bottom: 20px;
-    }
-    .q-intro h1 em {
-      font-style: normal;
-      color: var(--accent-ink);
-    }
-    .q-intro-sub {
-      font-size: 1.125rem;
-      color: var(--muted);
-      line-height: 1.6;
-      margin-bottom: 36px;
-    }
-    .q-meta-list {
-      list-style: none;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px 24px;
-      margin-bottom: 40px;
-    }
-    .q-meta-list li {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.9rem;
-      color: var(--muted);
-    }
-    .q-meta-list li::before {
-      content: '✓';
-      color: var(--accent);
-      font-weight: 700;
-    }
-
-    /* ── Progress Bar ── */
-    .q-progress-track {
-      height: 3px;
-      background: var(--rule);
-      position: relative;
-      overflow: hidden;
-    }
-    .q-progress-fill {
-      height: 100%;
-      background: var(--accent);
-      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      width: 0%;
-    }
-
-    /* ── Question Area ── */
-    .q-quiz-wrap {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      padding: 0 var(--gutter);
-    }
-    .q-header {
-      padding: 20px 0 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .q-counter {
-      font-family: var(--mono);
-      font-size: 13px;
-      color: var(--muted);
-    }
-    .q-category-tag {
-      font-family: var(--mono);
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-      background: var(--bg-sunken);
-      padding: 4px 10px;
-      border-radius: 6px;
-    }
-
-    .q-body {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      max-width: 720px;
-      margin: 0 auto;
-      width: 100%;
-      padding: 32px 0 24px;
-    }
-    .q-text {
-      font-family: var(--serif);
-      font-size: clamp(1.4rem, 3vw, 2rem);
-      font-weight: 600;
-      line-height: 1.25;
-      color: var(--ink);
-      margin-bottom: 8px;
-    }
-    .q-hint {
-      font-size: 0.9rem;
-      color: var(--muted);
-      margin-bottom: 32px;
-    }
-
-    /* ── Choice Cards ── */
-    .q-choices {
-      display: grid;
-      gap: 10px;
-    }
-    .q-choices.cols-2 {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    @media (max-width: 540px) {
-      .q-choices.cols-2 { grid-template-columns: 1fr; }
-    }
-    .q-choice {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 16px 20px;
-      background: var(--bg-elev);
-      border: 1.5px solid var(--rule);
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.15s ease;
-      text-align: left;
-      font-size: 0.95rem;
-      color: var(--ink-2);
-      line-height: 1.35;
-    }
-    .q-choice:hover {
-      border-color: var(--accent);
-      background: color-mix(in srgb, var(--accent) 6%, var(--bg-elev));
-    }
-    .q-choice.selected {
-      border-color: var(--accent);
-      background: var(--accent-soft);
-      color: var(--ink);
-    }
-    .q-choice-check {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      border: 2px solid var(--rule-strong);
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.15s;
-    }
-    .q-choice.selected .q-choice-check {
-      background: var(--accent);
-      border-color: var(--accent);
-    }
-    .q-choice.selected .q-choice-check::after {
-      content: '';
-      width: 8px;
-      height: 8px;
-      background: var(--bg);
-      border-radius: 50%;
-    }
-    .q-choice-label {
-      flex: 1;
-    }
-    .q-choice-sub {
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin-top: 2px;
-    }
-
-    /* ── Slider ── */
-    .q-slider-wrap {
-      padding: 8px 0 24px;
-    }
-    .q-slider-display {
-      font-family: var(--serif);
-      font-size: 2.2rem;
-      font-weight: 700;
-      color: var(--accent-ink);
-      margin-bottom: 12px;
-      min-height: 3rem;
-    }
-    .q-range {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 100%;
-      height: 6px;
-      border-radius: 3px;
-      background: var(--rule);
-      outline: none;
-      cursor: pointer;
-      margin-bottom: 12px;
-    }
-    .q-range::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background: var(--accent);
-      border: 3px solid var(--bg);
-      box-shadow: 0 0 0 2px var(--accent);
-      cursor: pointer;
-      transition: box-shadow 0.15s;
-    }
-    .q-range::-webkit-slider-thumb:hover {
-      box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 30%, transparent);
-    }
-    .q-range::-moz-range-thumb {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background: var(--accent);
-      border: 3px solid var(--bg);
-      box-shadow: 0 0 0 2px var(--accent);
-      cursor: pointer;
-    }
-    .q-slider-labels {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.75rem;
-      color: var(--muted);
-      font-family: var(--mono);
-    }
-
-    /* ── Text Input ── */
-    .q-input {
-      width: 100%;
-      background: var(--bg-elev);
-      border: 1.5px solid var(--rule);
-      border-radius: 10px;
-      padding: 14px 18px;
-      font-family: var(--sans);
-      font-size: 1rem;
-      color: var(--ink);
-      outline: none;
-      transition: border-color 0.15s;
-    }
-    .q-input:focus {
-      border-color: var(--accent);
-    }
-    .q-input::placeholder {
-      color: var(--muted);
-    }
-
-    /* ── Contact Form ── */
-    .q-contact-grid {
-      display: grid;
-      gap: 14px;
-    }
-    .q-field label {
-      display: block;
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: var(--muted);
-      margin-bottom: 6px;
-      font-family: var(--mono);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    /* ── Navigation ── */
-    .q-nav {
-      padding: 20px 0 32px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      max-width: 720px;
-      margin: 0 auto;
-      width: 100%;
-    }
-    .btn-ghost {
-      background: transparent;
-      border: 1.5px solid var(--rule);
-      color: var(--muted);
-      padding: 12px 24px;
-      border-radius: 10px;
-      font-size: 0.95rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-    .btn-ghost:hover {
-      border-color: var(--rule-strong);
-      color: var(--ink);
-    }
-    .btn-ghost:disabled {
-      opacity: 0.3;
-      cursor: not-allowed;
-    }
-    .q-nav .btn-primary {
-      padding: 13px 28px;
-      border-radius: 10px;
-      font-size: 0.95rem;
-    }
-
-    /* ── Results Screen ── */
-    .q-results-wrap {
-      flex: 1;
-      padding: clamp(48px, 8vh, 80px) var(--gutter);
-    }
-    .q-results-inner {
-      max-width: 780px;
-      margin: 0 auto;
-    }
-    .q-results-header {
-      text-align: center;
-      margin-bottom: 52px;
-    }
-    .q-results-header h2 {
-      font-family: var(--serif);
-      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
-      font-weight: 700;
-      color: var(--ink);
-      margin-bottom: 10px;
-    }
-    .q-results-header p {
-      color: var(--muted);
-      font-size: 1rem;
-    }
-
-    /* Score ring */
-    .q-score-ring-wrap {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 48px;
-    }
-    .q-score-ring {
-      position: relative;
-      width: 200px;
-      height: 200px;
-    }
-    .q-score-ring svg {
-      transform: rotate(-90deg);
-    }
-    .q-score-ring-track {
-      fill: none;
-      stroke: var(--rule);
-      stroke-width: 10;
-    }
-    .q-score-ring-fill {
-      fill: none;
-      stroke-width: 10;
-      stroke-linecap: round;
-      transition: stroke-dashoffset 1.4s cubic-bezier(0.4, 0, 0.2, 1),
-                  stroke 0.3s;
-    }
-    .q-score-center {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 2px;
-    }
-    .q-score-number {
-      font-family: var(--serif);
-      font-size: 3.2rem;
-      font-weight: 700;
-      line-height: 1;
-      color: var(--ink);
-    }
-    .q-score-label {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-    }
-    .q-score-verdict {
-      text-align: center;
-      margin-bottom: 48px;
-    }
-    .q-verdict-badge {
-      display: inline-block;
-      padding: 6px 20px;
-      border-radius: 100px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      margin-bottom: 10px;
-    }
-    .q-verdict-text {
-      font-size: 1rem;
-      color: var(--muted);
-      max-width: 520px;
-      margin: 0 auto;
-    }
-
-    /* Category breakdown */
-    .q-categories {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-      margin-bottom: 48px;
-    }
-    @media (max-width: 540px) {
-      .q-categories { grid-template-columns: 1fr; }
-    }
-    .q-cat-card {
-      background: var(--bg-elev);
-      border: 1px solid var(--rule);
-      border-radius: 14px;
-      padding: 20px 22px;
-    }
-    .q-cat-title {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--muted);
-      margin-bottom: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      font-family: var(--mono);
-    }
-    .q-cat-score-row {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-    .q-cat-score {
-      font-family: var(--serif);
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--ink);
-      line-height: 1;
-    }
-    .q-cat-max {
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin-bottom: 3px;
-    }
-    .q-cat-bar-track {
-      height: 6px;
-      background: var(--rule);
-      border-radius: 3px;
-      overflow: hidden;
-    }
-    .q-cat-bar-fill {
-      height: 100%;
-      border-radius: 3px;
-      transition: width 1s ease 0.4s;
-    }
-
-    /* Recommendations */
-    .q-recs-title {
-      font-family: var(--serif);
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: var(--ink);
-      margin-bottom: 20px;
-    }
-    .q-recs {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      margin-bottom: 52px;
-    }
-    .q-rec {
-      display: flex;
-      gap: 16px;
-      background: var(--bg-elev);
-      border: 1px solid var(--rule);
-      border-radius: 12px;
-      padding: 18px 20px;
-    }
-    .q-rec-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      background: var(--accent-soft);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      font-size: 1rem;
-    }
-    .q-rec-title {
-      font-weight: 600;
-      font-size: 0.95rem;
-      color: var(--ink);
-      margin-bottom: 4px;
-    }
-    .q-rec-body {
-      font-size: 0.875rem;
-      color: var(--muted);
-      line-height: 1.55;
-    }
-
-    /* CTA block */
-    .q-cta-block {
-      background: linear-gradient(135deg,
-        color-mix(in srgb, var(--accent) 10%, var(--bg-elev)),
-        var(--bg-elev)
-      );
-      border: 1px solid color-mix(in srgb, var(--accent) 25%, var(--rule));
-      border-radius: 20px;
-      padding: clamp(32px, 5vw, 52px);
-      text-align: center;
-    }
-    .q-cta-block h3 {
-      font-family: var(--serif);
-      font-size: clamp(1.4rem, 3vw, 1.9rem);
-      font-weight: 700;
-      color: var(--ink);
-      margin-bottom: 12px;
-    }
-    .q-cta-block p {
-      color: var(--muted);
-      font-size: 1rem;
-      max-width: 480px;
-      margin: 0 auto 32px;
-      line-height: 1.6;
-    }
-    .q-cta-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      justify-content: center;
-    }
-
-    /* Score colour vars */
-    .score-critical  { --score-color: #E85454; }
-    .score-developing { --score-color: #F5A623; }
-    .score-efficient { --score-color: #22C55E; }
-    .score-optimized { --score-color: var(--accent); }
-
-    .score-critical  .q-score-ring-fill { stroke: #E85454; }
-    .score-developing .q-score-ring-fill { stroke: #F5A623; }
-    .score-efficient .q-score-ring-fill { stroke: #22C55E; }
-    .score-optimized .q-score-ring-fill { stroke: var(--accent); }
-
-    .score-critical  .q-verdict-badge { background: rgba(232,84,84,0.14); color: #E85454; }
-    .score-developing .q-verdict-badge { background: rgba(245,166,35,0.14); color: #F5A623; }
-    .score-efficient .q-verdict-badge { background: rgba(34,197,94,0.14); color: #22C55E; }
-    .score-optimized .q-verdict-badge { background: var(--accent-soft); color: var(--accent-ink); }
-
-    .q-cat-bar-fill.critical  { background: #E85454; }
-    .q-cat-bar-fill.developing { background: #F5A623; }
-    .q-cat-bar-fill.efficient { background: #22C55E; }
-    .q-cat-bar-fill.optimized { background: var(--accent); }
-
-    /* Loading state */
-    .q-submitting {
-      text-align: center;
-      padding: 80px 0;
-    }
-    .q-spinner {
-      width: 48px;
-      height: 48px;
-      border: 4px solid var(--rule);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto 20px;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* Error/validation */
-    .q-field-error {
-      font-size: 0.8rem;
-      color: #E85454;
-      margin-top: 6px;
-    }
-    .q-next-hint {
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin-left: auto;
-      font-family: var(--mono);
-    }
-
-    /* Fade transition */
-    @keyframes fadeSlideUp {
-      from { opacity: 0; transform: translateY(16px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .q-body { animation: fadeSlideUp 0.3s ease; }
   </style>
 </head>
 <body>
 
-  <!-- Navigation -->
   <header class="nav" id="nav">
     <div class="wrap nav-row">
-      <a class="brand" href="/" aria-label="FlovoAI home">
-        <img src="logo.png" alt="FlovoAI" class="brand-logo" loading="lazy" />
-      </a>
+      <a class="brand" href="/" aria-label="FlovoAI home"><span class="logo" role="img" aria-label="FlovoAI"></span></a>
       <nav class="nav-links" aria-label="Primary">
         <a class="nav-link" href="/#approach">Approach</a>
         <a class="nav-link" href="/#services">Services</a>
         <a class="nav-link" href="/#contact">Contact</a>
+        <a class="nav-score" href="/questionnaire" aria-current="page"><svg class="nav-score-icon" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6" class="t"/><circle cx="8" cy="8" r="6" class="f"/></svg><span>Flow Score</span></a>
+        <a class="nav-cta" href="https://cal.com/flovoai/30min" target="_blank" rel="noopener">Book a call</a>
       </nav>
     </div>
   </header>
 
-  <main class="q-shell" id="top">
+  <main class="fs" id="top">
 
-    <!-- ── INTRO SCREEN ── -->
-    <div id="screen-intro" class="q-screen active">
-      <div class="q-intro-wrap">
-        <div class="q-intro">
-          <div class="q-badge">Business Efficiency Audit</div>
-          <h1>How efficient is your business — <em>really?</em></h1>
-          <p class="q-intro-sub">
-            Most businesses are losing 10–20 hours a week to inefficient processes and disconnected tools. Answer 12 quick questions to find out where yours stands — and what to fix first.
-          </p>
-          <ul class="q-meta-list">
-            <li>Takes 2–3 minutes</li>
-            <li>12 short questions</li>
-            <li>Instant personalised score out of 100</li>
-          </ul>
-          <button class="btn btn-primary btn-lg" onclick="startQuiz()">Start the Audit →</button>
+    <!-- INTRO -->
+    <section id="screen-intro" class="fs-screen active fs-intro">
+      <div class="fs-col">
+        <p class="eyebrow">Flow Score</p>
+        <h1>How healthy is <em>your business?</em></h1>
+        <p class="fs-intro-sub">Find out in just a few minutes. Answer 13 quick questions and get your Flow Score out of 100, with clear next steps.</p>
+        <div class="hero-cta">
+          <button class="btn btn-green" type="button" onclick="startQuiz()">Check my Flow Score <span class="btn-arrow" aria-hidden="true">→</span></button>
+        </div>
+        <ul class="fs-meta">
+          <li>About 3 minutes</li>
+          <li>13 short questions</li>
+          <li>Instant results</li>
+        </ul>
+      </div>
+      <div class="wrap">
+        <div class="fs-get">
+          <div><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 8.5 8.5"/></svg></i><strong>Your score out of 100</strong><span>A clear picture of how smoothly your business runs today.</span></div>
+          <div><i class="fs-get-gbp" aria-hidden="true">£</i><strong>What admin is costing you</strong><span>See what the time spent on admin adds up to each year.</span></div>
+          <div><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i><strong>What to fix first</strong><span>Practical next steps based on your answers.</span></div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- ── QUIZ SCREEN ── -->
-    <div id="screen-quiz" class="q-screen">
-      <div class="q-progress-track">
-        <div class="q-progress-fill" id="progressFill"></div>
-      </div>
-      <div class="q-quiz-wrap wrap">
-        <div class="q-header">
-          <span class="q-counter" id="qCounter">Question 1 of 12</span>
-          <span class="q-category-tag" id="qCategory"></span>
-        </div>
-        <div class="q-body" id="qBody">
-          <!-- rendered by JS -->
-        </div>
-        <div class="q-nav">
-          <button class="btn-ghost" id="prevBtn" onclick="prevQuestion()">← Back</button>
-          <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">Continue →</button>
-          <span class="q-next-hint" id="nextHint"></span>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── CONTACT SCREEN ── -->
-    <div id="screen-contact" class="q-screen">
-      <div class="q-progress-track">
-        <div class="q-progress-fill" style="width:95%"></div>
-      </div>
-      <div class="q-quiz-wrap wrap">
-        <div class="q-header">
-          <span class="q-counter">Almost there — one last step</span>
-        </div>
-        <div class="q-body">
-          <p class="q-text">Where should we send your results?</p>
-          <p class="q-hint">Your personalised score and recommendations will be ready instantly. No spam, ever.</p>
-          <div class="q-contact-grid">
-            <div class="q-field">
-              <label for="contactName">Your name</label>
-              <input class="q-input" id="contactName" type="text" placeholder="Jane Smith" autocomplete="name" />
-              <div class="q-field-error" id="errName"></div>
-            </div>
-            <div class="q-field">
-              <label for="contactEmail">Work email</label>
-              <input class="q-input" id="contactEmail" type="email" placeholder="jane@company.com" autocomplete="email" />
-              <div class="q-field-error" id="errEmail"></div>
-            </div>
-            <div class="q-field">
-              <label for="contactCompany">Company name <span style="color:var(--muted);font-weight:400">(optional)</span></label>
-              <input class="q-input" id="contactCompany" type="text" placeholder="Acme Ltd" autocomplete="organization" />
-            </div>
+    <!-- QUESTIONS -->
+    <section id="screen-quiz" class="fs-screen" aria-live="polite">
+      <div class="fs-progress" aria-hidden="true"><i id="progressFill"></i></div>
+      <div class="fs-quiz">
+        <div class="fs-col">
+          <div class="fs-head">
+            <span class="fs-count" id="qCounter">Question 1 of 12</span>
+            <span class="fs-chip" id="qCategory"></span>
+          </div>
+          <div class="fs-body" id="qBody"></div>
+          <div class="fs-error" id="nextHint" role="alert"></div>
+          <div class="fs-nav">
+            <button class="btn btn-ghost" type="button" id="prevBtn" onclick="prevQuestion()">Back</button>
+            <button class="btn btn-primary" type="button" id="nextBtn" onclick="nextQuestion()">Continue <span class="btn-arrow" aria-hidden="true">→</span></button>
+            <span class="fs-keys" id="keysHint">Press a number to choose, <kbd>Enter</kbd> to continue</span>
           </div>
         </div>
-        <div class="q-nav">
-          <button class="btn-ghost" onclick="showQuiz()">← Back</button>
-          <button class="btn btn-primary" onclick="submitAndShowResults()">See My Score →</button>
-        </div>
       </div>
-    </div>
+    </section>
 
-    <!-- ── RESULTS SCREEN ── -->
-    <div id="screen-results" class="q-screen">
-      <div class="q-results-wrap">
-        <div class="q-results-inner">
-
-          <div class="q-results-header">
-            <div class="q-badge" style="margin:0 auto 20px">Your Results</div>
-            <h2 id="resultsHeadline">Your Business Efficiency Score</h2>
-            <p id="resultsSubline">Here's how your business stacks up across four key areas.</p>
-          </div>
-
-          <div class="q-score-ring-wrap">
-            <div class="q-score-ring" id="scoreRing">
-              <svg viewBox="0 0 200 200" width="200" height="200">
-                <circle class="q-score-ring-track" cx="100" cy="100" r="84" />
-                <circle class="q-score-ring-fill" id="ringFill" cx="100" cy="100" r="84"
-                  stroke-dasharray="528"
-                  stroke-dashoffset="528" />
-              </svg>
-              <div class="q-score-center">
-                <span class="q-score-number" id="scoreNumber">0</span>
-                <span class="q-score-label">out of 100</span>
+    <!-- CONTACT -->
+    <section id="screen-contact" class="fs-screen">
+      <div class="fs-progress" aria-hidden="true"><i style="transform:scaleX(.97)"></i></div>
+      <div class="fs-quiz">
+        <div class="fs-col">
+          <div class="fs-head"><span class="fs-count">Almost there, one last step</span></div>
+          <div class="fs-body go-next" id="contactBody">
+            <h2 class="fs-q">Where should we send your Flow Score?</h2>
+            <p class="fs-hint">Your score and recommendations appear straight away. No spam, ever.</p>
+            <div class="fs-fields">
+              <div class="fs-field">
+                <label for="contactName">Your name</label>
+                <input class="fs-input" id="contactName" type="text" placeholder="Jane Smith" autocomplete="name" />
+                <div class="fs-field-error" id="errName"></div>
+              </div>
+              <div class="fs-field">
+                <label for="contactEmail">Work email</label>
+                <input class="fs-input" id="contactEmail" type="email" placeholder="jane@company.co.uk" autocomplete="email" />
+                <div class="fs-field-error" id="errEmail"></div>
+              </div>
+              <div class="fs-field">
+                <label for="contactCompany">Company name <span>(optional)</span></label>
+                <input class="fs-input" id="contactCompany" type="text" placeholder="Smith Joinery Ltd" autocomplete="organization" />
               </div>
             </div>
+            <p class="fs-preview-note" id="previewNote"><b>Preview</b> Your details aren't sent or stored anywhere yet.</p>
           </div>
-
-          <div class="q-score-verdict" id="scoreVerdict">
-            <div class="q-verdict-badge" id="verdictBadge"></div>
-            <p class="q-verdict-text" id="verdictText"></p>
+          <div class="fs-nav">
+            <button class="btn btn-ghost" type="button" onclick="showQuiz()">Back</button>
+            <button class="btn btn-green" type="button" onclick="submitAndShowResults()">See my Flow Score <span class="btn-arrow" aria-hidden="true">→</span></button>
           </div>
-
-          <div class="q-categories" id="categoriesGrid">
-            <!-- rendered by JS -->
-          </div>
-
-          <div id="recsSection">
-            <p class="q-recs-title">Your top recommendations</p>
-            <div class="q-recs" id="recsList">
-              <!-- rendered by JS -->
-            </div>
-          </div>
-
-          <div class="q-cta-block">
-            <h3>Ready to fix what's holding you back?</h3>
-            <p>Book a free 30-minute strategy call. We'll walk through your results, identify your biggest quick wins, and show you exactly what a custom solution would look like for your business.</p>
-            <div class="q-cta-actions">
-              <a class="btn btn-primary btn-lg" href="https://cal.com/flovoai/30min" target="_blank" rel="noopener">
-                Book Your Free Strategy Call →
-              </a>
-              <a class="btn-ghost btn" href="/" style="padding:13px 24px;border-radius:10px;font-size:.95rem;">
-                Back to FlovoAI
-              </a>
-            </div>
-          </div>
-
         </div>
       </div>
-    </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section id="screen-results" class="fs-screen fs-results">
+      <div class="fs-col">
+        <div class="fs-print-meta" id="printMeta"></div>
+        <div class="fs-results-head rise">
+          <p class="eyebrow">Your results</p>
+          <h1 id="resultsHeadline">Your Flow Score</h1>
+          <p>How your business is running across three key areas.</p>
+        </div>
+
+        <div class="fs-ring rise" id="scoreRing" style="transition-delay:.1s">
+          <svg viewBox="0 0 200 200" aria-hidden="true">
+            <circle class="track" cx="100" cy="100" r="84" />
+            <circle class="fill" id="ringFill" cx="100" cy="100" r="84" />
+          </svg>
+          <div class="fs-ring-center">
+            <span class="fs-ring-num" id="scoreNumber">0</span>
+            <span class="fs-ring-of">out of 100</span>
+          </div>
+        </div>
+
+        <div class="fs-verdict rise" id="scoreVerdict" style="transition-delay:.2s">
+          <span class="fs-verdict-badge" id="verdictBadge"></span>
+          <p id="verdictText"></p>
+        </div>
+
+        <div class="fs-cost rise" id="costBox" style="transition-delay:.26s" hidden>
+          <div class="fs-cost-label">What admin is costing you</div>
+          <div class="fs-cost-num"><span id="costYearly">£0</span><small> a year</small></div>
+          <p class="fs-cost-maths" id="costMaths"></p>
+          <div class="fs-cost-more">
+            <div><strong id="costHours"></strong><span id="costHoursNote"></span></div>
+            <div><strong id="costThree"></strong><span>over 3 years</span></div>
+          </div>
+        </div>
+
+        <div class="fs-cats" id="categoriesGrid"></div>
+
+        <h2 class="fs-recs-title rise" style="transition-delay:.45s">Your top recommendations</h2>
+        <div class="fs-recs" id="recsList"></div>
+
+        <div class="fs-cta rise" style="transition-delay:.6s">
+          <h2>Ready to improve your Flow Score?</h2>
+          <p>Book a free 30-minute call. We'll walk through your results and show you the quickest wins for your business.</p>
+          <div class="hero-cta">
+            <a class="btn btn-primary" id="bookLink" href="https://cal.com/flovoai/30min" target="_blank" rel="noopener">Book a 30-min call <span class="btn-arrow" aria-hidden="true">→</span></a>
+            <a class="btn btn-light" href="/">Back to home</a>
+          </div>
+        </div>
+        <p class="fs-cta-note">Your results are added to the booking form, so we can come prepared.</p>
+        <div class="fs-actions">
+          <button class="fs-action" type="button" onclick="window.print()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/></svg>
+            Save or print my results
+          </button>
+          <button class="fs-action" type="button" onclick="restart()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3M4.5 4.5v3.7h3.7"/></svg>
+            Start again
+          </button>
+        </div>
+        <p class="fs-print-foot">FlovoAI · Operations consultancy for growing businesses · flovoai.com · Book a call: cal.com/flovoai/30min</p>
+      </div>
+    </section>
 
   </main>
 
   <script>
     /* ═══════════════════════════════════════════════════
-       SUPABASE CONFIG — fill in your own values
-       1. Go to your Supabase project → Settings → API
-       2. Copy the Project URL and the anon/public key
-       3. Paste them below
-       4. Make sure your leads table has an RLS policy that
-          allows anonymous inserts (or use a service-role key
-          server-side if you prefer not to expose it)
-
-       Expected columns in your leads table:
-         name          text
-         email         text
-         company       text
-         score         int2
-         industry      text
-         team_size     text
-         revenue       text
-         stage         text
-         headache      text
-         admin_hours   int2
-         project_mgmt  text
-         client_comms  text
-         improvement   text
-         fall_through  text
-         onboarding    text
-         tech_comfort  int2
-         ops_score     int2
-         process_score int2
-         tech_score    int2
-         auto_score    int2
-         source        text   (will be set to 'audit')
-         created_at    timestamptz (default now())
-
-       If your table uses different column names, adjust the
-       mapping in saveToSupabase() below.
+       DATA DESTINATION
+       Preview mode: answers and contact details stay in the browser.
+       Nothing is sent anywhere. To start collecting submissions,
+       implement sendSubmission() below (e.g. Google Sheet, HubSpot,
+       Formspree or Supabase) and set PREVIEW_MODE to false.
     ═══════════════════════════════════════════════════ */
-    const SUPABASE_URL  = 'YOUR_SUPABASE_PROJECT_URL';
-    const SUPABASE_KEY  = 'YOUR_SUPABASE_ANON_KEY';
-    const LEADS_TABLE   = 'leads';
+    const PREVIEW_MODE = true;
 
-    const _supabase = (SUPABASE_URL && !SUPABASE_URL.startsWith('YOUR'))
-      ? supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
-      : null;
+    async function sendSubmission(submission) {
+      if (PREVIEW_MODE) return;
+      // Not connected yet. `submission` is a flat object; see buildSubmission().
+    }
 
     /* ═══════════════════════════════════════════════════
-       QUESTIONS DATA
+       QUESTIONS
     ═══════════════════════════════════════════════════ */
+    const CATEGORY_NAMES = {
+      about:   'About you',
+      ops:     'Day-to-day operations',
+      process: 'Processes',
+      tech:    'Team & technology',
+    };
+
+    // Scored areas and the most points each can earn. Questions about size,
+    // revenue, stage and priorities are context only: they tailor the advice
+    // but never raise or lower the score.
+    const AREAS = { ops: 25, process: 25, tech: 20 };
+
     const QUESTIONS = [
       {
-        id:       'industry',
-        text:     'What industry do you work in?',
-        category: 'About You',
-        type:     'choice',
-        cols:     2,
-        scoring:  null,
+        id: 'industry', text: 'What industry do you work in?', category: 'about',
+        type: 'choice', cols: 2, scoring: null,
         options: [
-          { label: 'Technology / Software',             value: 'tech' },
-          { label: 'Professional Services',             value: 'professional', sub: 'Legal, accounting, consulting' },
-          { label: 'Construction & Trades',             value: 'construction' },
-          { label: 'E-commerce / Retail',               value: 'ecommerce' },
-          { label: 'Healthcare & Wellness',             value: 'healthcare' },
-          { label: 'Marketing & Creative',              value: 'marketing' },
-          { label: 'Manufacturing & Logistics',         value: 'manufacturing' },
-          { label: 'Finance & Insurance',               value: 'finance' },
-          { label: 'Real Estate & Property',            value: 'realestate' },
-          { label: 'Other',                             value: 'other' },
+          { label: 'Construction & Trades',      value: 'construction' },
+          { label: 'Professional Services',      value: 'professional', sub: 'Legal, accounting, consulting' },
+          { label: 'Manufacturing & Logistics',  value: 'manufacturing' },
+          { label: 'E-commerce / Retail',        value: 'ecommerce' },
+          { label: 'Healthcare & Wellness',      value: 'healthcare' },
+          { label: 'Marketing & Creative',       value: 'marketing' },
+          { label: 'Real Estate & Property',     value: 'realestate' },
+          { label: 'Finance & Insurance',        value: 'finance' },
+          { label: 'Technology / Software',      value: 'tech' },
+          { label: 'Other',                      value: 'other' },
         ]
       },
       {
-        id:       'teamSize',
-        text:     'How many people work in your business?',
-        category: 'Automation Readiness',
-        type:     'choice',
-        cols:     1,
-        scoring:  { category: 'auto', max: 10 },
+        id: 'teamSize', text: 'How many people work in your business?', category: 'about',
+        type: 'choice', scoring: null,
         options: [
-          { label: 'Just me',        value: 'solo',    score: 5 },
-          { label: '2–5 people',     value: 'tiny',    score: 8 },
-          { label: '6–15 people',    value: 'small',   score: 10 },
-          { label: '16–50 people',   value: 'medium',  score: 8 },
-          { label: '50+ people',     value: 'large',   score: 5 },
+          { label: 'Just me',          value: 'solo',   score: 5 },
+          { label: '2 to 5 people',    value: 'tiny',   score: 8 },
+          { label: '6 to 15 people',   value: 'small',  score: 10 },
+          { label: '16 to 50 people',  value: 'medium', score: 8 },
+          { label: '50+ people',       value: 'large',  score: 5 },
         ]
       },
       {
-        id:       'revenue',
-        text:     "What's your approximate annual revenue?",
-        hint:     'Drag to select the closest range',
-        category: 'Automation Readiness',
-        type:     'slider',
-        scoring:  { category: 'auto', max: 7 },
-        sliderMin: 0,
-        sliderMax: 5,
-        labels:   ['<£100k', '£100–500k', '£500k–1M', '£1M–3M', '£3M–5M', '£5M+'],
-        scores:   [2, 5, 7, 7, 5, 3],
-        default:  2,
+        id: 'revenue', text: "What's your approximate annual revenue?", hint: 'Drag to the closest range.', category: 'about',
+        type: 'slider', scoring: null,
+        sliderMin: 0, sliderMax: 5,
+        labels: ['Under £100k', '£100k to £500k', '£500k to £1M', '£1M to £3M', '£3M to £5M', '£5M+'],
+        scores: [2, 5, 7, 7, 5, 3],
+        default: 2,
       },
       {
-        id:       'stage',
-        text:     'Which word best describes your business right now?',
-        category: 'Automation Readiness',
-        type:     'choice',
-        cols:     2,
-        scoring:  { category: 'auto', max: 8 },
+        id: 'stage', text: 'Which word best describes your business right now?', category: 'about',
+        type: 'choice', cols: 2, scoring: null,
         options: [
-          { label: 'Growing',     value: 'growing',     score: 8,  sub: "Revenue & team expanding" },
-          { label: 'Scaling',     value: 'scaling',     score: 7,  sub: "Building out systems & processes" },
-          { label: 'Established', value: 'established', score: 6,  sub: "Stable, looking to optimise" },
-          { label: 'Pivoting',    value: 'pivoting',    score: 4,  sub: "Changing direction or model" },
-          { label: 'Struggling',  value: 'struggling',  score: 2,  sub: "Facing real operational challenges" },
+          { label: 'Growing',     value: 'growing',     score: 8, sub: 'Revenue and team expanding' },
+          { label: 'Scaling',     value: 'scaling',     score: 7, sub: 'Building out systems and processes' },
+          { label: 'Established', value: 'established', score: 6, sub: 'Stable, looking to improve' },
+          { label: 'Pivoting',    value: 'pivoting',    score: 4, sub: 'Changing direction' },
+          { label: 'Struggling',  value: 'struggling',  score: 2, sub: 'Facing real day-to-day challenges' },
         ]
       },
       {
-        id:       'headache',
-        text:     "What's your biggest day-to-day operational headache?",
-        category: 'Operations Efficiency',
-        type:     'choice',
-        cols:     1,
-        scoring:  { category: 'ops', max: 8 },
+        id: 'headache', text: "What's your biggest day-to-day headache?", category: 'ops',
+        type: 'choice', scoring: { category: 'ops' },
         options: [
-          { label: 'Too much manual data entry',              value: 'manual',      score: 2 },
-          { label: 'Poor visibility across the business',     value: 'visibility',  score: 3 },
-          { label: 'Client communication gaps',               value: 'comms',       score: 4 },
-          { label: 'Slow or inconsistent onboarding',         value: 'onboarding',  score: 4 },
-          { label: "Tools don't talk to each other",          value: 'integration', score: 3 },
+          { label: 'Too much typing in the same information', value: 'manual',      score: 2 },
+          { label: "Can't see what's happening across the business", value: 'visibility', score: 3 },
+          { label: 'Gaps in communication with customers',    value: 'comms',       score: 4 },
+          { label: 'Slow or patchy start with new customers',  value: 'onboarding',  score: 4 },
+          { label: "Our tools don't talk to each other",      value: 'integration', score: 3 },
           { label: "We're actually doing fine here",          value: 'fine',        score: 8 },
         ]
       },
       {
-        id:       'adminHours',
-        text:     'How many hours per week does your team spend on manual or admin tasks?',
-        hint:     'Include repetitive data entry, chasing updates, copy-pasting between tools, etc.',
-        category: 'Operations Efficiency',
-        type:     'slider',
-        scoring:  { category: 'ops', max: 10 },
-        sliderMin: 0,
-        sliderMax: 40,
-        sliderStep: 1,
-        displayFn: v => v === 40 ? '40+ hrs/week' : `${v} hrs/week`,
+        id: 'adminHours', text: 'How many hours a week does your team spend on admin?',
+        hint: 'Include typing up information, chasing updates and copying between tools.', category: 'ops',
+        type: 'slider', scoring: { category: 'ops' },
+        sliderMin: 0, sliderMax: 40, sliderStep: 1,
+        displayFn: v => v === 40 ? '40+ hours' : `${v} hour${v === 1 ? '' : 's'}`,
+        subFn:     v => 'per week',
         scoreFn:   v => v <= 5 ? 10 : v <= 10 ? 7 : v <= 20 ? 4 : v <= 30 ? 2 : 0,
-        default:  10,
+        rangeLabels: ['0', '40+'],
+        default: 10,
       },
       {
-        id:       'projectMgmt',
-        text:     'How do you currently manage projects and tasks?',
-        category: 'Process Maturity',
-        type:     'choice',
-        cols:     1,
-        scoring:  { category: 'process', max: 10 },
+        id: 'hourlyCost', text: "Roughly what does an hour of your team's time cost you?",
+        hint: 'A rough average is fine. Include wages plus extras like National Insurance and pension.', category: 'ops',
+        type: 'slider', scoring: null,
+        sliderMin: 10, sliderMax: 60, sliderStep: 1,
+        displayFn: v => v === 60 ? '£60+' : `£${v}`,
+        subFn:     v => 'per hour',
+        scoreFn:   v => 0,
+        rangeLabels: ['£10', '£60+'],
+        default: 20,
+      },
+      {
+        id: 'projectMgmt', text: 'How do you keep track of jobs and tasks?', category: 'process',
+        type: 'choice', scoring: { category: 'process' },
         options: [
-          { label: 'Dedicated PM tool',      value: 'pm_tool',     score: 10, sub: 'Asana, Monday, ClickUp, Notion, etc.' },
-          { label: 'Shared spreadsheets',    value: 'spreadsheet', score: 6,  sub: 'Google Sheets or Excel' },
-          { label: 'Email and messages',     value: 'email',       score: 3,  sub: 'Threads and WhatsApp' },
-          { label: "Mostly in people's heads", value: 'heads',     score: 0,  sub: 'No formal system' },
+          { label: 'A dedicated app or system', value: 'pm_tool',     score: 10, sub: 'For example Asana, Monday or a job management system' },
+          { label: 'Shared spreadsheets',       value: 'spreadsheet', score: 6,  sub: 'Google Sheets or Excel' },
+          { label: 'Email and messages',        value: 'email',       score: 3,  sub: 'Email threads and WhatsApp' },
+          { label: "Mostly in people's heads",  value: 'heads',       score: 0,  sub: 'No formal system' },
         ]
       },
       {
-        id:       'clientComms',
-        text:     'How do you handle client communication and follow-ups?',
-        category: 'Process Maturity',
-        type:     'choice',
-        cols:     1,
-        scoring:  { category: 'process', max: 10 },
+        id: 'clientComms', text: 'How do you keep on top of customer follow-ups?', category: 'process',
+        type: 'choice', scoring: { category: 'process' },
         options: [
-          { label: 'CRM system',            value: 'crm',         score: 10, sub: 'HubSpot, Pipedrive, Salesforce, etc.' },
-          { label: 'Spreadsheet or doc',    value: 'spreadsheet', score: 6 },
-          { label: 'Email chains',          value: 'email',       score: 3 },
-          { label: 'WhatsApp / phone only', value: 'informal',    score: 0 },
+          { label: 'A customer system (CRM)', value: 'crm',         score: 10, sub: 'For example HubSpot or Pipedrive' },
+          { label: 'A spreadsheet or document', value: 'spreadsheet', score: 6 },
+          { label: 'Email chains',            value: 'email',       score: 3 },
+          { label: 'WhatsApp or phone only',  value: 'informal',    score: 0 },
         ]
       },
       {
-        id:       'improvement',
-        text:     'What are you most trying to improve right now?',
-        category: 'Tech Adoption',
-        type:     'choice',
-        cols:     2,
-        scoring:  { category: 'tech', max: 5 },
+        id: 'improvement', text: 'What are you most trying to improve right now?', category: 'about',
+        type: 'choice', cols: 2, scoring: null,
         options: [
-          { label: 'Automate repetitive tasks',  value: 'automation',   score: 5 },
-          { label: 'Better reporting & insights', value: 'reporting',   score: 4 },
-          { label: 'Client experience',          value: 'client_exp',   score: 4 },
-          { label: 'Team efficiency',            value: 'team_eff',     score: 4 },
-          { label: 'Revenue growth',             value: 'revenue',      score: 3 },
-          { label: 'Cost reduction',             value: 'cost',         score: 3 },
+          { label: 'Cutting repetitive tasks', value: 'automation', score: 5 },
+          { label: 'Better reporting',         value: 'reporting',  score: 4 },
+          { label: 'Customer experience',      value: 'client_exp', score: 4 },
+          { label: 'Team efficiency',          value: 'team_eff',   score: 4 },
+          { label: 'Revenue growth',           value: 'revenue',    score: 3 },
+          { label: 'Reducing costs',           value: 'cost',       score: 3 },
         ]
       },
       {
-        id:       'fallThrough',
-        text:     'How often do important things fall through the cracks?',
-        category: 'Operations Efficiency',
-        type:     'choice',
-        cols:     1,
-        scoring:  { category: 'ops', max: 7 },
+        id: 'fallThrough', text: 'How often do important things fall through the cracks?', category: 'ops',
+        type: 'choice', scoring: { category: 'ops' },
         options: [
-          { label: 'Rarely — we have good systems',     value: 'rarely',    score: 7 },
-          { label: 'Sometimes — a few times a month',   value: 'sometimes', score: 4 },
-          { label: 'Often — a few times a week',        value: 'often',     score: 2 },
-          { label: "All the time — it's a real problem", value: 'always',   score: 0 },
+          { label: 'Rarely',       value: 'rarely',    score: 7, sub: 'We have good systems' },
+          { label: 'Sometimes',    value: 'sometimes', score: 4, sub: 'A few times a month' },
+          { label: 'Often',        value: 'often',     score: 2, sub: 'A few times a week' },
+          { label: 'All the time', value: 'always',    score: 0, sub: "It's a real problem" },
         ]
       },
       {
-        id:       'onboarding',
-        text:     'How long does it typically take to fully onboard a new client?',
-        category: 'Process Maturity',
-        type:     'choice',
-        cols:     1,
-        scoring:  { category: 'process', max: 5 },
+        id: 'onboarding', text: 'How long does it take to get a new customer fully set up?', category: 'process',
+        type: 'choice', scoring: { category: 'process' },
         options: [
-          { label: 'Less than a day',   value: 'fast',    score: 5 },
-          { label: '2–3 days',          value: 'days',    score: 4 },
-          { label: 'About a week',      value: 'week',    score: 2 },
-          { label: '2+ weeks',          value: 'slow',    score: 0 },
-          { label: 'No formal process', value: 'none',    score: 0 },
+          { label: 'Less than a day',   value: 'fast', score: 5 },
+          { label: '2 to 3 days',       value: 'days', score: 4 },
+          { label: 'About a week',      value: 'week', score: 2 },
+          { label: '2 weeks or more',   value: 'slow', score: 0 },
+          { label: 'No set process',    value: 'none', score: 0 },
         ]
       },
       {
-        id:       'techComfort',
-        text:     'How comfortable is your team with adopting new technology?',
-        hint:     '1 = very resistant, 10 = loves trying new tools',
-        category: 'Tech Adoption',
-        type:     'slider',
-        scoring:  { category: 'tech', max: 20 },
-        sliderMin: 1,
-        sliderMax: 10,
-        sliderStep: 1,
-        displayFn: v => {
-          if (v <= 2) return `${v} / 10 — Very resistant`;
-          if (v <= 4) return `${v} / 10 — Cautious`;
-          if (v <= 6) return `${v} / 10 — Willing`;
-          if (v <= 8) return `${v} / 10 — Comfortable`;
-          return `${v} / 10 — Loves it`;
-        },
+        id: 'techComfort', text: 'How comfortable is your team with trying new tools?', category: 'tech',
+        type: 'slider', scoring: { category: 'tech' },
+        sliderMin: 1, sliderMax: 10, sliderStep: 1,
+        displayFn: v => `${v} out of 10`,
+        subFn: v => v <= 2 ? 'Very resistant' : v <= 4 ? 'Cautious' : v <= 6 ? 'Willing' : v <= 8 ? 'Comfortable' : 'Loves new tools',
         scoreFn: v => Math.round(v * 2),
+        rangeLabels: ['Very resistant', 'Loves new tools'],
         default: 6,
       },
     ];
 
     /* ═══════════════════════════════════════════════════
-       STATE
+       STATE + SCREENS
     ═══════════════════════════════════════════════════ */
-    const state = {
-      currentQ: 0,
-      answers:  {},   // { questionId: { value, score } }
-      contact:  {},
-    };
+    const state = { currentQ: 0, answers: {}, contact: {} };
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let advanceTimer = null;
 
-    /* ═══════════════════════════════════════════════════
-       SCREEN NAVIGATION
-    ═══════════════════════════════════════════════════ */
     function showScreen(id) {
-      document.querySelectorAll('.q-screen').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.fs-screen').forEach(s => s.classList.remove('active'));
       document.getElementById(id).classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'instant' });
     }
 
-    function startQuiz() {
-      state.currentQ = 0;
-      showScreen('screen-quiz');
-      renderQuestion();
-    }
-
-    function showQuiz() {
-      state.currentQ = QUESTIONS.length - 1;
-      showScreen('screen-quiz');
-      renderQuestion();
-    }
+    function startQuiz() { state.currentQ = 0; showScreen('screen-quiz'); renderQuestion('next'); }
+    function showQuiz()  { state.currentQ = QUESTIONS.length - 1; showScreen('screen-quiz'); renderQuestion('prev'); }
+    function restart()   { state.answers = {}; state.currentQ = 0; showScreen('screen-intro'); }
 
     /* ═══════════════════════════════════════════════════
-       RENDER QUESTION
+       RENDER
     ═══════════════════════════════════════════════════ */
-    function renderQuestion() {
-      const q    = QUESTIONS[state.currentQ];
-      const pct  = ((state.currentQ + 1) / QUESTIONS.length) * 100;
-
-      document.getElementById('progressFill').style.width = pct + '%';
-      document.getElementById('qCounter').textContent =
-        `Question ${state.currentQ + 1} of ${QUESTIONS.length}`;
-      document.getElementById('qCategory').textContent = q.category;
+    function renderQuestion(direction) {
+      clearTimeout(advanceTimer);
+      const q = QUESTIONS[state.currentQ];
+      document.getElementById('progressFill').style.transform = `scaleX(${(state.currentQ + 1) / (QUESTIONS.length + 1)})`;
+      document.getElementById('qCounter').textContent = `Question ${state.currentQ + 1} of ${QUESTIONS.length}`;
+      document.getElementById('qCategory').textContent = CATEGORY_NAMES[q.category];
+      document.getElementById('nextHint').textContent = '';
+      document.getElementById('prevBtn').disabled = state.currentQ === 0;
+      document.getElementById('keysHint').style.visibility = q.type === 'choice' ? 'visible' : 'hidden';
 
       const body = document.getElementById('qBody');
-      body.style.animation = 'none';
-      requestAnimationFrame(() => {
-        body.style.animation = '';
-        body.innerHTML = buildQuestionHTML(q);
-        if (q.type === 'slider') initSlider(q);
-        else restoreChoice(q);
-      });
+      body.classList.remove('go-next', 'go-prev');
+      void body.offsetWidth; // restart the entrance animation
+      body.innerHTML = buildQuestionHTML(q);
+      body.classList.add(direction === 'prev' ? 'go-prev' : 'go-next');
 
-      document.getElementById('prevBtn').disabled = state.currentQ === 0;
-      updateNextHint(q);
+      if (q.type === 'slider') initSlider(q);
+      else restoreChoice(q);
     }
 
     function buildQuestionHTML(q) {
-      const hint = q.hint ? `<p class="q-hint">${q.hint}</p>` : '';
+      const hint = q.hint ? `<p class="fs-hint">${q.hint}</p>` : '';
       let inner = '';
-
       if (q.type === 'choice') {
-        const cols = q.cols === 2 ? 'cols-2' : '';
-        inner = `<div class="q-choices ${cols}">` +
-          q.options.map(o => `
-            <button class="q-choice" data-value="${o.value}" data-score="${o.score ?? 0}" onclick="selectChoice(this, '${q.id}')">
-              <div class="q-choice-check"></div>
-              <div class="q-choice-label">
-                ${o.label}
-                ${o.sub ? `<div class="q-choice-sub">${o.sub}</div>` : ''}
-              </div>
-            </button>`
-          ).join('') + `</div>`;
-      } else if (q.type === 'slider') {
-        inner = buildSliderHTML(q);
+        inner = `<div class="fs-choices ${q.cols === 2 ? 'cols-2' : ''}" role="radiogroup" aria-label="${q.text}">` +
+          q.options.map((o, i) => `
+            <button type="button" class="fs-choice" role="radio" aria-checked="false"
+              data-value="${o.value}" data-score="${o.score ?? 0}" onclick="selectChoice(this, '${q.id}')">
+              <span class="key" aria-hidden="true">${i < 9 ? i + 1 : ''}</span>
+              <span>${o.label}${o.sub ? `<small>${o.sub}</small>` : ''}</span>
+            </button>`).join('') + `</div>`;
+      } else {
+        const val = state.answers[q.id]?.rawValue ?? q.default;
+        const ends = q.rangeLabels || [q.labels[0], q.labels[q.labels.length - 1]];
+        inner = `
+          <div class="fs-slider">
+            <div class="fs-slider-val" id="sliderDisplay"></div>
+            <input class="fs-range" type="range" id="sliderInput" aria-label="${q.text}"
+              min="${q.sliderMin}" max="${q.sliderMax}" step="${q.sliderStep ?? 1}" value="${val}"
+              oninput="onSliderMove(this, '${q.id}')" />
+            <div class="fs-range-labels"><span>${ends[0]}</span><span>${ends[1]}</span></div>
+          </div>`;
       }
-
-      return `<p class="q-text">${q.text}</p>${hint}${inner}`;
-    }
-
-    function buildSliderHTML(q) {
-      const val = state.answers[q.id]?.rawValue ?? q.default;
-      return `
-        <div class="q-slider-wrap">
-          <div class="q-slider-display" id="sliderDisplay"></div>
-          <input class="q-range" type="range"
-            id="sliderInput"
-            min="${q.sliderMin}" max="${q.sliderMax}"
-            step="${q.sliderStep ?? 1}"
-            value="${val}"
-            oninput="onSliderMove(this, '${q.id}')" />
-          ${q.labels ? `<div class="q-slider-labels">
-            <span>${q.labels[0]}</span>
-            <span>${q.labels[q.labels.length - 1]}</span>
-          </div>` : ''}
-        </div>`;
+      return `<h2 class="fs-q">${q.text}</h2>${hint}${inner}`;
     }
 
     function initSlider(q) {
       const input = document.getElementById('sliderInput');
-      if (input) {
-        onSliderMove(input, q.id);
-        updateSliderTrack(input);
-      }
+      if (input) onSliderMove(input, q.id);
     }
 
     function onSliderMove(input, qId) {
-      const q   = QUESTIONS.find(x => x.id === qId);
-      const val = parseInt(input.value);
-      let display, score;
-
+      const q = QUESTIONS.find(x => x.id === qId);
+      const val = parseInt(input.value, 10);
+      let display, sub = '', score;
       if (q.displayFn) {
         display = q.displayFn(val);
-        score   = q.scoreFn(val);
+        sub = q.subFn ? q.subFn(val) : '';
+        score = q.scoreFn(val);
       } else {
         const idx = Math.round((val - q.sliderMin) / (q.sliderMax - q.sliderMin) * (q.labels.length - 1));
-        display   = q.labels[idx];
-        score     = q.scores[idx];
+        display = q.labels[idx];
+        score = q.scores[idx];
       }
-
-      document.getElementById('sliderDisplay').textContent = display;
-      updateSliderTrack(input);
-
-      state.answers[qId] = { value: display, rawValue: val, score: score ?? 0 };
-    }
-
-    function updateSliderTrack(input) {
+      document.getElementById('sliderDisplay').innerHTML = display + (sub ? `<small>${sub}</small>` : '');
+      input.setAttribute('aria-valuetext', display + (sub ? `, ${sub}` : ''));
       const pct = (input.value - input.min) / (input.max - input.min) * 100;
-      input.style.background = `linear-gradient(to right, var(--accent) ${pct}%, var(--rule) ${pct}%)`;
+      input.style.background = `linear-gradient(to right, var(--blue) ${pct}%, var(--line-strong) ${pct}%)`;
+      state.answers[qId] = { value: display, rawValue: val, score: score ?? 0 };
     }
 
     function restoreChoice(q) {
       const saved = state.answers[q.id];
-      if (saved) {
-        document.querySelectorAll('.q-choice').forEach(btn => {
-          if (btn.dataset.value === saved.value) btn.classList.add('selected');
-        });
-      }
+      if (!saved) return;
+      document.querySelectorAll('.fs-choice').forEach(btn => {
+        const on = btn.dataset.value === saved.value;
+        btn.classList.toggle('selected', on);
+        btn.setAttribute('aria-checked', on);
+      });
     }
 
     function selectChoice(btn, qId) {
-      document.querySelectorAll('.q-choice').forEach(b => b.classList.remove('selected'));
+      document.querySelectorAll('.fs-choice').forEach(b => { b.classList.remove('selected'); b.setAttribute('aria-checked', 'false'); });
       btn.classList.add('selected');
-      state.answers[qId] = {
-        value: btn.dataset.value,
-        score: parseFloat(btn.dataset.score) || 0,
-      };
-      updateNextHint(QUESTIONS[state.currentQ]);
-
-      // Auto-advance after brief pause
-      setTimeout(() => nextQuestion(), 260);
-    }
-
-    function updateNextHint(q) {
-      const hint = document.getElementById('nextHint');
-      if (!hint) return;
-      if (q.type === 'slider') {
-        hint.textContent = '';
-      } else {
-        hint.textContent = state.answers[q.id] ? '' : 'Select an option to continue';
-      }
+      btn.setAttribute('aria-checked', 'true');
+      state.answers[qId] = { value: btn.dataset.value, score: parseFloat(btn.dataset.score) || 0 };
+      document.getElementById('nextHint').textContent = '';
+      // Brief pause so the selection registers, then move on
+      clearTimeout(advanceTimer);
+      advanceTimer = setTimeout(nextQuestion, 340);
     }
 
     /* ═══════════════════════════════════════════════════
        NAVIGATION
     ═══════════════════════════════════════════════════ */
     function nextQuestion() {
+      clearTimeout(advanceTimer);
       const q = QUESTIONS[state.currentQ];
-
-      // Ensure slider answer is captured
-      if (q.type === 'slider' && !state.answers[q.id]) {
-        const input = document.getElementById('sliderInput');
-        if (input) onSliderMove(input, q.id);
-      }
-
+      if (q.type === 'slider' && !state.answers[q.id]) initSlider(q);
       if (q.type === 'choice' && !state.answers[q.id]) {
-        document.getElementById('nextHint').textContent = '← Please select an option first';
+        document.getElementById('nextHint').textContent = 'Choose an option to continue.';
         return;
       }
-
       if (state.currentQ < QUESTIONS.length - 1) {
         state.currentQ++;
-        renderQuestion();
+        renderQuestion('next');
       } else {
         showScreen('screen-contact');
+        const cb = document.getElementById('contactBody');
+        cb.classList.remove('go-next'); void cb.offsetWidth; cb.classList.add('go-next');
+        setTimeout(() => document.getElementById('contactName').focus({ preventScroll: true }), 300);
       }
     }
 
     function prevQuestion() {
-      if (state.currentQ > 0) {
-        state.currentQ--;
-        renderQuestion();
-      }
+      if (state.currentQ > 0) { state.currentQ--; renderQuestion('prev'); }
     }
+
+    // Keyboard: number keys choose, Enter continues
+    document.addEventListener('keydown', e => {
+      if (!document.getElementById('screen-quiz').classList.contains('active')) return;
+      if (e.target.tagName === 'INPUT' && e.target.type !== 'range') return;
+      const n = parseInt(e.key, 10);
+      if (n >= 1 && n <= 9) {
+        const btn = document.querySelectorAll('.fs-choice')[n - 1];
+        if (btn) { btn.click(); e.preventDefault(); }
+      } else if (e.key === 'Enter') {
+        nextQuestion(); e.preventDefault();
+      }
+    });
 
     /* ═══════════════════════════════════════════════════
        CONTACT + SUBMIT
     ═══════════════════════════════════════════════════ */
     function submitAndShowResults() {
-      const name    = document.getElementById('contactName').value.trim();
-      const email   = document.getElementById('contactEmail').value.trim();
+      const nameEl = document.getElementById('contactName');
+      const emailEl = document.getElementById('contactEmail');
+      const name = nameEl.value.trim();
+      const email = emailEl.value.trim();
       const company = document.getElementById('contactCompany').value.trim();
 
       let valid = true;
-      document.getElementById('errName').textContent  = '';
+      const fail = (el, errId, msg) => { el.classList.add('invalid'); document.getElementById(errId).textContent = msg; if (valid) el.focus(); valid = false; };
+      [nameEl, emailEl].forEach(el => el.classList.remove('invalid'));
+      document.getElementById('errName').textContent = '';
       document.getElementById('errEmail').textContent = '';
-
-      if (!name) {
-        document.getElementById('errName').textContent = 'Please enter your name.';
-        valid = false;
-      }
-      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        document.getElementById('errEmail').textContent = 'Please enter a valid email address.';
-        valid = false;
-      }
+      if (!name) fail(nameEl, 'errName', 'Please enter your name.');
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) fail(emailEl, 'errEmail', 'Please enter a valid email address.');
       if (!valid) return;
 
       state.contact = { name, email, company };
-
       const scores = calculateScores();
-      buildResults(scores, name);
       showScreen('screen-results');
+      buildResults(scores, name);
+      sendSubmission(buildSubmission(scores)).catch(() => {});
+    }
 
-      // Fire and forget — don't block results on network
-      saveToSupabase(scores, { name, email, company }).catch(() => {});
+    function buildSubmission(scores) {
+      const a = id => state.answers[id];
+      return {
+        name: state.contact.name, email: state.contact.email, company: state.contact.company || null,
+        score: scores.total,
+        industry: a('industry')?.value || null, team_size: a('teamSize')?.value || null,
+        revenue: a('revenue')?.value || null, stage: a('stage')?.value || null,
+        headache: a('headache')?.value || null, admin_hours: a('adminHours')?.rawValue ?? null,
+        project_mgmt: a('projectMgmt')?.value || null, client_comms: a('clientComms')?.value || null,
+        improvement: a('improvement')?.value || null, fall_through: a('fallThrough')?.value || null,
+        onboarding: a('onboarding')?.value || null, tech_comfort: a('techComfort')?.rawValue ?? null,
+        hourly_cost: a('hourlyCost')?.rawValue ?? null, admin_cost_year: adminCost().yearly,
+        ops_score: scores.ops, process_score: scores.process, tech_score: scores.tech,
+        source: 'flow-score',
+      };
     }
 
     /* ═══════════════════════════════════════════════════
        SCORING
+       Only how the business runs is scored. The total is the share of
+       available points earned, out of 100.
     ═══════════════════════════════════════════════════ */
     function calculateScores() {
-      const cats = { ops: 0, process: 0, tech: 0, auto: 0 };
-
+      const cats = { ops: 0, process: 0, tech: 0 };
       QUESTIONS.forEach(q => {
         const ans = state.answers[q.id];
-        if (!q.scoring || !ans) return;
-        cats[q.scoring.category] += ans.score || 0;
+        if (q.scoring && ans) cats[q.scoring.category] += ans.score || 0;
       });
+      Object.keys(cats).forEach(k => { cats[k] = Math.min(cats[k], AREAS[k]); });
+      const earned = Object.values(cats).reduce((x, y) => x + y, 0);
+      const available = Object.values(AREAS).reduce((x, y) => x + y, 0);
+      return { ...cats, total: Math.round(earned / available * 100) };
+    }
 
-      // Clamp to category maxes
-      const maxes = { ops: 25, process: 25, tech: 25, auto: 25 };
-      Object.keys(cats).forEach(k => {
-        cats[k] = Math.min(cats[k], maxes[k]);
-      });
+    /* What admin costs a year: hours a week x hourly cost x 48 working weeks */
+    const WORKING_WEEKS = 48;
+    function adminCost() {
+      const hours = state.answers['adminHours']?.rawValue ?? 0;
+      const rate = state.answers['hourlyCost']?.rawValue ?? 20;
+      const yearly = Math.round(hours * rate * WORKING_WEEKS / 100) * 100;
+      const yearHours = hours * WORKING_WEEKS;
+      const threeYears = yearly * 3; // matches the yearly figure shown
+      return { hours, rate, yearly, yearHours, threeYears };
+    }
 
-      const total = Object.values(cats).reduce((a, b) => a + b, 0);
-      return { ...cats, total };
+    /* Express a number of hours as full-time working time (37.5 hr week, 7.5 hr day) */
+    const FULL_TIME_WEEK = 37.5;
+    function asWorkingTime(hours) {
+      const weeks = hours / FULL_TIME_WEEK;
+      if (weeks >= WORKING_WEEKS) return "more than a full year of one person's full-time work";
+      if (weeks >= 1.5) return `about ${Math.round(weeks)} weeks of one person's full-time work`;
+      const days = Math.round(hours / 7.5);
+      return `about ${days} working day${days === 1 ? '' : 's'} of one person's time`;
+    }
+    const gbp = n => '£' + n.toLocaleString('en-GB');
+
+    function tierFor(pct) {
+      return pct <= 40 ? 'critical' : pct <= 65 ? 'developing' : pct <= 80 ? 'efficient' : 'optimised';
     }
 
     /* ═══════════════════════════════════════════════════
-       BUILD RESULTS
+       RESULTS
     ═══════════════════════════════════════════════════ */
+    const VERDICTS = {
+      critical:   { label: 'Needs attention', text: "Your business is running on a lot of manual effort and workarounds. You're likely losing many hours every week, and it's holding your growth back. The good news: there are plenty of quick wins." },
+      developing: { label: 'Room to grow',    text: "You have solid foundations, but there are clear gaps that are costing you time and consistency. A few targeted changes could give your team hours back, without starting from scratch." },
+      efficient:  { label: 'Ahead of the pack', text: "You're running more smoothly than most businesses at your stage. A few well-chosen improvements would take you from well-run to really well organised, and make growth easier." },
+      optimised:  { label: 'Running smoothly', text: "Your business is in great shape. The opportunity now is to build on it, joining up your tools more closely and freeing your team from what's left of the admin." },
+    };
+
+    const ICONS = {
+      cog:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h11l-3-3M20 17H9l3 3"/></svg>',
+      folder:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3.5 7.5a2 2 0 0 1 2-2h4l2 2h7a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/></svg>',
+      link:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>',
+      steps: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 19l5-5 4 3 8-9"/><path d="M15 8h5v5"/></svg>',
+      chart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 19V11M12 19V5M19 19v-6"/></svg>',
+    };
+
     function buildResults(scores, name) {
-      const { ops, process, tech, auto, total } = scores;
+      const tier = tierFor(scores.total);
+      const firstName = (name || '').split(' ')[0];
+      document.getElementById('resultsHeadline').textContent = firstName ? `${firstName}, here's your Flow Score` : 'Your Flow Score';
 
-      // Score tier
-      let tier, label, verdictText;
-      if (total <= 40) {
-        tier = 'critical';
-        label = 'Needs Immediate Attention';
-        verdictText = `Your business is running on manual effort and duct-tape processes. You're losing significant hours every week — and it's likely holding your growth back. The good news: there's a lot of low-hanging fruit.`;
-      } else if (total <= 65) {
-        tier = 'developing';
-        label = 'Room to Grow';
-        verdictText = `You have solid foundations, but there are clear gaps in your systems that are costing you time and consistency. Targeted automation could give you your team back — without rebuilding from scratch.`;
-      } else if (total <= 80) {
-        tier = 'efficient';
-        label = 'Ahead of the Pack';
-        verdictText = `You're operating more efficiently than most businesses at your stage. A few strategic improvements would push you from "well-run" to "fully systematised" — and unlock real scale.`;
-      } else {
-        tier = 'optimized';
-        label = 'Highly Optimised';
-        verdictText = `Your systems are in great shape. The opportunity now is to double down — connecting your tools more deeply and building towards a fully automated operation.`;
-      }
-
-      // Apply tier class to ring wrapper
       const ring = document.getElementById('scoreRing');
-      ring.className = `q-score-ring score-${tier}`;
+      ring.className = `fs-ring rise tone-${tier}`;
+      document.getElementById('scoreVerdict').className = `fs-verdict rise tone-${tier}`;
+      document.getElementById('verdictBadge').textContent = VERDICTS[tier].label;
+      document.getElementById('verdictText').textContent = VERDICTS[tier].text;
 
-      // Animated counter
-      animateCounter(document.getElementById('scoreNumber'), 0, total, 1200);
+      buildCost();
 
-      // Ring fill (circumference ≈ 528)
-      const fill    = document.getElementById('ringFill');
-      const offset  = 528 - (528 * total / 100);
-      setTimeout(() => { fill.style.strokeDashoffset = offset; }, 100);
-
-      // Verdict
-      document.getElementById('verdictBadge').textContent = label;
-      document.getElementById('verdictBadge').parentElement.className = `q-score-verdict score-${tier}`;
-      document.getElementById('verdictText').textContent  = verdictText;
-
-      // Category cards
-      const catDefs = [
-        { key: 'ops',     label: 'Operations Efficiency', max: 25 },
-        { key: 'process', label: 'Process Maturity',      max: 25 },
-        { key: 'tech',    label: 'Tech Adoption',         max: 25 },
-        { key: 'auto',    label: 'Automation Readiness',  max: 25 },
-      ];
-      const grid = document.getElementById('categoriesGrid');
-      grid.innerHTML = catDefs.map(({ key, label, max }) => {
-        const val     = scores[key];
-        const pct     = Math.round(val / max * 100);
-        const catTier = pct <= 40 ? 'critical' : pct <= 65 ? 'developing' : pct <= 80 ? 'efficient' : 'optimized';
+      document.getElementById('categoriesGrid').innerHTML = Object.keys(AREAS).map((key, i) => {
+        const val = scores[key];
+        const max = AREAS[key];
+        const pct = Math.round(val / max * 100);
         return `
-          <div class="q-cat-card">
-            <div class="q-cat-title">${label}</div>
-            <div class="q-cat-score-row">
-              <div class="q-cat-score">${val}<span style="font-size:1rem;color:var(--muted)">/${max}</span></div>
-              <div class="q-cat-max">${pct}%</div>
+          <div class="fs-cat rise tone-${tierFor(pct)}" style="transition-delay:${.3 + i * .06}s">
+            <div class="fs-cat-name">${CATEGORY_NAMES[key]}</div>
+            <div class="fs-cat-row">
+              <div class="fs-cat-score">${val}<small> / ${max}</small></div>
+              <div class="fs-cat-pct">${pct}%</div>
             </div>
-            <div class="q-cat-bar-track">
-              <div class="q-cat-bar-fill ${catTier}" style="width:0%" data-width="${pct}%"></div>
-            </div>
+            <div class="fs-bar"><i data-pct="${pct / 100}"></i></div>
           </div>`;
       }).join('');
 
-      // Animate bars after paint
-      setTimeout(() => {
-        document.querySelectorAll('.q-cat-bar-fill').forEach(bar => {
-          bar.style.width = bar.dataset.width;
-        });
-      }, 200);
+      buildRecommendations(scores);
+      buildBookingLink(scores);
+      buildPrintMeta();
 
-      // Recommendations
-      buildRecommendations(scores, tier);
+      // Play the reveal: sections rise in, ring and bars fill, number counts up
+      const results = document.getElementById('screen-results');
+      results.classList.remove('show');
+      document.getElementById('ringFill').style.strokeDashoffset = 528;
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        results.classList.add('show');
+        document.getElementById('ringFill').style.strokeDashoffset = 528 - (528 * scores.total / 100);
+        document.querySelectorAll('.fs-bar i').forEach(bar => { bar.style.transform = `scaleX(${bar.dataset.pct})`; });
+        countTo(document.getElementById('scoreNumber'), scores.total, reduceMotion ? 0 : 1400);
+      }));
     }
 
-    function buildRecommendations(scores, tier) {
+    function buildRecommendations(scores) {
       const recs = [];
-
-      if (scores.ops < 18) {
-        const adminAns = state.answers['adminHours'];
-        const hrs      = adminAns?.rawValue ?? 10;
-        recs.push({
-          icon:  '⚙️',
-          title: 'Automate your manual workflows',
-          body:  `Your team is spending around ${hrs}+ hours a week on tasks that should run themselves. Identifying just 3–4 recurring processes and automating them could reclaim days of capacity every month.`,
-        });
+      const share = k => scores[k] / AREAS[k];
+      if (share('ops') < .72) {
+        const hrs = state.answers['adminHours']?.rawValue ?? 10;
+        const solo = state.answers['teamSize']?.value === 'solo';
+        recs.push({ icon: 'cog', title: 'Cut down the manual admin',
+          body: `${solo ? "You're" : 'Your team is'} spending around ${hrs} hours a week on admin, much of which could run itself. Tackling just 3 or 4 repeated jobs could free up days every month.` });
       }
-
-      if (scores.process < 18) {
+      if (share('process') < .72) {
         const pm = state.answers['projectMgmt']?.value;
-        recs.push({
-          icon:  '📋',
-          title: 'Centralise your project and client data',
-          body:  pm === 'heads' || pm === 'email'
-            ? `Right now, too much critical information lives in email threads and people's heads. A single source of truth for projects and clients would reduce errors, speed up handovers, and give you real visibility.`
-            : `Your project management setup has gaps. Connecting your tools and standardising how work moves through your business is the fastest path to consistent delivery.`,
-        });
+        recs.push({ icon: 'folder', title: 'Keep jobs and customer details in one place',
+          body: pm === 'heads' || pm === 'email'
+            ? "Right now, too much important information lives in email threads and people's heads. Keeping it in one place would cut mistakes, speed up handovers and show you what's really going on."
+            : 'There are gaps in how you keep track of work. Joining up your tools and agreeing one way of doing things is the quickest route to consistent results.' });
       }
-
-      if (scores.tech < 18) {
-        recs.push({
-          icon:  '🔗',
-          title: 'Connect your tools — stop re-entering data',
-          body:  `Most businesses use 6–10 separate tools that don't talk to each other. Custom integrations between the systems you already use can eliminate hours of copy-pasting and drastically reduce human error.`,
-        });
+      if (share('tech') < .72) {
+        recs.push({ icon: 'link', title: 'Connect your tools and stop retyping',
+          body: "Most businesses use 6 to 10 separate tools that don't talk to each other. Linking the ones you already use can save hours of copying and pasting and cut down on mistakes." });
       }
-
-      if (scores.auto < 18) {
-        const stage = state.answers['stage']?.value;
-        recs.push({
-          icon:  '🚀',
-          title: 'Systematise now — before you scale',
-          body:  stage === 'growing' || stage === 'scaling'
-            ? `You're in a growth phase — the perfect moment to build proper systems. Every process you document and automate now will multiply in value as your team and client base grows.`
-            : `Building the right infrastructure now means your business can grow without proportionally growing your headcount or your chaos.`,
-        });
+      const stage = state.answers['stage']?.value;
+      if (share('process') < .8 && ['growing', 'scaling', 'struggling'].includes(stage)) {
+        recs.push({ icon: 'steps', title: 'Get your processes right before you grow',
+          body: stage === 'struggling'
+            ? "When things are tough, simpler processes take pressure off quickly. Fixing the one or two jobs that cause the most rework is usually the fastest relief."
+            : "You're growing, which makes now the perfect time to get your processes in order. Everything you simplify now pays off more as your team and customer base grow." });
       }
-
-      // Always add a data/visibility rec if score is high
       if (recs.length < 2 || scores.total >= 66) {
-        recs.push({
-          icon:  '📊',
-          title: 'Build a real-time operations dashboard',
-          body:  `Even well-run businesses are flying blind without consolidated reporting. A custom dashboard pulling from your key tools gives you instant visibility across revenue, delivery, and team capacity.`,
-        });
+        recs.push({ icon: 'chart', title: 'See your whole business at a glance',
+          body: 'Even well-run businesses struggle without clear reporting. One simple view of jobs, revenue and team capacity helps you spot problems early and make better decisions.' });
       }
-
-      const list = document.getElementById('recsList');
-      list.innerHTML = recs.slice(0, 4).map(r => `
-        <div class="q-rec">
-          <div class="q-rec-icon">${r.icon}</div>
-          <div>
-            <div class="q-rec-title">${r.title}</div>
-            <div class="q-rec-body">${r.body}</div>
-          </div>
+      document.getElementById('recsList').innerHTML = recs.slice(0, 4).map((r, i) => `
+        <div class="fs-rec rise" style="transition-delay:${.5 + i * .06}s">
+          <div class="fs-rec-icon" aria-hidden="true">${ICONS[r.icon]}</div>
+          <div><h3>${r.title}</h3><p>${r.body}</p></div>
         </div>`).join('');
     }
 
-    function animateCounter(el, from, to, duration) {
+    function buildCost() {
+      const c = adminCost();
+      const box = document.getElementById('costBox');
+      if (!c.hours) { box.hidden = true; return; }
+      box.hidden = false;
+      document.getElementById('costYearly').textContent = gbp(c.yearly);
+      document.getElementById('costMaths').textContent =
+        `${c.hours} hour${c.hours === 1 ? '' : 's'} a week × ${gbp(c.rate)} an hour × ${WORKING_WEEKS} working weeks`;
+      document.getElementById('costHours').textContent = `${c.yearHours.toLocaleString('en-GB')} hours`;
+      document.getElementById('costHoursNote').textContent = `a year, ${asWorkingTime(c.yearHours)}`;
+      document.getElementById('costThree').textContent = gbp(c.threeYears);
+    }
+
+    /* Pre-fill the Cal.com booking with their details and a short summary */
+    const HEADACHE_LABELS = {
+      manual: 'Typing in the same information', visibility: "Can't see what's happening",
+      comms: 'Customer communication gaps', onboarding: 'Slow start with new customers',
+      integration: "Tools don't talk to each other", fine: 'None in particular',
+    };
+    function buildBookingLink(scores) {
+      const c = adminCost();
+      const notes = [
+        `Flow Score: ${scores.total}/100`,
+        `Biggest headache: ${HEADACHE_LABELS[state.answers['headache']?.value] || 'Not given'}`,
+        c.hours ? `Admin: ${c.hours} hrs a week (about ${gbp(c.yearly)} a year)` : null,
+        state.contact.company ? `Company: ${state.contact.company}` : null,
+      ].filter(Boolean).join('\n');
+      const url = new URL('https://cal.com/flovoai/30min');
+      url.searchParams.set('name', state.contact.name || '');
+      url.searchParams.set('email', state.contact.email || '');
+      url.searchParams.set('notes', notes);
+      document.getElementById('bookLink').href = url.toString();
+    }
+
+    function buildPrintMeta() {
+      const who = [state.contact.name, state.contact.company].filter(Boolean).join(', ');
+      const date = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+      const esc = t => t.replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
+      document.getElementById('printMeta').innerHTML =
+        `<span>Flow Score report${who ? ` for <strong>${esc(who)}</strong>` : ''}</span><span>${date}</span>`;
+    }
+
+    function countTo(el, to, duration) {
+      if (!duration) { el.textContent = to; return; }
       const start = performance.now();
-      function tick(now) {
-        const t   = Math.min((now - start) / duration, 1);
-        const val = Math.round(from + (to - from) * easeOut(t));
-        el.textContent = val;
+      (function tick(now) {
+        const t = Math.min((now - start) / duration, 1);
+        el.textContent = Math.round(to * (1 - Math.pow(1 - t, 3)));
         if (t < 1) requestAnimationFrame(tick);
-      }
-      requestAnimationFrame(tick);
+      })(start);
     }
 
-    function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+    if (!PREVIEW_MODE) document.getElementById('previewNote').hidden = true;
 
-    /* ═══════════════════════════════════════════════════
-       SUPABASE SUBMISSION
-    ═══════════════════════════════════════════════════ */
-    async function saveToSupabase(scores, contact) {
-      if (!_supabase) return;
-
-      const row = {
-        name:          contact.name,
-        email:         contact.email,
-        company:       contact.company || null,
-        score:         scores.total,
-        industry:      state.answers['industry']?.value    || null,
-        team_size:     state.answers['teamSize']?.value    || null,
-        revenue:       state.answers['revenue']?.value     || null,
-        stage:         state.answers['stage']?.value       || null,
-        headache:      state.answers['headache']?.value    || null,
-        admin_hours:   state.answers['adminHours']?.rawValue ?? null,
-        project_mgmt:  state.answers['projectMgmt']?.value || null,
-        client_comms:  state.answers['clientComms']?.value || null,
-        improvement:   state.answers['improvement']?.value || null,
-        fall_through:  state.answers['fallThrough']?.value || null,
-        onboarding:    state.answers['onboarding']?.value  || null,
-        tech_comfort:  state.answers['techComfort']?.rawValue ?? null,
-        ops_score:     scores.ops,
-        process_score: scores.process,
-        tech_score:    scores.tech,
-        auto_score:    scores.auto,
-        source:        'audit',
-      };
-
-      const { error } = await _supabase.from(LEADS_TABLE).insert(row);
-      if (error) console.warn('Supabase insert failed:', error.message);
-    }
-
-    /* ═══════════════════════════════════════════════════
-       NAV SCROLL BORDER (reuse from main site)
-    ═══════════════════════════════════════════════════ */
+    // Frosted nav edge once the page scrolls
     const navEl = document.getElementById('nav');
-    window.addEventListener('scroll', () => {
-      navEl.style.borderBottomColor = window.scrollY > 10 ? 'var(--rule)' : 'transparent';
-    }, { passive: true });
+    const onScroll = () => navEl.classList.toggle('scrolled', window.scrollY > 8);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
   </script>
-
 </body>
 </html>

@@ -27,7 +27,8 @@ document.addEventListener('DOMContentLoaded', function () {
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var revealSelectors = [
     '.sec-head > *', '.case-left > *', '.approach > div:first-child > *', '.contact > *',
-    '.card', '.stat', '.step', '.mock', '.compare-col', '.diagram'
+    '.card', '.stat', '.step', '.mock', '.compare-col', '.diagram',
+    '.flow-copy > *', '.flow-visual'
   ];
   var STAGGER = reduceMotion ? 0 : 80;
 
@@ -76,7 +77,9 @@ document.addEventListener('DOMContentLoaded', function () {
   function updateActive() {
     var y = window.scrollY + window.innerHeight * 0.35;
     var current = -1;
-    sections.forEach(function (sec, i) { if (sec && sec.offsetTop <= y) current = i; });
+    sections.forEach(function (sec, i) {
+      if (sec && sec.offsetTop <= y && y < sec.offsetTop + sec.offsetHeight) current = i;
+    });
     navLinks.forEach(function (a, i) {
       var on = i === current;
       a.classList.toggle('active', on);
