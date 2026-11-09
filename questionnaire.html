@@ -188,8 +188,48 @@
     .fs-cta .hero-cta { margin-top: 2rem; }
     .btn-light { background: rgba(255,255,255,.1); color: #fff; border: 1.5px solid rgba(255,255,255,.2) !important; }
     .btn-light:hover { background: rgba(255,255,255,.16); }
-    .fs-retake { display: block; text-align: center; margin-top: 1.5rem; font-size: .9375rem; color: var(--text-soft); background: none; border: 0; cursor: pointer; font-family: inherit; width: 100%; }
-    .fs-retake:hover { color: var(--navy); }
+    .fs-get-gbp { font-weight: 700; font-size: 1.0625rem; }
+
+    /* Quick win */
+    .fs-win { display: flex; gap: 1.125rem; margin-top: 1rem; padding: 1.5rem; border-radius: var(--r-lg); background: var(--blue-soft); box-shadow: inset 0 0 0 1px rgba(59,110,224,.18); }
+    .fs-win-icon { flex: none; width: 2.75rem; height: 2.75rem; border-radius: .875rem; background: var(--blue); color: #fff; display: grid; place-items: center; }
+    .fs-win-icon svg { width: 1.375rem; height: 1.375rem; }
+    .fs-win-label { font-size: .75rem; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; color: var(--blue); margin-bottom: .375rem; }
+    .fs-win h3 { font-size: 1.125rem; margin-bottom: .25rem; }
+    .fs-win p { color: var(--text); font-size: .9375rem; line-height: 1.55; }
+
+    /* After the call to action */
+    .fs-cta-note { text-align: center; font-size: .8125rem; color: var(--text-soft); margin-top: 1rem; }
+    .fs-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: .5rem; margin-top: 1.25rem; }
+    .fs-action {
+      display: inline-flex; align-items: center; gap: .5rem; padding: .625rem 1rem; border-radius: 99px;
+      font: inherit; font-size: .9375rem; font-weight: 500; color: var(--navy); background: #fff; border: 1.5px solid var(--line); cursor: pointer;
+      transition: border-color .2s var(--ease-out), transform .12s var(--ease-out);
+    }
+    .fs-action:hover { border-color: var(--line-strong); }
+    .fs-action:active { transform: scale(.97); transition-duration: 0s; }
+    .fs-action svg { width: 1.125rem; height: 1.125rem; color: var(--blue); }
+    .fs-print-meta, .fs-print-foot { display: none; }
+
+    /* Save as PDF / print: a clean one-document report */
+    @media print {
+      @page { margin: 14mm; }
+      html, body { background: #fff !important; font-size: 10.5pt; }
+      * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .nav, .fs-cta, .fs-cta-note, .fs-actions, .fs-screen:not(#screen-results) { display: none !important; }
+      .fs-results { padding: 0; background: none; }
+      .fs-results .rise { opacity: 1 !important; transform: none !important; transition: none !important; }
+      .fs-print-meta { display: flex; justify-content: space-between; gap: 1rem; font-size: 9pt; color: var(--text-soft); padding-bottom: .75rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--line); }
+      .fs-print-meta strong { color: var(--navy); }
+      .fs-print-foot { display: block; text-align: center; font-size: 8.5pt; color: var(--text-soft); margin-top: 2rem; padding-top: .75rem; border-top: 1px solid var(--line); }
+      .fs-ring { width: 10rem; height: 10rem; margin-top: 1.25rem; }
+      .fs-ring .fill, .fs-bar i { transition: none !important; }
+      .fs-cost, .fs-win, .fs-cat, .fs-rec { break-inside: avoid; box-shadow: none; }
+      .fs-cat { border: 1px solid var(--line); }
+      .fs-cats { grid-template-columns: repeat(3, 1fr) !important; }
+      .fs-cost { margin-top: 1.5rem; }
+      .fs-recs-title { margin-top: 1.75rem; }
+    }
 
     /* Results arrive in sequence */
     .fs-results .rise { opacity: 0; transform: translateY(1rem); }
@@ -248,7 +288,7 @@
       <div class="wrap">
         <div class="fs-get">
           <div><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 8.5 8.5"/></svg></i><strong>Your score out of 100</strong><span>A clear picture of how smoothly your business runs today.</span></div>
-          <div><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 19V11M12 19V5M19 19v-6"/></svg></i><strong>What admin is costing you</strong><span>See what the time spent on admin adds up to each year.</span></div>
+          <div><i class="fs-get-gbp" aria-hidden="true">£</i><strong>What admin is costing you</strong><span>See what the time spent on admin adds up to each year.</span></div>
           <div><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i><strong>What to fix first</strong><span>Practical next steps based on your answers.</span></div>
         </div>
       </div>
@@ -312,6 +352,7 @@
     <!-- RESULTS -->
     <section id="screen-results" class="fs-screen fs-results">
       <div class="fs-col">
+        <div class="fs-print-meta" id="printMeta"></div>
         <div class="fs-results-head rise">
           <p class="eyebrow">Your results</p>
           <h1 id="resultsHeadline">Your Flow Score</h1>
@@ -341,6 +382,15 @@
           <p class="fs-cost-saving" id="costSaving"></p>
         </div>
 
+        <div class="fs-win rise" id="quickWin" style="transition-delay:.3s">
+          <div class="fs-win-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3 5 13.5h6L10 21l8-10.5h-6z"/></svg></div>
+          <div>
+            <div class="fs-win-label">Your quick win this week</div>
+            <h3 id="quickWinTitle"></h3>
+            <p id="quickWinBody"></p>
+          </div>
+        </div>
+
         <div class="fs-cats" id="categoriesGrid"></div>
 
         <h2 class="fs-recs-title rise" style="transition-delay:.45s">Your top recommendations</h2>
@@ -350,11 +400,22 @@
           <h2>Ready to improve your Flow Score?</h2>
           <p>Book a free 30-minute call. We'll walk through your results and show you the quickest wins for your business.</p>
           <div class="hero-cta">
-            <a class="btn btn-primary" href="https://cal.com/flovoai/30min" target="_blank" rel="noopener">Book a 30-min call <span class="btn-arrow" aria-hidden="true">→</span></a>
+            <a class="btn btn-primary" id="bookLink" href="https://cal.com/flovoai/30min" target="_blank" rel="noopener">Book a 30-min call <span class="btn-arrow" aria-hidden="true">→</span></a>
             <a class="btn btn-light" href="/">Back to home</a>
           </div>
         </div>
-        <button class="fs-retake" type="button" onclick="restart()">Start again</button>
+        <p class="fs-cta-note">Your results are added to the booking form, so we can come prepared.</p>
+        <div class="fs-actions">
+          <button class="fs-action" type="button" onclick="window.print()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/></svg>
+            Save or print my results
+          </button>
+          <button class="fs-action" type="button" onclick="restart()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3M4.5 4.5v3.7h3.7"/></svg>
+            Start again
+          </button>
+        </div>
+        <p class="fs-print-foot">FlovoAI · Operations consultancy for growing businesses · flovoai.com · Book a call: cal.com/flovoai/30min</p>
       </div>
     </section>
 
@@ -461,7 +522,7 @@
         default: 10,
       },
       {
-        id: 'hourlyCost', text: 'Roughly what does an hour of your team’s time cost you?',
+        id: 'hourlyCost', text: "Roughly what does an hour of your team's time cost you?",
         hint: 'A rough average is fine. Include wages plus extras like National Insurance and pension.', category: 'ops',
         type: 'slider', scoring: null,
         sliderMin: 10, sliderMax: 60, sliderStep: 1,
@@ -808,6 +869,9 @@
       }).join('');
 
       buildRecommendations(scores);
+      buildQuickWin(scores);
+      buildBookingLink(scores);
+      buildPrintMeta();
 
       // Play the reveal: sections rise in, ring and bars fill, number counts up
       const results = document.getElementById('screen-results');
@@ -870,6 +934,58 @@
         `${c.hours} hour${c.hours === 1 ? '' : 's'} a week × ${gbp(c.rate)} an hour × ${WORKING_WEEKS} working weeks`;
       document.getElementById('costSaving').innerHTML =
         `Cutting ${solo ? 'your' : "your team's"} admin by just a quarter would free up around <strong>${gbp(c.quarter)} a year</strong>.`;
+    }
+
+    /* One practical, free tip based on their answers */
+    const QUICK_WINS = {
+      manual:      { title: 'Template the thing you type most', body: 'Pick the one piece of information your team types out most often, such as a quote, job sheet or update email, and turn it into a single fill-in template everyone uses.' },
+      visibility:  { title: 'Start a 10-minute Monday check-in', body: 'Keep one shared list of every live job with who owns it and the next step. Run through it together every Monday morning, and nothing important stays hidden for long.' },
+      comms:       { title: 'Write three standard customer updates', body: 'Draft short messages for "we\'ve got your request", "you\'re booked in" and "all done". Send them at the same points for every customer, so nobody has to chase you.' },
+      onboarding:  { title: 'Make a one-page new customer checklist', body: 'Write down everything a new customer needs from you and everything you need from them. Use it for your next three customers and tidy it up as you go.' },
+      integration: { title: 'Map what gets copied between your tools', body: 'List the tools you use and what gets copied from one to another. The thing copied most often is the first connection worth making.' },
+      ops:         { title: 'Track one week of admin', body: 'For one week, have everyone jot down any admin task that takes more than 10 minutes. The tasks that come up again and again are your best targets.' },
+      process:     { title: 'Put every live job in one shared list', body: 'Move every open job or task into one shared list, even a simple spreadsheet, with an owner and a next step for each. It ends the "who\'s doing that?" questions.' },
+      tech:        { title: 'Trial one tool for one job', body: 'Choose one small, annoying task and try a simple tool for it for two weeks with one person. Small wins build the team\'s confidence for bigger changes.' },
+    };
+
+    function buildQuickWin(scores) {
+      const headache = state.answers['headache']?.value;
+      let win = QUICK_WINS[headache];
+      if (!win) {
+        const weakest = Object.keys(AREAS).sort((a, b) => scores[a] / AREAS[a] - scores[b] / AREAS[b])[0];
+        win = QUICK_WINS[weakest];
+      }
+      document.getElementById('quickWinTitle').textContent = win.title;
+      document.getElementById('quickWinBody').textContent = win.body;
+    }
+
+    /* Pre-fill the Cal.com booking with their details and a short summary */
+    const HEADACHE_LABELS = {
+      manual: 'Typing in the same information', visibility: "Can't see what's happening",
+      comms: 'Customer communication gaps', onboarding: 'Slow start with new customers',
+      integration: "Tools don't talk to each other", fine: 'None in particular',
+    };
+    function buildBookingLink(scores) {
+      const c = adminCost();
+      const notes = [
+        `Flow Score: ${scores.total}/100`,
+        `Biggest headache: ${HEADACHE_LABELS[state.answers['headache']?.value] || 'Not given'}`,
+        c.hours ? `Admin: ${c.hours} hrs a week (about ${gbp(c.yearly)} a year)` : null,
+        state.contact.company ? `Company: ${state.contact.company}` : null,
+      ].filter(Boolean).join('\n');
+      const url = new URL('https://cal.com/flovoai/30min');
+      url.searchParams.set('name', state.contact.name || '');
+      url.searchParams.set('email', state.contact.email || '');
+      url.searchParams.set('notes', notes);
+      document.getElementById('bookLink').href = url.toString();
+    }
+
+    function buildPrintMeta() {
+      const who = [state.contact.name, state.contact.company].filter(Boolean).join(', ');
+      const date = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+      const esc = t => t.replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
+      document.getElementById('printMeta').innerHTML =
+        `<span>Flow Score report${who ? ` for <strong>${esc(who)}</strong>` : ''}</span><span>${date}</span>`;
     }
 
     function countTo(el, to, duration) {
