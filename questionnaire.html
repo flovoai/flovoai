@@ -161,8 +161,12 @@
     .fs-cost-num { font-size: clamp(2.75rem, 7vw, 4rem); font-weight: 700; letter-spacing: -0.045em; line-height: 1.05; margin-top: .5rem; font-variant-numeric: tabular-nums; }
     .fs-cost-num small { font-size: .35em; font-weight: 500; letter-spacing: -0.01em; color: #C9D5EE; }
     .fs-cost-maths { font-size: .875rem; color: #AFC0E0; margin-top: .5rem; }
-    .fs-cost-saving { margin: 1.25rem auto 0; padding-top: 1.25rem; border-top: 1px solid rgba(255,255,255,.14); max-width: 30rem; color: #E3EAF8; }
-    .fs-cost-saving strong { color: #fff; }
+    .fs-cost-more { display: grid; grid-template-columns: 1fr 1fr; margin: 1.5rem auto 0; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,.14); max-width: 34rem; }
+    .fs-cost-more div { padding: 0 1rem; }
+    .fs-cost-more div + div { border-left: 1px solid rgba(255,255,255,.14); }
+    .fs-cost-more strong { display: block; font-size: 1.625rem; font-weight: 700; letter-spacing: -0.03em; color: #fff; font-variant-numeric: tabular-nums; }
+    .fs-cost-more span { display: block; font-size: .875rem; line-height: 1.45; color: #C9D5EE; margin-top: .25rem; }
+    @media (max-width: 520px) { .fs-cost-more { grid-template-columns: 1fr; gap: 1.25rem; } .fs-cost-more div + div { border-left: 0; border-top: 1px solid rgba(255,255,255,.14); padding-top: 1.25rem; } }
     .fs-cats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1rem; }
     .fs-cat { background: #fff; border-radius: var(--r-md); padding: 1.5rem; box-shadow: var(--shadow-md); }
     .fs-cat-name { font-size: .875rem; font-weight: 600; color: var(--text-soft); }
@@ -371,7 +375,10 @@
           <div class="fs-cost-label">What admin is costing you</div>
           <div class="fs-cost-num"><span id="costYearly">£0</span><small> a year</small></div>
           <p class="fs-cost-maths" id="costMaths"></p>
-          <p class="fs-cost-saving" id="costSaving"></p>
+          <div class="fs-cost-more">
+            <div><strong id="costHours"></strong><span id="costHoursNote"></span></div>
+            <div><strong id="costThree"></strong><span>over 3 years</span></div>
+          </div>
         </div>
 
         <div class="fs-cats" id="categoriesGrid"></div>
@@ -797,7 +804,19 @@
       const hours = state.answers['adminHours']?.rawValue ?? 0;
       const rate = state.answers['hourlyCost']?.rawValue ?? 20;
       const yearly = Math.round(hours * rate * WORKING_WEEKS / 100) * 100;
-      return { hours, rate, yearly, quarter: Math.round(yearly / 4 / 100) * 100 };
+      const yearHours = hours * WORKING_WEEKS;
+      const threeYears = yearly * 3; // matches the yearly figure shown
+      return { hours, rate, yearly, yearHours, threeYears };
+    }
+
+    /* Express a number of hours as full-time working time (37.5 hr week, 7.5 hr day) */
+    const FULL_TIME_WEEK = 37.5;
+    function asWorkingTime(hours) {
+      const weeks = hours / FULL_TIME_WEEK;
+      if (weeks >= WORKING_WEEKS) return "more than a full year of one person's full-time work";
+      if (weeks >= 1.5) return `about ${Math.round(weeks)} weeks of one person's full-time work`;
+      const days = Math.round(hours / 7.5);
+      return `about ${days} working day${days === 1 ? '' : 's'} of one person's time`;
     }
     const gbp = n => '£' + n.toLocaleString('en-GB');
 
@@ -910,12 +929,12 @@
       const box = document.getElementById('costBox');
       if (!c.hours) { box.hidden = true; return; }
       box.hidden = false;
-      const solo = state.answers['teamSize']?.value === 'solo';
       document.getElementById('costYearly').textContent = gbp(c.yearly);
       document.getElementById('costMaths').textContent =
         `${c.hours} hour${c.hours === 1 ? '' : 's'} a week × ${gbp(c.rate)} an hour × ${WORKING_WEEKS} working weeks`;
-      document.getElementById('costSaving').innerHTML =
-        `Cutting ${solo ? 'your' : "your team's"} admin by just a quarter would free up around <strong>${gbp(c.quarter)} a year</strong>.`;
+      document.getElementById('costHours').textContent = `${c.yearHours.toLocaleString('en-GB')} hours`;
+      document.getElementById('costHoursNote').textContent = `a year, ${asWorkingTime(c.yearHours)}`;
+      document.getElementById('costThree').textContent = gbp(c.threeYears);
     }
 
     /* Pre-fill the Cal.com booking with their details and a short summary */
