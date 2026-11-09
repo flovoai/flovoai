@@ -113,6 +113,32 @@ p { text-wrap: pretty; }
 .nav-cta:hover { background: var(--blue); }
 .nav-cta:active { transform: scale(.96); transition-duration: 0s; }
 
+/* Flow Score: a soft blue pill so it stands out, secondary to Book a call */
+.nav-score {
+  display: inline-flex; align-items: center; gap: .4375rem; margin-left: .5rem;
+  padding: .4375rem .875rem .4375rem .625rem; border-radius: 99px;
+  background: var(--blue-soft); color: var(--blue); font-weight: 600; font-size: .875rem;
+  box-shadow: inset 0 0 0 1px rgba(59, 110, 224, .18);
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color .2s var(--ease-out), box-shadow .2s var(--ease-out), transform .1s var(--ease-out);
+}
+.nav-score:hover { background: #DFE8FC; box-shadow: inset 0 0 0 1px rgba(59, 110, 224, .32); }
+.nav-score:active { transform: scale(.96); transition-duration: 0s; }
+.nav-score[aria-current="page"] { box-shadow: inset 0 0 0 1.5px var(--blue); }
+.nav-score-icon { width: 1rem; height: 1rem; transform: rotate(-90deg); }
+.nav-score-icon circle { fill: none; stroke-width: 2.4; }
+.nav-score-icon .t { stroke: rgba(59, 110, 224, .25); }
+.nav-score-icon .f { stroke: currentColor; stroke-linecap: round; stroke-dasharray: 37.7; stroke-dashoffset: 10.5; transition: stroke-dashoffset .5s var(--ease); }
+.nav-score:hover .nav-score-icon .f { stroke-dashoffset: 3; }
+.nav-score + .nav-cta { margin-left: .5rem; }
+@media (max-width: 720px) {
+  .nav-links { gap: .375rem; }
+  .nav-score { margin-left: 0; padding: .4375rem .75rem .4375rem .5625rem; font-size: .8125rem; }
+  .nav-score + .nav-cta { margin-left: 0; padding: .5rem .875rem; font-size: .8125rem; }
+}
+@media (max-width: 360px) { .nav-score span { display: none; } .nav-score { padding: .5rem; } .logo { width: 5.75rem; } }
+@media (prefers-reduced-motion: reduce) { .nav-score, .nav-score-icon .f { transition: none; } .nav-score:active { transform: none; } }
+
 /* ---------- Buttons: feedback on press, not on release ---------- */
 .btn {
   display: inline-flex; align-items: center; gap: .625rem;
@@ -299,7 +325,7 @@ p { text-wrap: pretty; }
 /* ---------- Footer ---------- */
 .footer { padding: 2.5rem 0 3rem; }
 .footer-row { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 2.5rem; }
-.footer-links { display: flex; gap: 1.75rem; font-size: .9375rem; color: var(--text-soft); }
+.footer-links { display: flex; flex-wrap: wrap; gap: .5rem 1.75rem; font-size: .9375rem; color: var(--text-soft); }
 .footer-links a:hover { color: var(--navy); }
 .footer-meta { font-size: .875rem; color: var(--text-soft); }
 
