@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#ffffff" />
-  <meta name="description" content="How healthy is your business? Answer 12 quick questions and get your FlovoAI Flow Score out of 100, with clear next steps." />
+  <meta name="description" content="How healthy is your business? Answer 13 quick questions and get your FlovoAI Flow Score out of 100, with clear next steps." />
   <title>Flow Score | FlovoAI</title>
   <link rel="canonical" href="https://flovoai.com/questionnaire" />
   <meta property="og:type" content="website" />
@@ -152,7 +152,18 @@
     .fs-verdict-badge { display: inline-block; font-size: .875rem; font-weight: 650; padding: .375rem .875rem; border-radius: 99px; background: var(--tone-soft); color: var(--tone-ink); }
     .fs-verdict p { color: var(--text-soft); max-width: 36rem; margin: 1rem auto 0; font-size: 1.0625rem; }
 
-    .fs-cats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 3rem; }
+    .fs-cost {
+      margin-top: 3rem; border-radius: var(--r-lg); padding: clamp(1.75rem, 4vw, 2.5rem);
+      background: var(--navy); color: #fff; text-align: center; position: relative; overflow: hidden; isolation: isolate;
+    }
+    .fs-cost::before { content: ""; position: absolute; inset: auto auto -14rem -10rem; width: 30rem; height: 30rem; z-index: -1; background: radial-gradient(closest-side, rgba(59,110,224,.4), transparent); }
+    .fs-cost-label { font-size: .75rem; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; color: var(--sky); }
+    .fs-cost-num { font-size: clamp(2.75rem, 7vw, 4rem); font-weight: 700; letter-spacing: -0.045em; line-height: 1.05; margin-top: .5rem; font-variant-numeric: tabular-nums; }
+    .fs-cost-num small { font-size: .35em; font-weight: 500; letter-spacing: -0.01em; color: #C9D5EE; }
+    .fs-cost-maths { font-size: .875rem; color: #AFC0E0; margin-top: .5rem; }
+    .fs-cost-saving { margin: 1.25rem auto 0; padding-top: 1.25rem; border-top: 1px solid rgba(255,255,255,.14); max-width: 30rem; color: #E3EAF8; }
+    .fs-cost-saving strong { color: #fff; }
+    .fs-cats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1rem; }
     .fs-cat { background: #fff; border-radius: var(--r-md); padding: 1.5rem; box-shadow: var(--shadow-md); }
     .fs-cat-name { font-size: .875rem; font-weight: 600; color: var(--text-soft); }
     .fs-cat-row { display: flex; justify-content: space-between; align-items: baseline; margin: .375rem 0 .875rem; }
@@ -224,20 +235,20 @@
       <div class="fs-col">
         <p class="eyebrow">Flow Score</p>
         <h1>How healthy is <em>your business?</em></h1>
-        <p class="fs-intro-sub">Find out in just a few minutes. Answer 12 quick questions and get your Flow Score out of 100, with clear next steps.</p>
+        <p class="fs-intro-sub">Find out in just a few minutes. Answer 13 quick questions and get your Flow Score out of 100, with clear next steps.</p>
         <div class="hero-cta">
           <button class="btn btn-primary" type="button" onclick="startQuiz()">Check my Flow Score <span class="btn-arrow" aria-hidden="true">→</span></button>
         </div>
         <ul class="fs-meta">
           <li>About 3 minutes</li>
-          <li>12 short questions</li>
+          <li>13 short questions</li>
           <li>Instant results</li>
         </ul>
       </div>
       <div class="wrap">
         <div class="fs-get">
           <div><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 8.5 8.5"/></svg></i><strong>Your score out of 100</strong><span>A clear picture of how smoothly your business runs today.</span></div>
-          <div><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 19V11M12 19V5M19 19v-6"/></svg></i><strong>Four-area breakdown</strong><span>See where you're strong and where time is slipping away.</span></div>
+          <div><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 19V11M12 19V5M19 19v-6"/></svg></i><strong>What admin is costing you</strong><span>See what the time spent on admin adds up to each year.</span></div>
           <div><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i><strong>What to fix first</strong><span>Practical next steps based on your answers.</span></div>
         </div>
       </div>
@@ -304,7 +315,7 @@
         <div class="fs-results-head rise">
           <p class="eyebrow">Your results</p>
           <h1 id="resultsHeadline">Your Flow Score</h1>
-          <p>How your business is running across four key areas.</p>
+          <p>How your business is running across three key areas.</p>
         </div>
 
         <div class="fs-ring rise" id="scoreRing" style="transition-delay:.1s">
@@ -321,6 +332,13 @@
         <div class="fs-verdict rise" id="scoreVerdict" style="transition-delay:.2s">
           <span class="fs-verdict-badge" id="verdictBadge"></span>
           <p id="verdictText"></p>
+        </div>
+
+        <div class="fs-cost rise" id="costBox" style="transition-delay:.26s" hidden>
+          <div class="fs-cost-label">What admin is costing you</div>
+          <div class="fs-cost-num"><span id="costYearly">£0</span><small> a year</small></div>
+          <p class="fs-cost-maths" id="costMaths"></p>
+          <p class="fs-cost-saving" id="costSaving"></p>
         </div>
 
         <div class="fs-cats" id="categoriesGrid"></div>
@@ -364,9 +382,13 @@
       about:   'About you',
       ops:     'Day-to-day operations',
       process: 'Processes',
-      tech:    'Using technology',
-      auto:    'Ready to automate',
+      tech:    'Team & technology',
     };
+
+    // Scored areas and the most points each can earn. Questions about size,
+    // revenue, stage and priorities are context only: they tailor the advice
+    // but never raise or lower the score.
+    const AREAS = { ops: 25, process: 25, tech: 20 };
 
     const QUESTIONS = [
       {
@@ -386,8 +408,8 @@
         ]
       },
       {
-        id: 'teamSize', text: 'How many people work in your business?', category: 'auto',
-        type: 'choice', scoring: { category: 'auto' },
+        id: 'teamSize', text: 'How many people work in your business?', category: 'about',
+        type: 'choice', scoring: null,
         options: [
           { label: 'Just me',          value: 'solo',   score: 5 },
           { label: '2 to 5 people',    value: 'tiny',   score: 8 },
@@ -397,16 +419,16 @@
         ]
       },
       {
-        id: 'revenue', text: "What's your approximate annual revenue?", hint: 'Drag to the closest range.', category: 'auto',
-        type: 'slider', scoring: { category: 'auto' },
+        id: 'revenue', text: "What's your approximate annual revenue?", hint: 'Drag to the closest range.', category: 'about',
+        type: 'slider', scoring: null,
         sliderMin: 0, sliderMax: 5,
         labels: ['Under £100k', '£100k to £500k', '£500k to £1M', '£1M to £3M', '£3M to £5M', '£5M+'],
         scores: [2, 5, 7, 7, 5, 3],
         default: 2,
       },
       {
-        id: 'stage', text: 'Which word best describes your business right now?', category: 'auto',
-        type: 'choice', cols: 2, scoring: { category: 'auto' },
+        id: 'stage', text: 'Which word best describes your business right now?', category: 'about',
+        type: 'choice', cols: 2, scoring: null,
         options: [
           { label: 'Growing',     value: 'growing',     score: 8, sub: 'Revenue and team expanding' },
           { label: 'Scaling',     value: 'scaling',     score: 7, sub: 'Building out systems and processes' },
@@ -439,6 +461,17 @@
         default: 10,
       },
       {
+        id: 'hourlyCost', text: 'Roughly what does an hour of your team’s time cost you?',
+        hint: 'A rough average is fine. Include wages plus extras like National Insurance and pension.', category: 'ops',
+        type: 'slider', scoring: null,
+        sliderMin: 10, sliderMax: 60, sliderStep: 1,
+        displayFn: v => v === 60 ? '£60+' : `£${v}`,
+        subFn:     v => 'per hour',
+        scoreFn:   v => 0,
+        rangeLabels: ['£10', '£60+'],
+        default: 20,
+      },
+      {
         id: 'projectMgmt', text: 'How do you keep track of jobs and tasks?', category: 'process',
         type: 'choice', scoring: { category: 'process' },
         options: [
@@ -459,8 +492,8 @@
         ]
       },
       {
-        id: 'improvement', text: 'What are you most trying to improve right now?', category: 'tech',
-        type: 'choice', cols: 2, scoring: { category: 'tech' },
+        id: 'improvement', text: 'What are you most trying to improve right now?', category: 'about',
+        type: 'choice', cols: 2, scoring: null,
         options: [
           { label: 'Cutting repetitive tasks', value: 'automation', score: 5 },
           { label: 'Better reporting',         value: 'reporting',  score: 4 },
@@ -691,23 +724,38 @@
         project_mgmt: a('projectMgmt')?.value || null, client_comms: a('clientComms')?.value || null,
         improvement: a('improvement')?.value || null, fall_through: a('fallThrough')?.value || null,
         onboarding: a('onboarding')?.value || null, tech_comfort: a('techComfort')?.rawValue ?? null,
-        ops_score: scores.ops, process_score: scores.process, tech_score: scores.tech, auto_score: scores.auto,
+        hourly_cost: a('hourlyCost')?.rawValue ?? null, admin_cost_year: adminCost().yearly,
+        ops_score: scores.ops, process_score: scores.process, tech_score: scores.tech,
         source: 'flow-score',
       };
     }
 
     /* ═══════════════════════════════════════════════════
-       SCORING (unchanged from the original audit)
+       SCORING
+       Only how the business runs is scored. The total is the share of
+       available points earned, out of 100.
     ═══════════════════════════════════════════════════ */
     function calculateScores() {
-      const cats = { ops: 0, process: 0, tech: 0, auto: 0 };
+      const cats = { ops: 0, process: 0, tech: 0 };
       QUESTIONS.forEach(q => {
         const ans = state.answers[q.id];
         if (q.scoring && ans) cats[q.scoring.category] += ans.score || 0;
       });
-      Object.keys(cats).forEach(k => { cats[k] = Math.min(cats[k], 25); });
-      return { ...cats, total: Object.values(cats).reduce((x, y) => x + y, 0) };
+      Object.keys(cats).forEach(k => { cats[k] = Math.min(cats[k], AREAS[k]); });
+      const earned = Object.values(cats).reduce((x, y) => x + y, 0);
+      const available = Object.values(AREAS).reduce((x, y) => x + y, 0);
+      return { ...cats, total: Math.round(earned / available * 100) };
     }
+
+    /* What admin costs a year: hours a week x hourly cost x 48 working weeks */
+    const WORKING_WEEKS = 48;
+    function adminCost() {
+      const hours = state.answers['adminHours']?.rawValue ?? 0;
+      const rate = state.answers['hourlyCost']?.rawValue ?? 20;
+      const yearly = Math.round(hours * rate * WORKING_WEEKS / 100) * 100;
+      return { hours, rate, yearly, quarter: Math.round(yearly / 4 / 100) * 100 };
+    }
+    const gbp = n => '£' + n.toLocaleString('en-GB');
 
     function tierFor(pct) {
       return pct <= 40 ? 'critical' : pct <= 65 ? 'developing' : pct <= 80 ? 'efficient' : 'optimised';
@@ -742,17 +790,17 @@
       document.getElementById('verdictBadge').textContent = VERDICTS[tier].label;
       document.getElementById('verdictText').textContent = VERDICTS[tier].text;
 
-      const cats = [
-        { key: 'ops' }, { key: 'process' }, { key: 'tech' }, { key: 'auto' },
-      ];
-      document.getElementById('categoriesGrid').innerHTML = cats.map(({ key }, i) => {
+      buildCost();
+
+      document.getElementById('categoriesGrid').innerHTML = Object.keys(AREAS).map((key, i) => {
         const val = scores[key];
-        const pct = Math.round(val / 25 * 100);
+        const max = AREAS[key];
+        const pct = Math.round(val / max * 100);
         return `
           <div class="fs-cat rise tone-${tierFor(pct)}" style="transition-delay:${.3 + i * .06}s">
             <div class="fs-cat-name">${CATEGORY_NAMES[key]}</div>
             <div class="fs-cat-row">
-              <div class="fs-cat-score">${val}<small> / 25</small></div>
+              <div class="fs-cat-score">${val}<small> / ${max}</small></div>
               <div class="fs-cat-pct">${pct}%</div>
             </div>
             <div class="fs-bar"><i data-pct="${pct / 100}"></i></div>
@@ -775,28 +823,30 @@
 
     function buildRecommendations(scores) {
       const recs = [];
-      if (scores.ops < 18) {
+      const share = k => scores[k] / AREAS[k];
+      if (share('ops') < .72) {
         const hrs = state.answers['adminHours']?.rawValue ?? 10;
+        const solo = state.answers['teamSize']?.value === 'solo';
         recs.push({ icon: 'cog', title: 'Cut down the manual admin',
-          body: `Your team is spending around ${hrs} hours a week on tasks that could run themselves. Tackling just 3 or 4 repeated jobs could free up days every month.` });
+          body: `${solo ? "You're" : 'Your team is'} spending around ${hrs} hours a week on admin, much of which could run itself. Tackling just 3 or 4 repeated jobs could free up days every month.` });
       }
-      if (scores.process < 18) {
+      if (share('process') < .72) {
         const pm = state.answers['projectMgmt']?.value;
         recs.push({ icon: 'folder', title: 'Keep jobs and customer details in one place',
           body: pm === 'heads' || pm === 'email'
             ? "Right now, too much important information lives in email threads and people's heads. Keeping it in one place would cut mistakes, speed up handovers and show you what's really going on."
             : 'There are gaps in how you keep track of work. Joining up your tools and agreeing one way of doing things is the quickest route to consistent results.' });
       }
-      if (scores.tech < 18) {
+      if (share('tech') < .72) {
         recs.push({ icon: 'link', title: 'Connect your tools and stop retyping',
           body: "Most businesses use 6 to 10 separate tools that don't talk to each other. Linking the ones you already use can save hours of copying and pasting and cut down on mistakes." });
       }
-      if (scores.auto < 18) {
-        const stage = state.answers['stage']?.value;
+      const stage = state.answers['stage']?.value;
+      if (share('process') < .8 && ['growing', 'scaling', 'struggling'].includes(stage)) {
         recs.push({ icon: 'steps', title: 'Get your processes right before you grow',
-          body: stage === 'growing' || stage === 'scaling'
-            ? "You're growing, which makes now the perfect time to get your processes in order. Everything you simplify now pays off more as your team and customer base grow."
-            : 'Getting the right processes in place now means you can grow without the workload and the chaos growing with you.' });
+          body: stage === 'struggling'
+            ? "When things are tough, simpler processes take pressure off quickly. Fixing the one or two jobs that cause the most rework is usually the fastest relief."
+            : "You're growing, which makes now the perfect time to get your processes in order. Everything you simplify now pays off more as your team and customer base grow." });
       }
       if (recs.length < 2 || scores.total >= 66) {
         recs.push({ icon: 'chart', title: 'See your whole business at a glance',
@@ -807,6 +857,19 @@
           <div class="fs-rec-icon" aria-hidden="true">${ICONS[r.icon]}</div>
           <div><h3>${r.title}</h3><p>${r.body}</p></div>
         </div>`).join('');
+    }
+
+    function buildCost() {
+      const c = adminCost();
+      const box = document.getElementById('costBox');
+      if (!c.hours) { box.hidden = true; return; }
+      box.hidden = false;
+      const solo = state.answers['teamSize']?.value === 'solo';
+      document.getElementById('costYearly').textContent = gbp(c.yearly);
+      document.getElementById('costMaths').textContent =
+        `${c.hours} hour${c.hours === 1 ? '' : 's'} a week × ${gbp(c.rate)} an hour × ${WORKING_WEEKS} working weeks`;
+      document.getElementById('costSaving').innerHTML =
+        `Cutting ${solo ? 'your' : "your team's"} admin by just a quarter would free up around <strong>${gbp(c.quarter)} a year</strong>.`;
     }
 
     function countTo(el, to, duration) {
