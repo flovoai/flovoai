@@ -303,6 +303,32 @@ p { text-wrap: pretty; }
 .footer-links a:hover { color: var(--navy); }
 .footer-meta { font-size: .875rem; color: var(--text-soft); }
 
+
+/* ---------- Flow Score promo ---------- */
+.sec-flow { padding-bottom: clamp(3rem, 6vw, 4.5rem); }
+.flow-tile {
+  display: grid; grid-template-columns: 1.4fr 1fr; align-items: center; gap: 2rem;
+  background: #fff; border: 1px solid var(--line); border-radius: 2.25rem; box-shadow: var(--shadow-md);
+  padding: clamp(2.25rem, 5vw, 3.75rem) clamp(1.75rem, 5vw, 4rem);
+}
+.flow-copy p { color: var(--text-soft); font-size: 1.125rem; margin: 1rem 0 2rem; max-width: 30rem; }
+.btn-secondary { background: var(--navy); color: #fff; }
+.btn-secondary:hover { background: var(--blue); }
+.flow-visual { position: relative; width: min(15rem, 100%); aspect-ratio: 1; justify-self: center; }
+.flow-visual svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.fv-track { fill: none; stroke: var(--tint); stroke-width: 14; }
+.fv-fill { fill: none; stroke: var(--blue); stroke-width: 14; stroke-linecap: round; stroke-dasharray: 528; stroke-dashoffset: 148; }
+.fv-center { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
+.fv-center strong { font-size: 3.5rem; line-height: 1; font-weight: 700; letter-spacing: -0.05em; color: var(--navy); }
+.fv-center span { font-size: .8125rem; color: var(--text-soft); margin-top: .375rem; }
+.fv-chip { position: absolute; left: 50%; bottom: -.5rem; transform: translateX(-50%); white-space: nowrap; font-size: .8125rem; font-weight: 650; color: #18794E; background: #E7F6EE; padding: .375rem .875rem; border-radius: 99px; box-shadow: 0 0 0 4px #fff; }
+/* The ring draws in when the tile appears */
+.js .flow-visual .fv-fill { stroke-dashoffset: 528; }
+.flow-visual.in-view .fv-fill, .flow-visual.revealed .fv-fill, .no-motion .flow-visual .fv-fill { stroke-dashoffset: 148; transition: stroke-dashoffset 1.4s var(--ease) .2s; }
+@media (prefers-reduced-motion: reduce) { .js .flow-visual .fv-fill { stroke-dashoffset: 148; transition: none !important; } }
+@media (max-width: 960px) { .flow-tile { grid-template-columns: 1fr; text-align: center; } .flow-copy p { margin-left: auto; margin-right: auto; } .flow-visual { width: 12rem; margin-top: 1rem; } }
+@media (max-width: 720px) { .flow-tile .btn { width: 100%; justify-content: center; } }
+
 /* ==========================================================================
    Motion
    Elements arrive with a short upward settle. Only transform and opacity
