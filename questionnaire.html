@@ -126,6 +126,8 @@
     .fs-field-error { color: #C2410C; font-size: .8125rem; margin-top: .375rem; min-height: 1rem; }
     .fs-preview-note { display: flex; gap: .625rem; align-items: flex-start; margin-top: 1.5rem; padding: .875rem 1rem; border-radius: .875rem; background: var(--tint); font-size: .875rem; color: var(--text-soft); }
     .fs-preview-note b { color: var(--navy); font-weight: 600; }
+    .fs-privacy { margin-top: 1.25rem; font-size: .8125rem; line-height: 1.5; color: var(--text-soft); }
+    .fs-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
     /* ---------- Results ---------- */
     .fs-results { padding: clamp(3rem, 7vw, 5rem) 0 clamp(4rem, 8vw, 6rem); background: radial-gradient(60rem 26rem at 50% -6rem, #E8EFFD, transparent 70%); }
@@ -337,7 +339,12 @@
                 <input class="fs-input" id="contactCompany" type="text" placeholder="Smith Joinery Ltd" autocomplete="organization" />
               </div>
             </div>
+            <div class="fs-hp" aria-hidden="true">
+              <label for="contactWebsite">Website</label>
+              <input id="contactWebsite" type="text" tabindex="-1" autocomplete="off" />
+            </div>
             <p class="fs-preview-note" id="previewNote"><b>Preview</b> Your details aren't sent or stored anywhere yet.</p>
+            <p class="fs-privacy" id="privacyNote" hidden>We'll keep your answers and details so we can follow up about your results. We never share them with anyone else.</p>
           </div>
           <div class="fs-nav">
             <button class="btn btn-ghost" type="button" onclick="showQuiz()">Back</button>
@@ -415,17 +422,28 @@
 
   <script>
     /* ═══════════════════════════════════════════════════
-       DATA DESTINATION
-       Preview mode: answers and contact details stay in the browser.
-       Nothing is sent anywhere. To start collecting submissions,
-       implement sendSubmission() below (e.g. Google Sheet, HubSpot,
-       Formspree or Supabase) and set PREVIEW_MODE to false.
+       DATA DESTINATION: GOOGLE SHEET
+       Each completed Flow Score is added as a row in a Google Sheet, via a
+       small Google Apps Script. Setup: integrations/google-sheet/SETUP.md
+       Paste the script's web app URL below. While it's empty the survey
+       stays in preview mode and nothing is sent anywhere.
     ═══════════════════════════════════════════════════ */
-    const PREVIEW_MODE = true;
+    const SHEET_URL = '';
+    const PREVIEW_MODE = !SHEET_URL;
 
     async function sendSubmission(submission) {
       if (PREVIEW_MODE) return;
-      // Not connected yet. `submission` is a flat object; see buildSubmission().
+      // Spam trap: real visitors never see or fill in this field
+      if (document.getElementById('contactWebsite').value) return;
+      // Sent as plain text so the browser doesn't need extra permission from
+      // Google; the response can't be read, but the row is still added.
+      await fetch(SHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        keepalive: true,
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ ...submission, page: location.origin + location.pathname }),
+      });
     }
 
     /* ═══════════════════════════════════════════════════
@@ -1111,7 +1129,10 @@
       })(start);
     }
 
-    if (!PREVIEW_MODE) document.getElementById('previewNote').hidden = true;
+    if (!PREVIEW_MODE) {
+      document.getElementById('previewNote').hidden = true;
+      document.getElementById('privacyNote').hidden = false;
+    }
 
     // Frosted nav edge once the page scrolls
     const navEl = document.getElementById('nav');
