@@ -127,6 +127,7 @@
     .fs-preview-note { display: flex; gap: .625rem; align-items: flex-start; margin-top: 1.5rem; padding: .875rem 1rem; border-radius: .875rem; background: var(--tint); font-size: .875rem; color: var(--text-soft); }
     .fs-preview-note b { color: var(--navy); font-weight: 600; }
     .fs-privacy { margin-top: 1.25rem; font-size: .8125rem; line-height: 1.5; color: var(--text-soft); }
+    .fs-privacy a { color: var(--blue); text-decoration: underline; text-underline-offset: 2px; }
     .fs-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
     /* ---------- Results ---------- */
@@ -344,7 +345,7 @@
               <input id="contactWebsite" type="text" tabindex="-1" autocomplete="off" />
             </div>
             <p class="fs-preview-note" id="previewNote"><b>Preview</b> Your details aren't sent or stored anywhere yet.</p>
-            <p class="fs-privacy" id="privacyNote" hidden>We'll keep your answers and details so we can follow up about your results. We never share them with anyone else.</p>
+            <p class="fs-privacy" id="privacyNote" hidden>We'll keep your answers and details so we can follow up about your results. We never sell them. <a href="/privacy" target="_blank" rel="noopener">Privacy policy</a></p>
           </div>
           <div class="fs-nav">
             <button class="btn btn-ghost" type="button" onclick="showQuiz()">Back</button>
