@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#ffffff" />
-  <meta name="description" content="How healthy is your business? Answer 13 quick questions and get your FlovoAI Flow Score out of 100, with clear next steps." />
+  <meta name="description" content="How healthy is your business? Answer 15 quick questions and get your FlovoAI Flow Score out of 100, with clear next steps." />
   <title>Flow Score | FlovoAI</title>
   <link rel="canonical" href="https://flovoai.com/questionnaire" />
   <meta property="og:type" content="website" />
@@ -184,6 +184,8 @@
     .fs-rec-icon svg { width: 1.25rem; height: 1.25rem; }
     .fs-rec h3 { font-size: 1.0625rem; margin-bottom: .25rem; }
     .fs-rec p { color: var(--text-soft); font-size: .9375rem; line-height: 1.55; }
+    .fs-rec-tag { display: inline-block; vertical-align: 2px; margin-left: .375rem; font-size: .6875rem; font-weight: 650; letter-spacing: .04em; text-transform: uppercase; color: var(--green); background: var(--green-soft); padding: .125rem .5rem; border-radius: 99px; }
+    .fs-choice.is-skip { color: var(--text-soft); border-style: dashed; }
 
     .fs-cta { margin-top: 3.5rem; background: var(--navy); color: #fff; border-radius: 2rem; padding: clamp(2.5rem, 6vw, 3.5rem); text-align: center; position: relative; overflow: hidden; isolation: isolate; }
     .fs-cta::before { content: ""; position: absolute; inset: -12rem -8rem auto auto; width: 32rem; height: 32rem; z-index: -1; background: radial-gradient(closest-side, rgba(59,110,224,.45), transparent); }
@@ -271,13 +273,13 @@
       <div class="fs-col">
         <p class="eyebrow">Flow Score</p>
         <h1>How healthy is <em>your business?</em></h1>
-        <p class="fs-intro-sub">Find out in just a few minutes. Answer 13 quick questions and get your Flow Score out of 100, with clear next steps.</p>
+        <p class="fs-intro-sub">Find out in just a few minutes. Answer 15 quick questions and get your Flow Score out of 100, with clear next steps.</p>
         <div class="hero-cta">
           <button class="btn btn-green" type="button" onclick="startQuiz()">Check my Flow Score <span class="btn-arrow" aria-hidden="true">→</span></button>
         </div>
         <ul class="fs-meta">
           <li>About 3 minutes</li>
-          <li>13 short questions</li>
+          <li>15 short questions</li>
           <li>Instant results</li>
         </ul>
       </div>
@@ -352,7 +354,7 @@
         <div class="fs-results-head rise">
           <p class="eyebrow">Your results</p>
           <h1 id="resultsHeadline">Your Flow Score</h1>
-          <p>How your business is running across three key areas.</p>
+          <p id="resultsSub">How your business is running across three key areas.</p>
         </div>
 
         <div class="fs-ring rise" id="scoreRing" style="transition-delay:.1s">
@@ -427,165 +429,235 @@
     }
 
     /* ═══════════════════════════════════════════════════
-       QUESTIONS
+       HOW THE SURVEY IS BUILT
+       Everyone answers 15 questions in three parts:
+         1. About you (4): industry, type of business, team size, turnover (optional)
+         2. Your business (6): written for their industry, 2 per scored area
+         3. Every business (5): admin hours, hourly cost, things slipping,
+            "off for two weeks?", main goal
+       Scored areas are the same for every industry, so scores compare fairly.
+       Size, turnover, type and goal tailor the wording and advice only.
     ═══════════════════════════════════════════════════ */
-    const CATEGORY_NAMES = {
-      about:   'About you',
-      ops:     'Day-to-day operations',
-      process: 'Processes',
-      tech:    'Team & technology',
+    const AREA_NAMES = {
+      about: 'About you',
+      win:   'Winning work',
+      do:    'Doing the work',
+      paid:  'Getting paid & admin',
+    };
+    const SCORED_AREAS = ['win', 'do', 'paid'];
+
+    // Most answers run best to worst; these are the points for each position
+    const S4 = [10, 7, 3, 0];
+
+    const opts = (labels, scores = S4) => labels.map((l, i) => {
+      const [label, sub] = Array.isArray(l) ? l : [l];
+      return { label, sub, value: 'a' + (i + 1), score: scores[i] };
+    });
+
+    /* ---------- Part 1: About you ---------- */
+    const INDUSTRIES = [
+      { value: 'trades',       label: 'Trades & construction',             sub: 'Joinery, building, electrical, plumbing' },
+      { value: 'professional', label: 'Professional services',             sub: 'Accounting, legal, consulting, agencies' },
+      { value: 'manufacturing',label: 'Manufacturing, wholesale & logistics', sub: 'Making, supplying or moving goods' },
+      { value: 'retail',       label: 'Retail & e-commerce',               sub: 'Shops and online stores' },
+      { value: 'property',     label: 'Property',                          sub: 'Lettings, sales and property management' },
+      { value: 'appointments', label: 'Appointment-based services',        sub: 'Health, wellness, beauty and similar' },
+      { value: 'other',        label: 'Something else' },
+    ];
+
+    // Type of business within each industry. `noun` personalises the results.
+    const SUBTYPES = {
+      trades: { text: 'What type of trade business are you?', options: [
+        ['Joinery & carpentry', 'joinery business'], ['Building & renovation', 'building business'],
+        ['Electrical', 'electrical business'], ['Plumbing & heating', 'plumbing and heating business'],
+        ['Another trade', 'trade business'] ] },
+      professional: { text: 'What type of firm are you?', options: [
+        ['Accounting & bookkeeping', 'practice'], ['Legal', 'firm'], ['Consulting', 'consultancy'],
+        ['Marketing or creative agency', 'agency'], ['Other professional services', 'firm'] ] },
+      manufacturing: { text: 'Which best describes what you do?', options: [
+        ['Manufacturing', 'manufacturing business'], ['Wholesale & distribution', 'wholesale business'],
+        ['Logistics & transport', 'logistics business'], ['Something else', 'business'] ] },
+      retail: { text: 'Where do you sell?', options: [
+        ['Online only', 'online store'], ['In a shop only', 'shop'], ['Both online and in a shop', 'retail business'],
+        ['Mainly on marketplaces like Amazon or Etsy', 'online business'] ] },
+      property: { text: 'What type of property business are you?', options: [
+        ['Lettings', 'lettings agency'], ['Sales', 'estate agency'], ['Lettings and sales', 'estate agency'],
+        ['Property management', 'property management business'] ] },
+      appointments: { text: 'What type of business are you?', options: [
+        ['Health & clinics', 'clinic'], ['Wellness & fitness', 'business'], ['Hair & beauty', 'salon'],
+        ['Something else', 'business'] ] },
+      other: { text: 'Which best describes what you do?', options: [
+        ['Mostly services for customers', 'business'], ['Mostly selling products', 'business'],
+        ['A mix of both', 'business'] ] },
     };
 
-    // Scored areas and the most points each can earn. Questions about size,
-    // revenue, stage and priorities are context only: they tailor the advice
-    // but never raise or lower the score.
-    const AREAS = { ops: 25, process: 25, tech: 20 };
+    /* ---------- Part 2: Your business (6 per industry, 2 per area) ---------- */
+    const TRACKS = {
+      trades: [
+        { area: 'win', text: "After you've seen a job, how long until the customer gets your quote?",
+          options: opts(['Same day', '1 to 2 days', '3 to 5 days', 'A week or more']) },
+        { area: 'win', text: 'How do you put your quotes together?',
+          options: opts(['Quoting software with saved prices', 'A spreadsheet template', 'Written from scratch each time', 'By hand or in my head']) },
+        { area: 'do', text: "How do you plan who's on which job each week?",
+          options: opts(['A scheduling app', 'A shared calendar or whiteboard', 'Phone calls and group chats', "It's all in my head"]) },
+        { area: 'do', text: 'How do you keep track of materials and costs on each job?',
+          options: opts(['Tracked per job as we go', 'Added up at the end', 'Receipts in a pile', "We don't really"]) },
+        { area: 'paid', text: 'When extra work comes up on a job, what happens?',
+          options: opts(['Agreed and priced before we do it', 'Noted and added to the invoice', 'Sometimes forgotten', 'We rarely charge for it']) },
+        { area: 'paid', text: 'How long after finishing a job do you send the invoice?',
+          options: opts(['Same day', 'Within a week', '2 weeks or more', 'When I get round to it']) },
+      ],
+      professional: [
+        { area: 'win', text: 'When a new client is interested, how long until they get your proposal or engagement letter?',
+          options: opts(['Same day', '1 to 2 days', '3 to 5 days', 'A week or more']) },
+        { area: 'win', text: "Once a client says yes, how do they get set up?",
+          options: opts(['A set process that mostly runs itself', 'A checklist we follow', 'Different every time', 'It often drags on']) },
+        { area: 'do', text: "Can you see where every client's work is up to at a glance?",
+          options: opts(['Yes, in one system', 'Mostly, across a few places', 'Only by asking around', 'Not really']) },
+        { area: 'do', text: 'How often do you chase clients for information or documents?',
+          options: opts(["Rarely, reminders go out automatically", 'Now and then', 'Every week', 'Constantly']) },
+        { area: 'paid', text: 'How do your fees or time get billed?',
+          options: opts(['Automatically, from fixed fees or tracked time', 'Monthly, from timesheets', 'Pieced together from memory and emails', 'Often late or under-billed']) },
+        { area: 'paid', text: 'How long do clients usually take to pay?',
+          options: opts(['On time, without chasing', 'A few days late', 'We chase most invoices', 'Late payment is a real problem']) },
+      ],
+      manufacturing: [
+        { area: 'win', text: 'When a customer asks for a price and lead time, how quickly can you give it?',
+          options: opts(['Straight away', 'Within a day', 'A few days', 'It takes a lot of digging']) },
+        { area: 'win', text: 'How do new orders get into your system?',
+          options: opts(['Automatically, from the customer or website', 'Entered once by our team', 'Typed into more than one place', 'On paper or in emails']) },
+        { area: 'do', text: 'How is production or dispatch planned?',
+          options: opts(['A planning system everyone uses', 'A shared spreadsheet', 'A whiteboard and meetings', 'Day to day, as things come in']) },
+        { area: 'do', text: 'If a customer asks where their order is, can you tell them without ringing round?',
+          options: opts(['Yes, instantly', 'Usually, with a quick check', 'Only after asking around', 'Not easily']) },
+        { area: 'paid', text: 'When does the invoice go out?',
+          options: opts(["Automatically when it's dispatched", 'The same week, raised by hand', 'Batched up monthly', 'Whenever someone gets to it']) },
+        { area: 'paid', text: 'How accurate are your stock levels?',
+          options: opts(['Spot on, updated as we go', 'Mostly right', 'Often out', 'We count when we have to']) },
+      ],
+      retail: [
+        { area: 'win', text: 'If you sell in more than one place, is your stock in sync between them?',
+          options: opts(['We only sell in one place', 'Yes, it syncs automatically', 'We update it by hand', 'No, we sometimes oversell'], [10, 10, 3, 0]) },
+        { area: 'win', text: 'How quickly do you reply to customer questions?',
+          options: opts(['Within the hour', 'The same day', 'The next day', 'It can take a few days']) },
+        { area: 'do', text: 'How are orders picked and packed?',
+          options: opts(['Pick lists and labels print automatically', 'From a list we make each day', 'We go through orders one by one', 'It gets chaotic at busy times']) },
+        { area: 'do', text: 'How are returns handled?',
+          options: opts(['A clear process, mostly automated', 'A set process, done by hand', 'Each one sorted as it comes', 'Returns are a headache']) },
+        { area: 'paid', text: 'How do you match up sales and payments?',
+          options: opts(['Automatically, in our accounts', 'A monthly spreadsheet', 'Only when something looks wrong', "We don't really"]) },
+        { area: 'paid', text: 'How do you know when to reorder stock?',
+          options: opts(['Low stock alerts', 'We check regularly', "When we notice it's running low", "When we've already run out"]) },
+      ],
+      property: [
+        { area: 'win', text: 'How quickly are new enquiries followed up?',
+          options: opts(['Within the hour', 'The same day', 'In a day or two', 'Some slip through']) },
+        { area: 'win', text: 'How are viewings booked?',
+          options: opts(['Online, by the applicant', 'By our team, in a shared diary', 'Back and forth by phone and email', "It's a juggle every time"]) },
+        { area: 'do', text: 'How are maintenance requests tracked?',
+          options: opts(['In one system, with updates for everyone', 'A shared spreadsheet or inbox', 'Emails and phone calls', 'Things get missed']) },
+        { area: 'do', text: 'How do landlords or owners get updates?',
+          options: opts(['Automatic updates or an online portal', 'Regular reports we put together', 'When they ask', "Not as often as they'd like"]) },
+        { area: 'paid', text: 'How is rent or fee collection tracked?',
+          options: opts(['Automatically, with arrears flagged', 'A spreadsheet we keep updated', 'Checked against the bank by hand', 'Arrears are often spotted late']) },
+        { area: 'paid', text: 'How do you stay on top of certificates and renewals?',
+          options: opts(['Automatic reminders', 'A spreadsheet of dates', 'Someone remembers', 'We sometimes miss them']) },
+      ],
+      appointments: [
+        { area: 'win', text: 'How do customers book?',
+          options: opts(['Online, any time', 'Online or by phone', 'Mostly phone and messages', 'Walk-ins and whoever picks up']) },
+        { area: 'win', text: "When someone enquires but doesn't book, what happens?",
+          options: opts(['They get followed up automatically', 'We follow up when we can', 'Rarely followed up', 'Nothing']) },
+        { area: 'do', text: "How often do people not turn up, and do they get reminders?",
+          options: opts(['Rarely, automatic reminders go out', 'Sometimes, we remind them by hand', 'Often, with few reminders', 'Often, with no reminders']) },
+        { area: 'do', text: 'Can your team see client notes and history easily?',
+          options: opts(['Yes, in one system', 'Mostly, across a few places', 'Only on paper', 'Not really']) },
+        { area: 'paid', text: 'Do you take deposits or payment when people book?',
+          options: opts(['Yes, automatically', 'For some appointments', 'Rarely', 'Never']) },
+        { area: 'paid', text: 'How are forms like consent or medical history handled?',
+          options: opts(['Digital, filled in before they arrive', 'Digital, filled in on the day', 'Paper forms', "It's patchy"]) },
+      ],
+      other: [
+        { area: 'win', text: 'When a customer asks for a price, how long until they get it?',
+          options: opts(['Straight away', 'The same day', 'A few days', 'A week or more']) },
+        { area: 'win', text: 'How do you put prices or quotes together?',
+          options: opts(['Saved prices or a pricing tool', 'A template', 'From scratch each time', 'In my head']) },
+        { area: 'do', text: 'How do you keep track of work in progress?',
+          options: opts(['One system everyone uses', 'Shared spreadsheets', 'Email and messages', "In people's heads"]) },
+        { area: 'do', text: 'How do you keep customers updated?',
+          options: opts(['Automatic updates', 'Regular updates from our team', 'When they ask', 'Not as much as we should']) },
+        { area: 'paid', text: 'How long after finishing work do you send the invoice?',
+          options: opts(['Same day', 'Within a week', '2 weeks or more', 'When we get round to it']) },
+        { area: 'paid', text: 'How long do customers usually take to pay?',
+          options: opts(['On time, without chasing', 'A few days late', 'We chase most invoices', 'Late payment is a real problem']) },
+      ],
+    };
 
-    const QUESTIONS = [
-      {
-        id: 'industry', text: 'What industry do you work in?', category: 'about',
-        type: 'choice', cols: 2, scoring: null,
+    /* ---------- All questions, by id ---------- */
+    const solo = () => state.answers['teamSize']?.value === 'solo';
+    const Q = {
+      industry: { id: 'industry', area: 'about', type: 'choice', text: 'What kind of business do you run?',
+        options: INDUSTRIES.map(i => ({ label: i.label, sub: i.sub, value: i.value })) },
+      teamSize: { id: 'teamSize', area: 'about', type: 'choice', text: 'How many people work in the business?',
         options: [
-          { label: 'Construction & Trades',      value: 'construction' },
-          { label: 'Professional Services',      value: 'professional', sub: 'Legal, accounting, consulting' },
-          { label: 'Manufacturing & Logistics',  value: 'manufacturing' },
-          { label: 'E-commerce / Retail',        value: 'ecommerce' },
-          { label: 'Healthcare & Wellness',      value: 'healthcare' },
-          { label: 'Marketing & Creative',       value: 'marketing' },
-          { label: 'Real Estate & Property',     value: 'realestate' },
-          { label: 'Finance & Insurance',        value: 'finance' },
-          { label: 'Technology / Software',      value: 'tech' },
-          { label: 'Other',                      value: 'other' },
-        ]
-      },
-      {
-        id: 'teamSize', text: 'How many people work in your business?', category: 'about',
-        type: 'choice', scoring: null,
+          { label: 'Just me', value: 'solo' }, { label: '2 to 5 people', value: '2-5' },
+          { label: '6 to 15 people', value: '6-15' }, { label: '16 to 50 people', value: '16-50' },
+          { label: '50+ people', value: '50+' } ] },
+      revenue: { id: 'revenue', area: 'about', type: 'choice', cols: 2, optional: true,
+        text: "Roughly what's your annual turnover?",
+        hint: "Optional. It helps us tailor your results, and you can choose not to say.",
         options: [
-          { label: 'Just me',          value: 'solo',   score: 5 },
-          { label: '2 to 5 people',    value: 'tiny',   score: 8 },
-          { label: '6 to 15 people',   value: 'small',  score: 10 },
-          { label: '16 to 50 people',  value: 'medium', score: 8 },
-          { label: '50+ people',       value: 'large',  score: 5 },
-        ]
-      },
-      {
-        id: 'revenue', text: "What's your approximate annual revenue?", hint: 'Drag to the closest range.', category: 'about',
-        type: 'slider', scoring: null,
-        sliderMin: 0, sliderMax: 5,
-        labels: ['Under £100k', '£100k to £500k', '£500k to £1M', '£1M to £3M', '£3M to £5M', '£5M+'],
-        scores: [2, 5, 7, 7, 5, 3],
-        default: 2,
-      },
-      {
-        id: 'stage', text: 'Which word best describes your business right now?', category: 'about',
-        type: 'choice', cols: 2, scoring: null,
-        options: [
-          { label: 'Growing',     value: 'growing',     score: 8, sub: 'Revenue and team expanding' },
-          { label: 'Scaling',     value: 'scaling',     score: 7, sub: 'Building out systems and processes' },
-          { label: 'Established', value: 'established', score: 6, sub: 'Stable, looking to improve' },
-          { label: 'Pivoting',    value: 'pivoting',    score: 4, sub: 'Changing direction' },
-          { label: 'Struggling',  value: 'struggling',  score: 2, sub: 'Facing real day-to-day challenges' },
-        ]
-      },
-      {
-        id: 'headache', text: "What's your biggest day-to-day headache?", category: 'ops',
-        type: 'choice', scoring: { category: 'ops' },
-        options: [
-          { label: 'Too much typing in the same information', value: 'manual',      score: 2 },
-          { label: "Can't see what's happening across the business", value: 'visibility', score: 3 },
-          { label: 'Gaps in communication with customers',    value: 'comms',       score: 4 },
-          { label: 'Slow or patchy start with new customers',  value: 'onboarding',  score: 4 },
-          { label: "Our tools don't talk to each other",      value: 'integration', score: 3 },
-          { label: "We're actually doing fine here",          value: 'fine',        score: 8 },
-        ]
-      },
-      {
-        id: 'adminHours', text: 'How many hours a week does your team spend on admin?',
-        hint: 'Include typing up information, chasing updates and copying between tools.', category: 'ops',
-        type: 'slider', scoring: { category: 'ops' },
-        sliderMin: 0, sliderMax: 40, sliderStep: 1,
+          { label: 'Under £100k', value: 'under-100k' }, { label: '£100k to £500k', value: '100k-500k' },
+          { label: '£500k to £1M', value: '500k-1m' }, { label: '£1M to £5M', value: '1m-5m' },
+          { label: '£5M+', value: '5m+' }, { label: 'Prefer not to say', value: 'skip' } ] },
+      adminHours: { id: 'adminHours', area: 'paid', type: 'slider', scored: true, max: 10,
+        text: () => solo() ? 'How many hours a week do you spend on admin?' : 'How many hours a week does your team spend on admin?',
+        hint: 'Include typing up information, chasing updates and copying between tools.',
+        sliderMin: 0, sliderMax: 40, sliderStep: 1, default: 10,
         displayFn: v => v === 40 ? '40+ hours' : `${v} hour${v === 1 ? '' : 's'}`,
-        subFn:     v => 'per week',
-        scoreFn:   v => v <= 5 ? 10 : v <= 10 ? 7 : v <= 20 ? 4 : v <= 30 ? 2 : 0,
-        rangeLabels: ['0', '40+'],
-        default: 10,
-      },
-      {
-        id: 'hourlyCost', text: "Roughly what does an hour of your team's time cost you?",
-        hint: 'A rough average is fine. Include wages plus extras like National Insurance and pension.', category: 'ops',
-        type: 'slider', scoring: null,
-        sliderMin: 10, sliderMax: 60, sliderStep: 1,
-        displayFn: v => v === 60 ? '£60+' : `£${v}`,
-        subFn:     v => 'per hour',
-        scoreFn:   v => 0,
-        rangeLabels: ['£10', '£60+'],
-        default: 20,
-      },
-      {
-        id: 'projectMgmt', text: 'How do you keep track of jobs and tasks?', category: 'process',
-        type: 'choice', scoring: { category: 'process' },
+        subFn: () => 'per week',
+        scoreFn: v => v <= 5 ? 10 : v <= 10 ? 7 : v <= 20 ? 4 : v <= 30 ? 2 : 0,
+        rangeLabels: ['0', '40+'] },
+      hourlyCost: { id: 'hourlyCost', area: 'paid', type: 'slider',
+        text: () => solo() ? "Roughly what's an hour of your time worth?" : "Roughly what does an hour of your team's time cost you?",
+        hint: () => solo() ? "Think about what you'd pay someone else to do it." : 'A rough average is fine. Include wages plus extras like National Insurance and pension.',
+        sliderMin: 10, sliderMax: 60, sliderStep: 1, default: 20,
+        displayFn: v => v === 60 ? '£60+' : `£${v}`, subFn: () => 'per hour', scoreFn: () => 0,
+        rangeLabels: ['£10', '£60+'] },
+      fallThrough: { id: 'fallThrough', area: 'do', type: 'choice', scored: true,
+        text: 'How often do important things fall through the cracks?',
+        options: opts([['Rarely', 'We have good systems'], ['Sometimes', 'A few times a month'], ['Often', 'A few times a week'], ['All the time', "It's a real problem"]]) },
+      offTwoWeeks: { id: 'offTwoWeeks', area: 'do', type: 'choice', scored: true,
+        text: 'If you were off for two weeks, would things keep running?',
+        options: opts(['Yes, smoothly', 'Mostly, with a few calls to me', 'Things would slow right down', 'It would grind to a halt']) },
+      goal: { id: 'goal', area: 'about', type: 'choice', cols: 2,
+        text: 'What would you most like to improve?',
         options: [
-          { label: 'A dedicated app or system', value: 'pm_tool',     score: 10, sub: 'For example Asana, Monday or a job management system' },
-          { label: 'Shared spreadsheets',       value: 'spreadsheet', score: 6,  sub: 'Google Sheets or Excel' },
-          { label: 'Email and messages',        value: 'email',       score: 3,  sub: 'Email threads and WhatsApp' },
-          { label: "Mostly in people's heads",  value: 'heads',       score: 0,  sub: 'No formal system' },
-        ]
-      },
-      {
-        id: 'clientComms', text: 'How do you keep on top of customer follow-ups?', category: 'process',
-        type: 'choice', scoring: { category: 'process' },
-        options: [
-          { label: 'A customer system (CRM)', value: 'crm',         score: 10, sub: 'For example HubSpot or Pipedrive' },
-          { label: 'A spreadsheet or document', value: 'spreadsheet', score: 6 },
-          { label: 'Email chains',            value: 'email',       score: 3 },
-          { label: 'WhatsApp or phone only',  value: 'informal',    score: 0 },
-        ]
-      },
-      {
-        id: 'improvement', text: 'What are you most trying to improve right now?', category: 'about',
-        type: 'choice', cols: 2, scoring: null,
-        options: [
-          { label: 'Cutting repetitive tasks', value: 'automation', score: 5 },
-          { label: 'Better reporting',         value: 'reporting',  score: 4 },
-          { label: 'Customer experience',      value: 'client_exp', score: 4 },
-          { label: 'Team efficiency',          value: 'team_eff',   score: 4 },
-          { label: 'Revenue growth',           value: 'revenue',    score: 3 },
-          { label: 'Reducing costs',           value: 'cost',       score: 3 },
-        ]
-      },
-      {
-        id: 'fallThrough', text: 'How often do important things fall through the cracks?', category: 'ops',
-        type: 'choice', scoring: { category: 'ops' },
-        options: [
-          { label: 'Rarely',       value: 'rarely',    score: 7, sub: 'We have good systems' },
-          { label: 'Sometimes',    value: 'sometimes', score: 4, sub: 'A few times a month' },
-          { label: 'Often',        value: 'often',     score: 2, sub: 'A few times a week' },
-          { label: 'All the time', value: 'always',    score: 0, sub: "It's a real problem" },
-        ]
-      },
-      {
-        id: 'onboarding', text: 'How long does it take to get a new customer fully set up?', category: 'process',
-        type: 'choice', scoring: { category: 'process' },
-        options: [
-          { label: 'Less than a day',   value: 'fast', score: 5 },
-          { label: '2 to 3 days',       value: 'days', score: 4 },
-          { label: 'About a week',      value: 'week', score: 2 },
-          { label: '2 weeks or more',   value: 'slow', score: 0 },
-          { label: 'No set process',    value: 'none', score: 0 },
-        ]
-      },
-      {
-        id: 'techComfort', text: 'How comfortable is your team with trying new tools?', category: 'tech',
-        type: 'slider', scoring: { category: 'tech' },
-        sliderMin: 1, sliderMax: 10, sliderStep: 1,
-        displayFn: v => `${v} out of 10`,
-        subFn: v => v <= 2 ? 'Very resistant' : v <= 4 ? 'Cautious' : v <= 6 ? 'Willing' : v <= 8 ? 'Comfortable' : 'Loves new tools',
-        scoreFn: v => Math.round(v * 2),
-        rangeLabels: ['Very resistant', 'Loves new tools'],
-        default: 6,
-      },
-    ];
+          { label: 'Win more work', value: 'win' }, { label: 'Spend less time on admin', value: 'admin' },
+          { label: 'Get paid faster', value: 'paid' }, { label: "Know what's going on", value: 'do' },
+          { label: 'Free up my own time', value: 'reliance' }, { label: 'Grow without hiring', value: 'grow' } ] },
+    };
+    // Add each industry's type question and track questions
+    Object.entries(SUBTYPES).forEach(([track, def]) => {
+      Q['type_' + track] = { id: 'type_' + track, area: 'about', type: 'choice', text: def.text,
+        options: def.options.map(([label, noun], i) => ({ label, noun, value: 't' + (i + 1) })) };
+    });
+    Object.entries(TRACKS).forEach(([track, list]) => {
+      list.forEach((q, i) => { Q[`${track}_${i + 1}`] = { ...q, id: `${track}_${i + 1}`, type: 'choice', scored: true }; });
+    });
+
+    const SHARED_END = ['adminHours', 'hourlyCost', 'fallThrough', 'offTwoWeeks', 'goal'];
+    const TOTAL_QUESTIONS = 15;
+
+    // The list of questions for this visitor, based on their industry
+    function getPath() {
+      const track = state.answers['industry']?.value;
+      if (!track) return ['industry'];
+      return ['industry', 'type_' + track, 'teamSize', 'revenue',
+        ...TRACKS[track].map((_, i) => `${track}_${i + 1}`), ...SHARED_END];
+    }
+    const resolve = v => typeof v === 'function' ? v() : v;
+    const currentQ = () => Q[getPath()[state.currentQ]];
 
     /* ═══════════════════════════════════════════════════
        STATE + SCREENS
@@ -601,7 +673,7 @@
     }
 
     function startQuiz() { state.currentQ = 0; showScreen('screen-quiz'); renderQuestion('next'); }
-    function showQuiz()  { state.currentQ = QUESTIONS.length - 1; showScreen('screen-quiz'); renderQuestion('prev'); }
+    function showQuiz()  { state.currentQ = getPath().length - 1; showScreen('screen-quiz'); renderQuestion('prev'); }
     function restart()   { state.answers = {}; state.currentQ = 0; showScreen('screen-intro'); }
 
     /* ═══════════════════════════════════════════════════
@@ -609,10 +681,10 @@
     ═══════════════════════════════════════════════════ */
     function renderQuestion(direction) {
       clearTimeout(advanceTimer);
-      const q = QUESTIONS[state.currentQ];
-      document.getElementById('progressFill').style.transform = `scaleX(${(state.currentQ + 1) / (QUESTIONS.length + 1)})`;
-      document.getElementById('qCounter').textContent = `Question ${state.currentQ + 1} of ${QUESTIONS.length}`;
-      document.getElementById('qCategory').textContent = CATEGORY_NAMES[q.category];
+      const q = currentQ();
+      document.getElementById('progressFill').style.transform = `scaleX(${(state.currentQ + 1) / (TOTAL_QUESTIONS + 1)})`;
+      document.getElementById('qCounter').textContent = `Question ${state.currentQ + 1} of ${TOTAL_QUESTIONS}`;
+      document.getElementById('qCategory').textContent = AREA_NAMES[q.area] + (q.optional ? ' · Optional' : '');
       document.getElementById('nextHint').textContent = '';
       document.getElementById('prevBtn').disabled = state.currentQ === 0;
       document.getElementById('keysHint').style.visibility = q.type === 'choice' ? 'visible' : 'hidden';
@@ -628,29 +700,30 @@
     }
 
     function buildQuestionHTML(q) {
-      const hint = q.hint ? `<p class="fs-hint">${q.hint}</p>` : '';
+      const text = resolve(q.text);
+      const hintText = resolve(q.hint);
+      const hint = hintText ? `<p class="fs-hint">${hintText}</p>` : '';
       let inner = '';
       if (q.type === 'choice') {
-        inner = `<div class="fs-choices ${q.cols === 2 ? 'cols-2' : ''}" role="radiogroup" aria-label="${q.text}">` +
+        inner = `<div class="fs-choices ${q.cols === 2 ? 'cols-2' : ''}" role="radiogroup" aria-label="${text.replace(/"/g, '&quot;')}">` +
           q.options.map((o, i) => `
-            <button type="button" class="fs-choice" role="radio" aria-checked="false"
+            <button type="button" class="fs-choice${o.value === 'skip' ? ' is-skip' : ''}" role="radio" aria-checked="false"
               data-value="${o.value}" data-score="${o.score ?? 0}" onclick="selectChoice(this, '${q.id}')">
               <span class="key" aria-hidden="true">${i < 9 ? i + 1 : ''}</span>
               <span>${o.label}${o.sub ? `<small>${o.sub}</small>` : ''}</span>
             </button>`).join('') + `</div>`;
       } else {
         const val = state.answers[q.id]?.rawValue ?? q.default;
-        const ends = q.rangeLabels || [q.labels[0], q.labels[q.labels.length - 1]];
         inner = `
           <div class="fs-slider">
             <div class="fs-slider-val" id="sliderDisplay"></div>
-            <input class="fs-range" type="range" id="sliderInput" aria-label="${q.text}"
+            <input class="fs-range" type="range" id="sliderInput" aria-label="${text.replace(/"/g, '&quot;')}"
               min="${q.sliderMin}" max="${q.sliderMax}" step="${q.sliderStep ?? 1}" value="${val}"
               oninput="onSliderMove(this, '${q.id}')" />
-            <div class="fs-range-labels"><span>${ends[0]}</span><span>${ends[1]}</span></div>
+            <div class="fs-range-labels"><span>${q.rangeLabels[0]}</span><span>${q.rangeLabels[1]}</span></div>
           </div>`;
       }
-      return `<h2 class="fs-q">${q.text}</h2>${hint}${inner}`;
+      return `<h2 class="fs-q">${text}</h2>${hint}${inner}`;
     }
 
     function initSlider(q) {
@@ -659,23 +732,15 @@
     }
 
     function onSliderMove(input, qId) {
-      const q = QUESTIONS.find(x => x.id === qId);
+      const q = Q[qId];
       const val = parseInt(input.value, 10);
-      let display, sub = '', score;
-      if (q.displayFn) {
-        display = q.displayFn(val);
-        sub = q.subFn ? q.subFn(val) : '';
-        score = q.scoreFn(val);
-      } else {
-        const idx = Math.round((val - q.sliderMin) / (q.sliderMax - q.sliderMin) * (q.labels.length - 1));
-        display = q.labels[idx];
-        score = q.scores[idx];
-      }
+      const display = q.displayFn(val);
+      const sub = q.subFn ? q.subFn(val) : '';
       document.getElementById('sliderDisplay').innerHTML = display + (sub ? `<small>${sub}</small>` : '');
       input.setAttribute('aria-valuetext', display + (sub ? `, ${sub}` : ''));
       const pct = (input.value - input.min) / (input.max - input.min) * 100;
       input.style.background = `linear-gradient(to right, var(--blue) ${pct}%, var(--line-strong) ${pct}%)`;
-      state.answers[qId] = { value: display, rawValue: val, score: score ?? 0 };
+      state.answers[qId] = { value: display, rawValue: val, score: q.scoreFn(val) };
     }
 
     function restoreChoice(q) {
@@ -692,7 +757,13 @@
       document.querySelectorAll('.fs-choice').forEach(b => { b.classList.remove('selected'); b.setAttribute('aria-checked', 'false'); });
       btn.classList.add('selected');
       btn.setAttribute('aria-checked', 'true');
-      state.answers[qId] = { value: btn.dataset.value, score: parseFloat(btn.dataset.score) || 0 };
+      // Changing industry clears answers from the previous industry's questions
+      if (qId === 'industry' && state.answers.industry && state.answers.industry.value !== btn.dataset.value) {
+        const keep = ['industry', 'teamSize', 'revenue', ...SHARED_END];
+        Object.keys(state.answers).forEach(k => { if (!keep.includes(k)) delete state.answers[k]; });
+      }
+      const opt = Q[qId].options.find(o => o.value === btn.dataset.value);
+      state.answers[qId] = { value: btn.dataset.value, label: opt.label, score: parseFloat(btn.dataset.score) || 0 };
       document.getElementById('nextHint').textContent = '';
       // Brief pause so the selection registers, then move on
       clearTimeout(advanceTimer);
@@ -704,13 +775,13 @@
     ═══════════════════════════════════════════════════ */
     function nextQuestion() {
       clearTimeout(advanceTimer);
-      const q = QUESTIONS[state.currentQ];
+      const q = currentQ();
       if (q.type === 'slider' && !state.answers[q.id]) initSlider(q);
       if (q.type === 'choice' && !state.answers[q.id]) {
         document.getElementById('nextHint').textContent = 'Choose an option to continue.';
         return;
       }
-      if (state.currentQ < QUESTIONS.length - 1) {
+      if (state.currentQ < getPath().length - 1) {
         state.currentQ++;
         renderQuestion('next');
       } else {
@@ -737,6 +808,22 @@
         nextQuestion(); e.preventDefault();
       }
     });
+
+    /* ═══════════════════════════════════════════════════
+       ABOUT THE VISITOR (for wording, results and booking)
+    ═══════════════════════════════════════════════════ */
+    function profile() {
+      const track = state.answers['industry']?.value || 'other';
+      const industry = INDUSTRIES.find(i => i.value === track);
+      const typeAns = state.answers['type_' + track];
+      const typeOpt = typeAns ? Q['type_' + track].options.find(o => o.value === typeAns.value) : null;
+      return {
+        track,
+        industryLabel: industry?.label || 'Something else',
+        typeLabel: typeOpt?.label || '',
+        noun: typeOpt?.noun || 'business',
+      };
+    }
 
     /* ═══════════════════════════════════════════════════
        CONTACT + SUBMIT
@@ -766,36 +853,41 @@
 
     function buildSubmission(scores) {
       const a = id => state.answers[id];
+      const p = profile();
+      const answers = {};
+      getPath().forEach(id => { const ans = a(id); if (ans) answers[id] = { question: resolve(Q[id].text), answer: ans.label || ans.value }; });
       return {
         name: state.contact.name, email: state.contact.email, company: state.contact.company || null,
-        score: scores.total,
-        industry: a('industry')?.value || null, team_size: a('teamSize')?.value || null,
-        revenue: a('revenue')?.value || null, stage: a('stage')?.value || null,
-        headache: a('headache')?.value || null, admin_hours: a('adminHours')?.rawValue ?? null,
-        project_mgmt: a('projectMgmt')?.value || null, client_comms: a('clientComms')?.value || null,
-        improvement: a('improvement')?.value || null, fall_through: a('fallThrough')?.value || null,
-        onboarding: a('onboarding')?.value || null, tech_comfort: a('techComfort')?.rawValue ?? null,
-        hourly_cost: a('hourlyCost')?.rawValue ?? null, admin_cost_year: adminCost().yearly,
-        ops_score: scores.ops, process_score: scores.process, tech_score: scores.tech,
-        source: 'flow-score',
+        score: scores.total, win_score: scores.win, do_score: scores.do, paid_score: scores.paid,
+        industry: p.industryLabel, business_type: p.typeLabel || null,
+        team_size: a('teamSize')?.label || null,
+        turnover: a('revenue')?.value === 'skip' ? null : (a('revenue')?.label || null),
+        goal: a('goal')?.label || null,
+        admin_hours: a('adminHours')?.rawValue ?? null, hourly_cost: a('hourlyCost')?.rawValue ?? null,
+        admin_cost_year: adminCost().yearly,
+        answers, source: 'flow-score',
       };
     }
 
     /* ═══════════════════════════════════════════════════
        SCORING
-       Only how the business runs is scored. The total is the share of
-       available points earned, out of 100.
+       Each scored area is the share of its available points (0 to 100).
+       The Flow Score is the average of the three areas, so each counts equally.
     ═══════════════════════════════════════════════════ */
     function calculateScores() {
-      const cats = { ops: 0, process: 0, tech: 0 };
-      QUESTIONS.forEach(q => {
-        const ans = state.answers[q.id];
-        if (q.scoring && ans) cats[q.scoring.category] += ans.score || 0;
+      const earned = { win: 0, do: 0, paid: 0 };
+      const possible = { win: 0, do: 0, paid: 0 };
+      getPath().forEach(id => {
+        const q = Q[id];
+        if (!q.scored) return;
+        const max = q.max ?? Math.max(...q.options.map(o => o.score));
+        possible[q.area] += max;
+        earned[q.area] += state.answers[id]?.score || 0;
       });
-      Object.keys(cats).forEach(k => { cats[k] = Math.min(cats[k], AREAS[k]); });
-      const earned = Object.values(cats).reduce((x, y) => x + y, 0);
-      const available = Object.values(AREAS).reduce((x, y) => x + y, 0);
-      return { ...cats, total: Math.round(earned / available * 100) };
+      const scores = {};
+      SCORED_AREAS.forEach(k => { scores[k] = possible[k] ? Math.round(earned[k] / possible[k] * 100) : 0; });
+      scores.total = Math.round(SCORED_AREAS.reduce((t, k) => t + scores[k], 0) / SCORED_AREAS.length);
+      return scores;
     }
 
     /* What admin costs a year: hours a week x hourly cost x 48 working weeks */
@@ -829,23 +921,65 @@
     ═══════════════════════════════════════════════════ */
     const VERDICTS = {
       critical:   { label: 'Needs attention', text: "Your business is running on a lot of manual effort and workarounds. You're likely losing many hours every week, and it's holding your growth back. The good news: there are plenty of quick wins." },
-      developing: { label: 'Room to grow',    text: "You have solid foundations, but there are clear gaps that are costing you time and consistency. A few targeted changes could give your team hours back, without starting from scratch." },
-      efficient:  { label: 'Ahead of the pack', text: "You're running more smoothly than most businesses at your stage. A few well-chosen improvements would take you from well-run to really well organised, and make growth easier." },
-      optimised:  { label: 'Running smoothly', text: "Your business is in great shape. The opportunity now is to build on it, joining up your tools more closely and freeing your team from what's left of the admin." },
+      developing: { label: 'Room to grow',    text: "You have solid foundations, but there are clear gaps that are costing you time and consistency. A few targeted changes could give you hours back, without starting from scratch." },
+      efficient:  { label: 'Ahead of the pack', text: "You're running more smoothly than most businesses. A few well-chosen improvements would take you from well-run to really well organised, and make growth easier." },
+      optimised:  { label: 'Running smoothly', text: "Your business is in great shape. The opportunity now is to build on it, joining things up further and freeing up time for growth." },
     };
 
     const ICONS = {
-      cog:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h11l-3-3M20 17H9l3 3"/></svg>',
-      folder:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3.5 7.5a2 2 0 0 1 2-2h4l2 2h7a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/></svg>',
-      link:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>',
-      steps: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 19l5-5 4 3 8-9"/><path d="M15 8h5v5"/></svg>',
-      chart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 19V11M12 19V5M19 19v-6"/></svg>',
+      win:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 19l5-5 4 3 8-9"/><path d="M15 8h5v5"/></svg>',
+      do:       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3.5 7.5a2 2 0 0 1 2-2h4l2 2h7a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/></svg>',
+      paid:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M16 6.5a4 4 0 0 0-7 2.6V17M6.5 12.5h7M6.5 17.5h11"/></svg>',
+      admin:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h11l-3-3M20 17H9l3 3"/></svg>',
+      reliance: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="8" r="3"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><circle cx="17" cy="9" r="2.5"/><path d="M15.5 14.2A4.5 4.5 0 0 1 21 18.5"/></svg>',
+      grow:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 19V11M12 19V5M19 19v-6"/></svg>',
+    };
+
+    // One recommendation per industry and area, used when that area is weaker
+    const TRACK_RECS = {
+      trades: {
+        win:  ['Get quotes out the same day', "Save your standard prices and build quotes from a template, so a quote takes minutes after a site visit rather than an evening at the kitchen table. Faster quotes win more jobs."],
+        do:   ['Plan jobs and costs in one place', "Keep the weekly schedule and each job's materials and costs together, so everyone knows where they need to be and you can see which jobs are making money."],
+        paid: ['Invoice on the day and charge for every extra', "Agree extra work in writing before you do it and send the invoice the day the job finishes. It's often the quickest boost to cash flow."],
+      },
+      professional: {
+        win:  ['Speed up proposals and client set-up', 'Turn proposals and engagement letters into templates and give new clients a set checklist, so they are up and running in days, not weeks.'],
+        do:   ["See every client's work at a glance", 'Keep each client\'s work, deadlines and missing documents in one place, with automatic reminders, so you stop chasing and nothing slips.'],
+        paid: ['Bill on time, every time', 'Link fees and time to billing so invoices go out automatically, and send polite reminders before invoices fall overdue.'],
+      },
+      manufacturing: {
+        win:  ['Give prices and lead times on the spot', 'Keep prices, stock and capacity where your team can see them, so customers get a price and a date straight away, and orders are entered once.'],
+        do:   ['Know where every order is', 'Plan production and dispatch in one shared place, so anyone can tell a customer where their order is without ringing round.'],
+        paid: ['Invoice at dispatch and trust your stock', "Raise invoices automatically as orders go out and update stock as you go, so cash comes in sooner and you're not caught short."],
+      },
+      retail: {
+        win:  ['Keep stock in sync and reply faster', 'Sync stock across everywhere you sell to stop overselling, and use saved replies for common questions so customers hear back quickly.'],
+        do:   ['Smooth out picking, packing and returns', "Print pick lists and labels automatically and give returns a simple set process, so busy periods don't turn into chaos."],
+        paid: ['Match sales and reorder automatically', 'Feed sales into your accounts automatically and set low stock alerts, so the numbers add up and you never run out of best sellers.'],
+      },
+      property: {
+        win:  ['Follow up every enquiry the same day', "Reply to new enquiries automatically and let applicants book viewings online, so good tenants and buyers don't go elsewhere."],
+        do:   ['Keep maintenance and updates in one place', 'Track every maintenance request in one place and send landlords regular updates automatically, so nothing gets missed and owners stay happy.'],
+        paid: ['Spot arrears and renewals early', 'Have rent checked automatically with arrears flagged, and set reminders for certificates and renewals well before they are due.'],
+      },
+      appointments: {
+        win:  ['Make booking easy and follow up enquiries', "Let customers book online at any time and follow up anyone who enquires but doesn't book, so fewer people slip away."],
+        do:   ['Cut no-shows with reminders', 'Send automatic reminders before every appointment and keep client notes in one place your whole team can see.'],
+        paid: ['Take payment and forms before they arrive', 'Take deposits when people book and send forms to fill in beforehand, so appointments start on time and no-shows cost you less.'],
+      },
+      other: {
+        win:  ['Get prices out faster', "Save your standard prices and use a template, so customers get a price quickly while they're still keen."],
+        do:   ['Keep work and updates in one place', 'Track all work in progress in one shared place and keep customers updated automatically, so nobody has to chase.'],
+        paid: ['Invoice sooner and chase less', 'Send invoices as soon as work is finished and set up automatic payment reminders.'],
+      },
     };
 
     function buildResults(scores, name) {
       const tier = tierFor(scores.total);
+      const p = profile();
       const firstName = (name || '').split(' ')[0];
       document.getElementById('resultsHeadline').textContent = firstName ? `${firstName}, here's your Flow Score` : 'Your Flow Score';
+      document.getElementById('resultsSub').textContent = `How your ${p.noun} is running across three key areas.`;
 
       const ring = document.getElementById('scoreRing');
       ring.className = `fs-ring rise tone-${tier}`;
@@ -855,16 +989,15 @@
 
       buildCost();
 
-      document.getElementById('categoriesGrid').innerHTML = Object.keys(AREAS).map((key, i) => {
-        const val = scores[key];
-        const max = AREAS[key];
-        const pct = Math.round(val / max * 100);
+      document.getElementById('categoriesGrid').innerHTML = SCORED_AREAS.map((key, i) => {
+        const pct = scores[key];
+        const t = tierFor(pct);
         return `
-          <div class="fs-cat rise tone-${tierFor(pct)}" style="transition-delay:${.3 + i * .06}s">
-            <div class="fs-cat-name">${CATEGORY_NAMES[key]}</div>
+          <div class="fs-cat rise tone-${t}" style="transition-delay:${.3 + i * .06}s">
+            <div class="fs-cat-name">${AREA_NAMES[key]}</div>
             <div class="fs-cat-row">
-              <div class="fs-cat-score">${val}<small> / ${max}</small></div>
-              <div class="fs-cat-pct">${pct}%</div>
+              <div class="fs-cat-score">${pct}<small>%</small></div>
+              <div class="fs-cat-pct">${VERDICTS[t].label}</div>
             </div>
             <div class="fs-bar"><i data-pct="${pct / 100}"></i></div>
           </div>`;
@@ -887,40 +1020,42 @@
     }
 
     function buildRecommendations(scores) {
+      const p = profile();
       const recs = [];
-      const share = k => scores[k] / AREAS[k];
-      if (share('ops') < .72) {
-        const hrs = state.answers['adminHours']?.rawValue ?? 10;
-        const solo = state.answers['teamSize']?.value === 'solo';
-        recs.push({ icon: 'cog', title: 'Cut down the manual admin',
-          body: `${solo ? "You're" : 'Your team is'} spending around ${hrs} hours a week on admin, much of which could run itself. Tackling just 3 or 4 repeated jobs could free up days every month.` });
+      // Weaker areas first, with advice written for their industry
+      SCORED_AREAS.filter(k => scores[k] < 75)
+        .sort((a, b) => scores[a] - scores[b])
+        .forEach(k => recs.push({ key: k, icon: k, title: TRACK_RECS[p.track][k][0], body: TRACK_RECS[p.track][k][1] }));
+
+      const hrs = state.answers['adminHours']?.rawValue ?? 0;
+      if (hrs >= 10) {
+        recs.push({ key: 'admin', icon: 'admin', title: 'Cut down the manual admin',
+          body: `${solo() ? "You're" : 'Your team is'} spending around ${hrs} hours a week on admin. Tackling the 3 or 4 jobs that come up most often could free up days every month.` });
       }
-      if (share('process') < .72) {
-        const pm = state.answers['projectMgmt']?.value;
-        recs.push({ icon: 'folder', title: 'Keep jobs and customer details in one place',
-          body: pm === 'heads' || pm === 'email'
-            ? "Right now, too much important information lives in email threads and people's heads. Keeping it in one place would cut mistakes, speed up handovers and show you what's really going on."
-            : 'There are gaps in how you keep track of work. Joining up your tools and agreeing one way of doing things is the quickest route to consistent results.' });
+      if ((state.answers['offTwoWeeks']?.score ?? 10) <= 3) {
+        recs.push({ key: 'reliance', icon: 'reliance', title: 'Make the business less reliant on you',
+          body: 'Write down how the key jobs get done and keep information where everyone can find it, so the business keeps running when you step away.' });
       }
-      if (share('tech') < .72) {
-        recs.push({ icon: 'link', title: 'Connect your tools and stop retyping',
-          body: "Most businesses use 6 to 10 separate tools that don't talk to each other. Linking the ones you already use can save hours of copying and pasting and cut down on mistakes." });
+      const goal = state.answers['goal']?.value;
+      if (goal === 'grow' && !recs.some(r => r.key === 'admin')) {
+        recs.push({ key: 'grow', icon: 'grow', title: 'Grow without adding headcount',
+          body: 'Simplify and automate the repeat jobs first, so more work does not automatically mean more people and more admin.' });
       }
-      const stage = state.answers['stage']?.value;
-      if (share('process') < .8 && ['growing', 'scaling', 'struggling'].includes(stage)) {
-        recs.push({ icon: 'steps', title: 'Get your processes right before you grow',
-          body: stage === 'struggling'
-            ? "When things are tough, simpler processes take pressure off quickly. Fixing the one or two jobs that cause the most rework is usually the fastest relief."
-            : "You're growing, which makes now the perfect time to get your processes in order. Everything you simplify now pays off more as your team and customer base grow." });
+      if (!recs.length) {
+        recs.push({ key: 'keep', icon: 'grow', title: 'Build on what is working',
+          body: 'You score well across the board. The next step is joining up what is left, so the business stays this smooth as it grows.' });
       }
-      if (recs.length < 2 || scores.total >= 66) {
-        recs.push({ icon: 'chart', title: 'See your whole business at a glance',
-          body: 'Even well-run businesses struggle without clear reporting. One simple view of jobs, revenue and team capacity helps you spot problems early and make better decisions.' });
-      }
+
+      // Put the area they most want to improve first, marked as their priority
+      const goalKey = { win: 'win', admin: 'admin', paid: 'paid', do: 'do', reliance: 'reliance', grow: 'grow' }[goal];
+      const gi = recs.findIndex(r => r.key === goalKey);
+      if (gi > 0) recs.unshift(...recs.splice(gi, 1));
+      if (gi >= 0) recs[0].priority = true;
+
       document.getElementById('recsList').innerHTML = recs.slice(0, 4).map((r, i) => `
         <div class="fs-rec rise" style="transition-delay:${.5 + i * .06}s">
           <div class="fs-rec-icon" aria-hidden="true">${ICONS[r.icon]}</div>
-          <div><h3>${r.title}</h3><p>${r.body}</p></div>
+          <div><h3>${r.title}${r.priority ? ' <span class="fs-rec-tag">Your priority</span>' : ''}</h3><p>${r.body}</p></div>
         </div>`).join('');
     }
 
@@ -938,16 +1073,16 @@
     }
 
     /* Pre-fill the Cal.com booking with their details and a short summary */
-    const HEADACHE_LABELS = {
-      manual: 'Typing in the same information', visibility: "Can't see what's happening",
-      comms: 'Customer communication gaps', onboarding: 'Slow start with new customers',
-      integration: "Tools don't talk to each other", fine: 'None in particular',
-    };
     function buildBookingLink(scores) {
       const c = adminCost();
+      const p = profile();
+      const a = id => state.answers[id];
       const notes = [
-        `Flow Score: ${scores.total}/100`,
-        `Biggest headache: ${HEADACHE_LABELS[state.answers['headache']?.value] || 'Not given'}`,
+        `Flow Score: ${scores.total}/100 (Winning work ${scores.win}%, Doing the work ${scores.do}%, Getting paid & admin ${scores.paid}%)`,
+        `Business: ${p.typeLabel ? `${p.typeLabel}, ` : ''}${p.industryLabel}`,
+        a('teamSize') ? `Team: ${a('teamSize').label}` : null,
+        a('revenue') && a('revenue').value !== 'skip' ? `Turnover: ${a('revenue').label}` : null,
+        a('goal') ? `Main goal: ${a('goal').label}` : null,
         c.hours ? `Admin: ${c.hours} hrs a week (about ${gbp(c.yearly)} a year)` : null,
         state.contact.company ? `Company: ${state.contact.company}` : null,
       ].filter(Boolean).join('\n');
