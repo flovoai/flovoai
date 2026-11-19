@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var revealSelectors = [
     '.sec-head > *', '.seg', '.panes', '.window', '.quote-card', '.stat',
-    '.card', '.howstrip', '.flow-copy > *', '.contact'
+    '.svc-list', '.timeline', '.flow-copy > *', '.contact'
   ];
   var STAGGER = reduceMotion ? 0 : 80;
 
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.reveal').forEach(function (el) { revealObserver.observe(el); });
 
     // Process line draws across when the steps come into view
-    var steps = document.querySelector('.steps');
+    var steps = document.querySelector('.timeline');
     if (steps) {
       new IntersectionObserver(function (entries, obs) {
         if (entries[0].isIntersecting) { steps.classList.add('drawn'); obs.disconnect(); }
@@ -69,6 +69,15 @@ document.addEventListener('DOMContentLoaded', function () {
   } else {
     document.documentElement.classList.add('hero-in', 'no-motion');
   }
+
+  // ── Services list: open one at a time ────────────────────────────────────
+  var svcItems = document.querySelectorAll('.svc-item');
+  svcItems.forEach(function (d) {
+    d.addEventListener('toggle', function () {
+      if (!d.open) return;
+      svcItems.forEach(function (o) { if (o !== d) o.open = false; });
+    });
+  });
 
   // ── Wayfinding: highlight the nav link for the section in view ───────────
   var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav-link[href^="#"]'));
