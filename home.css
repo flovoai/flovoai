@@ -212,15 +212,16 @@ mark { background: linear-gradient(transparent 10%, rgba(59, 110, 224, .17) 10%,
 
 /* Result panel */
 .hero-card {
-  margin: clamp(3.5rem, 7vw, 4.5rem) auto 0; max-width: 48rem;
+  margin: clamp(3.5rem, 7vw, 4.5rem) auto 0; max-width: 54rem;
   background: #fff; border-radius: 1.25rem; box-shadow: var(--shadow-md);
-  display: grid; grid-template-columns: 1.15fr 2fr; align-items: center; gap: 1.5rem;
+  display: grid; grid-template-columns: minmax(13rem, 1fr) auto; align-items: center; gap: 1.75rem;
   padding: 1.625rem 1.875rem; text-align: left;
 }
 .hero-card-label { font-size: .75rem; font-weight: 600; color: var(--blue); margin-bottom: .375rem; }
 .hero-card-intro p { color: var(--text-soft); font-size: .9375rem; line-height: 1.5; }
-.hero-card-figs { display: grid; grid-template-columns: 1.4fr 1fr 1fr; }
-.fig { padding: .125rem 0 .125rem 1.375rem; border-left: 1px solid var(--line); }
+.hero-card-figs { display: grid; grid-template-columns: auto auto auto; }
+.fig { padding: .125rem 1.75rem; border-left: 1px solid var(--line); }
+.fig:last-child { padding-right: 0; }
 .fig strong { display: block; font-family: var(--display); color: var(--ink); font-size: 1.625rem; line-height: 1.1; letter-spacing: -0.03em; font-weight: 700; white-space: nowrap; }
 .fig-main strong { color: var(--blue); }
 .fig > span { display: block; font-size: .8125rem; color: var(--text-soft); margin-top: .25rem; }
@@ -433,6 +434,7 @@ mark { background: linear-gradient(transparent 10%, rgba(59, 110, 224, .17) 10%,
   .app-side, .app-board { display: none; }
   .hero-card { grid-template-columns: 1fr; padding: 1.5rem; gap: 1.25rem; }
   .hero-card-figs { grid-template-columns: 1fr 1fr; gap: 1.125rem 0; }
+  .fig { padding-left: 1.375rem; padding-right: 0; }
   .fig-main { grid-column: 1 / -1; border-left: 0; padding-left: 0; }
   .fig:nth-child(2) { border-left: 0; padding-left: 0; }
   .pane, .case-grid, .svc, .flow-tile { grid-template-columns: 1fr; }
