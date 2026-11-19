@@ -378,10 +378,31 @@ mark { background: linear-gradient(transparent 10%, rgba(59, 110, 224, .17) 10%,
 .flow-window.in-view .fv-fill, .flow-window.revealed .fv-fill, .no-motion .flow-window .fv-fill { stroke-dashoffset: 123; transition: stroke-dashoffset 1.6s var(--ease) .2s; }
 .flow-window.in-view .bar i, .flow-window.revealed .bar i, .no-motion .flow-window .bar i { transform: none; transition: transform 1.1s var(--ease) .4s; }
 
-/* ---------- Contact ---------- */
-.contact { max-width: 48rem; margin: 0 auto; text-align: center; background: #fff; border-radius: 1.5rem; padding: clamp(3rem, 7vw, 4.5rem) clamp(1.5rem, 5vw, 3rem); box-shadow: var(--shadow-md); }
-.contact p { font-size: 1.1875rem; color: var(--text-soft); max-width: 33rem; margin: 1.125rem auto 0; }
-.contact-meta { margin-top: 1.375rem; font-size: .875rem; color: var(--text-soft); }
+/* ---------- Contact: a booking window ---------- */
+.book { display: grid; grid-template-columns: 1fr 1.05fr; gap: 4rem; align-items: center; }
+.book-copy p { color: var(--text-soft); font-size: 1.1875rem; margin: 1rem 0 2rem; max-width: 26rem; }
+.book-facts { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: 1.5rem; }
+.book-facts li { font-size: .8125rem; font-weight: 500; background: #fff; box-shadow: 0 0 0 1px var(--line); padding: .375rem .75rem; border-radius: 99px; }
+.cal { padding: 1.5rem 1.75rem 1.75rem; }
+.cal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.125rem; }
+.cal-head h3 { font-size: 1.125rem; margin: 0; }
+.cal-head span { font-size: .8125rem; color: var(--text-soft); }
+.cal-days { display: grid; grid-template-columns: repeat(5, 1fr); gap: .5rem; }
+.cal-day {
+  border: 0; font: inherit; background: var(--tint); border-radius: .75rem; padding: .625rem 0; text-align: center; cursor: pointer; color: var(--text);
+  -webkit-tap-highlight-color: transparent; transition: background-color .2s var(--ease-out), color .2s var(--ease-out), transform .12s var(--ease-out);
+}
+.cal-day small { display: block; font-size: .6875rem; color: var(--faint); text-transform: uppercase; letter-spacing: .06em; }
+.cal-day b { font-size: 1.125rem; font-variant-numeric: tabular-nums; }
+.cal-day:hover { background: #EAEEF5; }
+.cal-day[aria-pressed="true"] { background: var(--blue); color: #fff; }
+.cal-day[aria-pressed="true"] small { color: rgba(255, 255, 255, .75); }
+.cal-day:active { transform: scale(.96); transition-duration: 0s; }
+.cal-go { width: 100%; justify-content: center; margin-top: 1rem; }
+.cal-foot { margin-top: 1.125rem; padding-top: 1rem; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 1rem; font-size: .8125rem; color: var(--text-soft); flex-wrap: wrap; }
+.cal-foot a { color: var(--blue); font-weight: 600; }
+/* Without JavaScript there are no days to pick, so the window just links to the booking page */
+.cal-days:empty { display: none; }
 
 /* ---------- Footer ---------- */
 .footer { padding: 2.25rem 0 2.75rem; border-top: 1px solid var(--line); }
@@ -426,7 +447,7 @@ mark { background: linear-gradient(transparent 10%, rgba(59, 110, 224, .17) 10%,
   .js .flow-window .fv-fill { stroke-dashoffset: 123; transition: none !important; }
   .pane, .pane[hidden], .seg-thumb { transition: none; }
   .pane[hidden] { transform: none; filter: none; }
-  .btn-arrow, .btn, .nav-cta, .nav-score, .nav-score-icon .f, .svc-chev { transition: none; }
+  .btn-arrow, .btn, .nav-cta, .nav-score, .nav-score-icon .f, .svc-chev, .cal-day { transition: none; }
   .btn:active, .nav-cta:active, .nav-score:active { transform: none; }
 }
 /* Reduced transparency: solid navigation */
@@ -436,7 +457,7 @@ mark { background: linear-gradient(transparent 10%, rgba(59, 110, 224, .17) 10%,
 /* Increased contrast: defined edges and stronger secondary text */
 @media (prefers-contrast: more) {
   :root { --text-soft: #39445A; --faint: #5B6780; --line: #9AA8C0; }
-  .svc-list, .stat, .chat, .checklist, .hero-card, .quote-card, .contact, .window { box-shadow: 0 0 0 1px var(--navy); }
+  .svc-list, .stat, .chat, .checklist, .hero-card, .quote-card, .window { box-shadow: 0 0 0 1px var(--navy); }
   .nav { background: #fff; border-bottom: 1px solid var(--navy); }
 }
 
@@ -451,7 +472,10 @@ mark { background: linear-gradient(transparent 10%, rgba(59, 110, 224, .17) 10%,
   .fig { padding-left: 1.375rem; padding-right: 0; }
   .fig-main { grid-column: 1 / -1; border-left: 0; padding-left: 0; }
   .fig:nth-child(2) { border-left: 0; padding-left: 0; }
-  .pane, .case-grid, .flow-tile { grid-template-columns: 1fr; }
+  .pane, .case-grid, .flow-tile, .book { grid-template-columns: 1fr; }
+  .book { gap: 2.5rem; text-align: center; }
+  .book-copy p { margin-left: auto; margin-right: auto; }
+  .book-facts { justify-content: center; }
   .case-grid { gap: 2rem; }
   .quote-card { rotate: none; }
   .flow-tile { gap: 2.5rem; }
@@ -469,7 +493,9 @@ mark { background: linear-gradient(transparent 10%, rgba(59, 110, 224, .17) 10%,
   .quote-head { flex-wrap: wrap; }
   .score-body { grid-template-columns: 1fr; justify-items: center; padding: 1.75rem; }
   .score-bars { width: 100%; }
-  .flow-tile .btn { width: 100%; justify-content: center; }
+  .flow-tile .btn, .book-copy .btn { width: 100%; justify-content: center; }
+  .cal { padding: 1.25rem; }
+  .cal-days { gap: .375rem; }
   .stat b { font-size: 2.125rem; min-width: 6rem; }
   .fig strong { font-size: 1.5rem; }
   .svc-item summary { grid-template-columns: auto 1fr auto; padding: 1.125rem 1.25rem; gap: .875rem; }
