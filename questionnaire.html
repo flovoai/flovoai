@@ -24,32 +24,30 @@
        Flow Score page. Shares tokens, nav, buttons and type with home.css.
        ========================================================================== */
     body { background: var(--bg); }
-    .fs { min-height: calc(100vh - 4.25rem); display: flex; flex-direction: column; }
+    .fs { min-height: calc(100vh - 4rem); display: flex; flex-direction: column; }
     .fs-screen { display: none; flex: 1; flex-direction: column; }
     .fs-screen.active { display: flex; }
     .fs-col { width: 100%; max-width: 44rem; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2rem); }
 
     /* ---------- Intro ---------- */
     .fs-intro {
-      margin-top: -4.25rem;
-      padding: calc(4.25rem + clamp(3.5rem, 9vw, 6.5rem)) 0 clamp(4rem, 8vw, 6rem);
-      background: radial-gradient(60rem 30rem at 50% -4rem, #E3ECFD, transparent 70%), var(--bg);
+      padding: clamp(4rem, 9vw, 6.5rem) 0 clamp(4rem, 8vw, 6rem);
       text-align: center; flex: 1;
     }
     .fs-intro .fs-col { max-width: 52rem; }
     .fs-intro h1 { font-size: clamp(2.75rem, 6vw, 4.75rem); }
-    .fs-intro-sub { font-size: clamp(1.125rem, 1.6vw, 1.3125rem); line-height: 1.55; color: var(--text-soft); max-width: 36rem; margin: 1.5rem auto 0; letter-spacing: -0.01em; }
+    .fs-intro-sub { font-size: clamp(1.125rem, 1.6vw, 1.3125rem); line-height: 1.55; color: var(--text-soft); max-width: 36rem; margin: 1.875rem auto 0; letter-spacing: -0.01em; }
     .fs-meta { display: flex; justify-content: center; flex-wrap: wrap; gap: .5rem; margin-top: 1.75rem; }
-    .fs-meta li { font-size: .8125rem; font-weight: 500; color: var(--navy); background: #fff; border: 1px solid var(--line); padding: .375rem .875rem; border-radius: 99px; }
+    .fs-meta li { font-size: .8125rem; font-weight: 500; color: var(--text); background: #fff; box-shadow: 0 0 0 1px var(--line); padding: .375rem .875rem; border-radius: 99px; }
     .fs-get { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: clamp(3rem, 6vw, 4.5rem) auto 0; max-width: 56rem; text-align: left; }
-    .fs-get div { background: #fff; border-radius: var(--r-md); padding: 1.5rem; box-shadow: var(--shadow-md); }
-    .fs-get strong { display: block; color: var(--navy); font-weight: 650; letter-spacing: -0.015em; margin-bottom: .25rem; }
+    .fs-get div { background: #fff; border-radius: 1.25rem; padding: 1.5rem; box-shadow: var(--shadow-md); }
+    .fs-get strong { display: block; color: var(--ink); font-weight: 600; letter-spacing: -0.015em; margin-bottom: .25rem; }
     .fs-get span { font-size: .9375rem; color: var(--text-soft); line-height: 1.5; }
-    .fs-get i { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: .75rem; background: var(--blue-soft); color: var(--blue); margin-bottom: 1rem; font-style: normal; }
+    .fs-get i { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: .75rem; background: linear-gradient(145deg, var(--sky), var(--blue)); color: #fff; margin-bottom: 1rem; font-style: normal; }
     .fs-get svg { width: 1.125rem; height: 1.125rem; }
 
     /* ---------- Progress ---------- */
-    .fs-progress { position: sticky; top: 4.25rem; z-index: 40; height: 3px; background: var(--line); }
+    .fs-progress { position: sticky; top: 4rem; z-index: 40; height: 3px; background: var(--line); }
     .fs-progress i { display: block; height: 100%; background: var(--blue); transform-origin: left; transform: scaleX(0); transition: transform .5s var(--ease); }
 
     /* ---------- Question ---------- */
@@ -57,7 +55,7 @@
     .fs-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 2rem; }
     .fs-count { font-size: .875rem; font-weight: 600; color: var(--text-soft); font-variant-numeric: tabular-nums; }
     .fs-chip { font-size: .75rem; font-weight: 650; letter-spacing: .06em; text-transform: uppercase; color: var(--blue); background: var(--blue-soft); padding: .375rem .75rem; border-radius: 99px; }
-    .fs-q { font-size: clamp(1.625rem, 3.2vw, 2.25rem); line-height: 1.15; letter-spacing: -0.028em; color: var(--navy); font-weight: 700; text-wrap: balance; }
+    .fs-q { font-family: var(--display); font-size: clamp(1.625rem, 3.2vw, 2.25rem); line-height: 1.15; letter-spacing: -0.028em; color: var(--ink); font-weight: 600; text-wrap: balance; }
     .fs-hint { color: var(--text-soft); margin-top: .75rem; font-size: 1rem; }
     .fs-body { min-height: 22rem; }
 
@@ -72,8 +70,8 @@
     .fs-choices.cols-2 { grid-template-columns: 1fr 1fr; }
     .fs-choice {
       display: flex; align-items: center; gap: .875rem; width: 100%; text-align: left;
-      font: inherit; font-size: 1rem; color: var(--navy); font-weight: 500; letter-spacing: -0.01em;
-      background: #fff; border: 1.5px solid var(--line); border-radius: 1rem; padding: 1rem 1.125rem; cursor: pointer;
+      font: inherit; font-size: 1rem; color: var(--ink); font-weight: 500; letter-spacing: -0.01em;
+      background: #fff; border: 1.5px solid var(--line); border-radius: 1rem; box-shadow: 0 1px 2px rgba(16,24,40,.03); padding: 1rem 1.125rem; cursor: pointer;
       -webkit-tap-highlight-color: transparent;
       transition: border-color .2s var(--ease-out), background-color .2s var(--ease-out), transform .12s var(--ease-out);
     }
@@ -89,7 +87,7 @@
     .fs-choice.selected .key { background: var(--blue); color: #fff; border-color: var(--blue); }
 
     /* Slider */
-    .fs-slider { margin-top: 2.5rem; padding: 2rem 1.75rem 1.5rem; background: var(--tint); border-radius: var(--r-lg); }
+    .fs-slider { margin-top: 2.5rem; padding: 2rem 1.75rem 1.5rem; background: #fff; border-radius: var(--r-lg); box-shadow: var(--shadow-md); }
     .fs-slider-val { text-align: center; font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 700; letter-spacing: -0.035em; color: var(--navy); font-variant-numeric: tabular-nums; margin-bottom: 1.5rem; }
     .fs-slider-val small { display: block; font-size: .9375rem; font-weight: 500; letter-spacing: -0.01em; color: var(--blue); margin-top: .25rem; }
     .fs-range { -webkit-appearance: none; appearance: none; width: 100%; height: .375rem; border-radius: 99px; background: var(--line-strong); outline: none; cursor: pointer; }
@@ -102,14 +100,11 @@
     /* Footer controls */
     .fs-nav { display: flex; align-items: center; gap: .75rem; margin-top: 2.5rem; }
     .fs-nav .btn { padding: .875rem 1.5rem; }
-    .btn-ghost { background: transparent; color: var(--navy); border: 1.5px solid var(--line); }
-    .btn-ghost:hover { border-color: var(--line-strong); }
-    .btn-ghost[disabled] { opacity: .4; pointer-events: none; }
+        .btn-ghost[disabled] { opacity: .4; pointer-events: none; }
     .fs-keys { margin-left: auto; font-size: .8125rem; color: var(--text-soft); }
     .fs-keys kbd { font: inherit; font-weight: 600; background: var(--tint); border: 1px solid var(--line); border-radius: .375rem; padding: .0625rem .375rem; }
     .fs-error { color: #C2410C; font-size: .875rem; margin-top: 1rem; min-height: 1.25rem; }
     button.btn { border: 0; cursor: pointer; font-family: inherit; }
-    button.btn-ghost { border: 1.5px solid var(--line); }
 
     /* Contact */
     .fs-fields { display: grid; gap: 1.125rem; margin-top: 2rem; }
@@ -131,19 +126,22 @@
     .fs-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
     /* ---------- Results ---------- */
-    .fs-results { padding: clamp(3rem, 7vw, 5rem) 0 clamp(4rem, 8vw, 6rem); background: radial-gradient(60rem 26rem at 50% -6rem, #E8EFFD, transparent 70%); }
+    .fs-results { padding: clamp(3rem, 7vw, 5rem) 0 clamp(4rem, 8vw, 6rem); }
+    .fs-scorewin { margin-top: 2.5rem; }
+    .fs-scorewin .fs-ring { margin-top: 2.25rem; }
+    .fs-scorewin .fs-verdict { padding: 0 1.5rem 2.25rem; }
     .fs-results .fs-col { max-width: 52rem; }
     .fs-results-head { text-align: center; }
     .fs-results-head h1 { font-size: clamp(2.25rem, 5vw, 3.5rem); }
     .fs-results-head p { color: var(--text-soft); margin-top: .75rem; font-size: 1.125rem; }
-    .fs-results-head .eyebrow { color: var(--blue); font-size: .75rem; margin: 0 0 1rem; }
+    .fs-results-head .eyebrow { margin: 0 0 1rem; }
 
     .fs-ring { --tone: var(--blue); position: relative; width: 13.5rem; height: 13.5rem; margin: 2.75rem auto 0; }
     .fs-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
     .fs-ring .track { fill: none; stroke: var(--line); stroke-width: 12; }
     .fs-ring .fill { fill: none; stroke: var(--tone); stroke-width: 12; stroke-linecap: round; stroke-dasharray: 528; stroke-dashoffset: 528; transition: stroke-dashoffset 1.4s var(--ease); }
     .fs-ring-center { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
-    .fs-ring-num { font-size: 4rem; font-weight: 700; letter-spacing: -0.05em; line-height: 1; color: var(--navy); font-variant-numeric: tabular-nums; }
+    .fs-ring-num { font-family: var(--display); font-size: 4rem; font-weight: 700; letter-spacing: -0.05em; line-height: 1; color: var(--ink); font-variant-numeric: tabular-nums; }
     .fs-ring-of { font-size: .8125rem; color: var(--text-soft); margin-top: .375rem; }
 
     .tone-critical   { --tone: #E5484D; --tone-soft: #FDECEC; --tone-ink: #B42328; }
@@ -171,7 +169,7 @@
     .fs-cost-more span { display: block; font-size: .875rem; line-height: 1.45; color: #C9D5EE; margin-top: .25rem; }
     @media (max-width: 520px) { .fs-cost-more { grid-template-columns: 1fr; gap: 1.25rem; } .fs-cost-more div + div { border-left: 0; border-top: 1px solid rgba(255,255,255,.14); padding-top: 1.25rem; } }
     .fs-cats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1rem; }
-    .fs-cat { background: #fff; border-radius: var(--r-md); padding: 1.5rem; box-shadow: var(--shadow-md); }
+    .fs-cat { background: #fff; border-radius: 1.125rem; padding: 1.5rem; box-shadow: 0 0 0 1px var(--line); }
     .fs-cat-name { font-size: .875rem; font-weight: 600; color: var(--text-soft); }
     .fs-cat-row { display: flex; justify-content: space-between; align-items: baseline; margin: .375rem 0 .875rem; }
     .fs-cat-score { font-size: 2rem; font-weight: 700; letter-spacing: -0.035em; color: var(--navy); font-variant-numeric: tabular-nums; }
@@ -180,23 +178,20 @@
     .fs-bar { height: .375rem; background: var(--tint); border-radius: 99px; overflow: hidden; }
     .fs-bar i { display: block; height: 100%; background: var(--tone); border-radius: 99px; transform-origin: left; transform: scaleX(0); transition: transform 1.1s var(--ease); }
 
-    .fs-recs-title { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.025em; color: var(--navy); margin: 3.5rem 0 1.25rem; }
+    .fs-recs-title { font-size: 1.5rem; font-weight: 600; letter-spacing: -0.025em; color: var(--ink); margin: 3.5rem 0 1.25rem; }
     .fs-recs { display: grid; gap: .75rem; }
-    .fs-rec { display: flex; gap: 1.125rem; background: var(--tint); border-radius: var(--r-md); padding: 1.375rem 1.5rem; }
-    .fs-rec-icon { flex: none; width: 2.5rem; height: 2.5rem; border-radius: .75rem; background: #fff; color: var(--blue); display: grid; place-items: center; box-shadow: 0 1px 2px rgba(15,42,95,.06); }
+    .fs-rec { display: flex; gap: 1.125rem; background: #fff; border-radius: 1.125rem; padding: 1.375rem 1.5rem; box-shadow: 0 0 0 1px var(--line); }
+    .fs-rec-icon { flex: none; width: 2.5rem; height: 2.5rem; border-radius: .75rem; background: var(--blue-soft); color: var(--blue); display: grid; place-items: center; }
     .fs-rec-icon svg { width: 1.25rem; height: 1.25rem; }
     .fs-rec h3 { font-size: 1.0625rem; margin-bottom: .25rem; }
     .fs-rec p { color: var(--text-soft); font-size: .9375rem; line-height: 1.55; }
     .fs-rec-tag { display: inline-block; vertical-align: 2px; margin-left: .375rem; font-size: .6875rem; font-weight: 650; letter-spacing: .04em; text-transform: uppercase; color: var(--green); background: var(--green-soft); padding: .125rem .5rem; border-radius: 99px; }
     .fs-choice.is-skip { color: var(--text-soft); border-style: dashed; }
 
-    .fs-cta { margin-top: 3.5rem; background: var(--navy); color: #fff; border-radius: 2rem; padding: clamp(2.5rem, 6vw, 3.5rem); text-align: center; position: relative; overflow: hidden; isolation: isolate; }
-    .fs-cta::before { content: ""; position: absolute; inset: -12rem -8rem auto auto; width: 32rem; height: 32rem; z-index: -1; background: radial-gradient(closest-side, rgba(59,110,224,.45), transparent); }
-    .fs-cta h2 { color: #fff; font-size: clamp(1.75rem, 3.4vw, 2.5rem); }
-    .fs-cta p { color: #C9D5EE; max-width: 34rem; margin: 1rem auto 0; }
+    .fs-cta { margin: 4rem 10px 0; background: #fff; border-radius: 1.5rem; padding: clamp(2.5rem, 6vw, 3.5rem); text-align: center; box-shadow: var(--shadow-md); }
+    .fs-cta h2 { font-size: clamp(1.75rem, 3.4vw, 2.5rem); }
+    .fs-cta p { color: var(--text-soft); max-width: 34rem; margin: 1rem auto 0; }
     .fs-cta .hero-cta { margin-top: 2rem; }
-    .btn-light { background: rgba(255,255,255,.1); color: #fff; border: 1.5px solid rgba(255,255,255,.2) !important; }
-    .btn-light:hover { background: rgba(255,255,255,.16); }
     .fs-get-gbp { font-weight: 700; font-size: 1.0625rem; }
 
     /* After the call to action */
@@ -204,10 +199,10 @@
     .fs-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: .5rem; margin-top: 1.25rem; }
     .fs-action {
       display: inline-flex; align-items: center; gap: .5rem; padding: .625rem 1rem; border-radius: 99px;
-      font: inherit; font-size: .9375rem; font-weight: 500; color: var(--navy); background: #fff; border: 1.5px solid var(--line); cursor: pointer;
+      font: inherit; font-size: .9375rem; font-weight: 500; color: var(--ink); background: #fff; border: 0; box-shadow: 0 0 0 1px var(--line); cursor: pointer;
       transition: border-color .2s var(--ease-out), transform .12s var(--ease-out);
     }
-    .fs-action:hover { border-color: var(--line-strong); }
+    .fs-action:hover { box-shadow: 0 0 0 1px var(--line-strong); }
     .fs-action:active { transform: scale(.97); transition-duration: 0s; }
     .fs-action svg { width: 1.125rem; height: 1.125rem; color: var(--blue); }
     .fs-print-meta, .fs-print-foot { display: none; }
@@ -224,6 +219,9 @@
       .fs-print-meta strong { color: var(--navy); }
       .fs-print-foot { display: block; text-align: center; font-size: 8.5pt; color: var(--text-soft); margin-top: 2rem; padding-top: .75rem; border-top: 1px solid var(--line); }
       .fs-ring { width: 10rem; height: 10rem; margin-top: 1.25rem; }
+      .fs-scorewin { box-shadow: none; }
+      .fs-scorewin .titlebar, .handle, .selected::before { display: none; }
+      .dots { background-image: none; }
       .fs-ring .fill, .fs-bar i { transition: none !important; }
       .fs-cost, .fs-cat, .fs-rec { break-inside: avoid; box-shadow: none; }
       .fs-cat { border: 1px solid var(--line); }
@@ -260,9 +258,9 @@
     <div class="wrap nav-row">
       <a class="brand" href="/" aria-label="FlovoAI home"><span class="logo" role="img" aria-label="FlovoAI"></span></a>
       <nav class="nav-links" aria-label="Primary">
-        <a class="nav-link" href="/#approach">Approach</a>
+        <a class="nav-link" href="/#how">How it works</a>
+        <a class="nav-link" href="/#results">Results</a>
         <a class="nav-link" href="/#services">Services</a>
-        <a class="nav-link" href="/#contact">Contact</a>
         <a class="nav-score" href="/questionnaire" aria-current="page"><svg class="nav-score-icon" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6" class="t"/><circle cx="8" cy="8" r="6" class="f"/></svg><span>Flow Score</span></a>
         <a class="nav-cta" href="https://cal.com/flovoai/30min" target="_blank" rel="noopener">Book a call</a>
       </nav>
@@ -272,13 +270,13 @@
   <main class="fs" id="top">
 
     <!-- INTRO -->
-    <section id="screen-intro" class="fs-screen active fs-intro">
+    <section id="screen-intro" class="fs-screen active fs-intro dots">
       <div class="fs-col">
         <p class="eyebrow">Flow Score</p>
-        <h1>How healthy is <em>your business?</em></h1>
+        <h1>How healthy is <span class="sel"><b></b><b></b><b></b><b></b>your business</span>?</h1>
         <p class="fs-intro-sub">Find out in just a few minutes. Answer 15 quick questions and get your Flow Score out of 100, with clear next steps.</p>
         <div class="hero-cta">
-          <button class="btn btn-green" type="button" onclick="startQuiz()">Check my Flow Score <span class="btn-arrow" aria-hidden="true">→</span></button>
+          <button class="btn btn-green" type="button" onclick="startQuiz()">Check my Flow Score <span class="btn-arrow" aria-hidden="true">↵</span></button>
         </div>
         <ul class="fs-meta">
           <li>About 3 minutes</li>
@@ -308,7 +306,7 @@
           <div class="fs-error" id="nextHint" role="alert"></div>
           <div class="fs-nav">
             <button class="btn btn-ghost" type="button" id="prevBtn" onclick="prevQuestion()">Back</button>
-            <button class="btn btn-primary" type="button" id="nextBtn" onclick="nextQuestion()">Continue <span class="btn-arrow" aria-hidden="true">→</span></button>
+            <button class="btn btn-primary" type="button" id="nextBtn" onclick="nextQuestion()">Continue <span class="btn-arrow" aria-hidden="true">↵</span></button>
             <span class="fs-keys" id="keysHint">Press a number to choose, <kbd>Enter</kbd> to continue</span>
           </div>
         </div>
@@ -349,14 +347,14 @@
           </div>
           <div class="fs-nav">
             <button class="btn btn-ghost" type="button" onclick="showQuiz()">Back</button>
-            <button class="btn btn-green" type="button" onclick="submitAndShowResults()">See my Flow Score <span class="btn-arrow" aria-hidden="true">→</span></button>
+            <button class="btn btn-green" type="button" onclick="submitAndShowResults()">See my Flow Score <span class="btn-arrow" aria-hidden="true">↵</span></button>
           </div>
         </div>
       </div>
     </section>
 
     <!-- RESULTS -->
-    <section id="screen-results" class="fs-screen fs-results">
+    <section id="screen-results" class="fs-screen fs-results dots">
       <div class="fs-col">
         <div class="fs-print-meta" id="printMeta"></div>
         <div class="fs-results-head rise">
@@ -365,7 +363,9 @@
           <p id="resultsSub">How your business is running across three key areas.</p>
         </div>
 
-        <div class="fs-ring rise" id="scoreRing" style="transition-delay:.1s">
+        <div class="window fs-scorewin rise" style="transition-delay:.1s">
+        <div class="titlebar" aria-hidden="true"><i></i><i></i><i></i><em>Your Flow Score</em></div>
+        <div class="fs-ring" id="scoreRing">
           <svg viewBox="0 0 200 200" aria-hidden="true">
             <circle class="track" cx="100" cy="100" r="84" />
             <circle class="fill" id="ringFill" cx="100" cy="100" r="84" />
@@ -376,9 +376,10 @@
           </div>
         </div>
 
-        <div class="fs-verdict rise" id="scoreVerdict" style="transition-delay:.2s">
+        <div class="fs-verdict" id="scoreVerdict">
           <span class="fs-verdict-badge" id="verdictBadge"></span>
           <p id="verdictText"></p>
+        </div>
         </div>
 
         <div class="fs-cost rise" id="costBox" style="transition-delay:.26s" hidden>
@@ -396,12 +397,13 @@
         <h2 class="fs-recs-title rise" style="transition-delay:.45s">Your top recommendations</h2>
         <div class="fs-recs" id="recsList"></div>
 
-        <div class="fs-cta rise" style="transition-delay:.6s">
+        <div class="fs-cta selected rise" style="transition-delay:.6s">
+          <i class="handle tl" aria-hidden="true"></i><i class="handle tr" aria-hidden="true"></i><i class="handle bl" aria-hidden="true"></i><i class="handle br" aria-hidden="true"></i>
           <h2>Ready to improve your Flow Score?</h2>
           <p>Book a free 30-minute call. We'll walk through your results and show you the quickest wins for your business.</p>
           <div class="hero-cta">
-            <a class="btn btn-primary" id="bookLink" href="https://cal.com/flovoai/30min" target="_blank" rel="noopener">Book a 30-min call <span class="btn-arrow" aria-hidden="true">→</span></a>
-            <a class="btn btn-light" href="/">Back to home</a>
+            <a class="btn btn-primary" id="bookLink" href="https://cal.com/flovoai/30min" target="_blank" rel="noopener">Book a 30-min call <span class="btn-arrow" aria-hidden="true">↵</span></a>
+            <a class="btn btn-ghost" href="/">Back to home</a>
           </div>
         </div>
         <p class="fs-cta-note">Your results are added to the booking form, so we can come prepared.</p>

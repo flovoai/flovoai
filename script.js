@@ -26,9 +26,8 @@ document.addEventListener('DOMContentLoaded', function () {
   // With reduced motion the CSS swaps the movement for a short cross-fade.
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var revealSelectors = [
-    '.sec-head > *', '.case-left > *', '.approach > div:first-child > *', '.contact > *',
-    '.card', '.stat', '.step', '.mock', '.compare-col', '.diagram',
-    '.flow-copy > *', '.flow-visual'
+    '.sec-head > *', '.seg', '.panes', '.window', '.quote-card', '.stat',
+    '.card', '.howstrip', '.flow-copy > *', '.contact'
   ];
   var STAGGER = reduceMotion ? 0 : 80;
 
@@ -88,6 +87,23 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   window.addEventListener('scroll', updateActive, { passive: true });
   updateActive();
+
+  // ── Before / after switch ─────────────────────────────────────────────────
+  // A segmented control: one pane shows at a time, the other fades out.
+  var seg = document.getElementById('seg');
+  if (seg) {
+    seg.addEventListener('click', function (e) {
+      var btn = e.target.closest('button[data-view]');
+      if (!btn) return;
+      var view = btn.dataset.view;
+      seg.dataset.view = view;
+      seg.querySelectorAll('button[data-view]').forEach(function (b) {
+        b.setAttribute('aria-pressed', b.dataset.view === view ? 'true' : 'false');
+        var pane = document.getElementById(b.getAttribute('aria-controls'));
+        if (pane) pane.hidden = b.dataset.view !== view;
+      });
+    });
+  }
 
   // ── Number counter animation ──────────────────────────────────────────────
   // Handles both .stat-num[data-target] and .industry-num[data-target]

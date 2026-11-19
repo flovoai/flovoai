@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#ffffff" />
+  <meta name="theme-color" content="#FBFBFD" />
   <meta name="description" content="FlovoAI helps growing businesses find what is slowing them down, redesign the way work flows, and put the right tools in place, so teams spend less time on admin." />
   <title>FlovoAI | Operations Consultancy for Growing Businesses</title>
   <link rel="canonical" href="https://flovoai.com/" />
@@ -51,14 +51,13 @@
 </head>
 <body>
 
-
   <header class="nav" id="nav">
     <div class="wrap nav-row">
       <a class="brand" href="#top" aria-label="FlovoAI home"><span class="logo" role="img" aria-label="FlovoAI"></span></a>
       <nav class="nav-links" aria-label="Primary">
-        <a class="nav-link" href="#approach">Approach</a>
+        <a class="nav-link" href="#how">How it works</a>
+        <a class="nav-link" href="#results">Results</a>
         <a class="nav-link" href="#services">Services</a>
-        <a class="nav-link" href="#contact">Contact</a>
         <a class="nav-score" href="/questionnaire"><svg class="nav-score-icon" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6" class="t"/><circle cx="8" cy="8" r="6" class="f"/></svg><span>Flow Score</span></a>
         <a class="nav-cta" href="https://cal.com/flovoai/30min" target="_blank" rel="noopener">Book a call</a>
       </nav>
@@ -68,13 +67,14 @@
   <main id="top">
 
     <!-- HERO -->
-    <section class="hero">
+    <section class="hero dots">
       <div class="wrap hero-copy">
         <p class="eyebrow">Operations consultancy for growing businesses</p>
-        <h1>Solutions shaped around <em>the way your business operates.</em></h1>
+        <h1>Solutions shaped around the way <span class="sel"><b></b><b></b><b></b><b></b>your business<span class="cursor" aria-hidden="true"><svg width="18" height="20" viewBox="0 0 18 20"><path d="M1 1l15 7-6.5 2L7 18z" fill="#0F2A5F" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg><span>Henry</span></span></span> operates.</h1>
         <p class="hero-sub">We find what's slowing your business down, improve the way work gets done and put the right tools in place, so your team spends less time on admin and more time on the work that matters.</p>
         <div class="hero-cta">
-          <a class="btn btn-primary" href="https://cal.com/flovoai/30min" target="_blank" rel="noopener">Book a 30-min call <span class="btn-arrow" aria-hidden="true">→</span></a>
+          <a class="btn btn-primary" href="https://cal.com/flovoai/30min" target="_blank" rel="noopener">Book a 30-min call <span class="btn-arrow" aria-hidden="true">↵</span></a>
+          <a class="btn btn-ghost" href="/questionnaire">Check my Flow Score</a>
         </div>
         <ul class="hero-trust">
           <li>Plain-English advice</li>
@@ -90,236 +90,204 @@
           </div>
           <div class="hero-card-figs">
             <div class="fig fig-main"><strong><span class="n" data-target="2" data-delay="700">2</span> hrs → <span class="n" data-target="30" data-delay="700">30</span> min</strong><span>per quote</span></div>
-            <div class="fig"><strong><span class="n" data-target="15" data-delay="700">15</span>+ hrs</strong><span>saved every week</span></div>
+            <div class="fig"><strong><span class="n" data-target="15" data-delay="700">15</span>+</strong><span>hrs saved a week</span></div>
             <div class="fig"><strong><span class="n" data-target="4" data-delay="700">4</span>×</strong><span>quote capacity</span></div>
           </div>
         </aside>
       </div>
     </section>
 
-    <!-- PROBLEM -->
-    <section class="sec sec-problem">
+    <!-- PROBLEM + BEFORE / AFTER -->
+    <section id="how" class="sec sec-compare white">
       <div class="wrap">
         <div class="sec-head">
           <div class="kicker">The problem</div>
-          <h2>Why most businesses stop growing <em>quietly,</em> not dramatically.</h2>
-          <p class="sec-sub">We see the same patterns in almost every growing business.</p>
+          <h2>Most businesses stop growing quietly, not dramatically.</h2>
+          <p class="sec-sub">Too many tools, too much admin and hidden costs that add up. Flip between how most teams work today and how it works with Flovo.</p>
         </div>
-        <div class="cards-3">
-          <article class="card">
-            <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="5" cy="12" r="2.5"/><circle cx="19" cy="6" r="2.5"/><circle cx="19" cy="18" r="2.5"/><path d="M7.5 11 16.5 7M7.5 13l9 4" stroke-dasharray="2 2.5"/></svg></div>
-            <h3>Too many tools</h3>
-            <p>Spreadsheets, apps and group chats, none of them talking to each other.</p>
-            <div class="card-foot"><span>Effect</span>Information gets lost</div>
-          </article>
-          <article class="card">
-            <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 7h11l-3-3M20 17H9l3 3"/></svg></div>
-            <h3>Too much admin</h3>
-            <p>Typing the same information in again and again, every week.</p>
-            <div class="card-foot"><span>Cost</span>Around 6 hrs a week, per person</div>
-          </article>
-          <article class="card">
-            <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 19l5-5 4 3 8-9"/><path d="M15 8h5v5"/></svg></div>
-            <h3>Hidden costs</h3>
-            <p>None of it feels urgent, but it adds up and quietly holds you back.</p>
-            <div class="card-foot"><span>Trend</span>It gets worse over time</div>
-          </article>
+        <div class="seg" id="seg" data-view="before" role="group" aria-label="Compare how teams work">
+          <span class="seg-thumb" aria-hidden="true"></span>
+          <button type="button" data-view="before" aria-pressed="true" aria-controls="pane-before">Today</button>
+          <button type="button" data-view="after" aria-pressed="false" aria-controls="pane-after">With Flovo</button>
         </div>
-      </div>
-    </section>
-
-    <!-- CASE STUDY -->
-    <section class="sec sec-case">
-      <div class="wrap">
-        <div class="case">
-          <div class="case-left">
-            <div class="kicker">Case study · Exworks Ltd</div>
-            <h2>From two-hour quotes to thirty minutes.</h2>
-            <blockquote>“Being able to manage everything on one system means we can price things so much quicker. It saves time day to day, and lets us go after a significant amount more work. This software has truly changed the game for us.”</blockquote>
-            <div class="cite"><span class="avatar">E</span><span><strong>Exworks Ltd</strong><br>Operations team</span></div>
+        <div class="panes">
+          <div class="pane" id="pane-before">
+            <div class="chat" aria-label="Example group chat today">
+              <div class="chat-head">Office team · Group chat</div>
+              <div class="bub bub-them">Has the Thompson quote gone out?</div>
+              <div class="bub bub-me">Still in the spreadsheet, waiting on timber prices</div>
+              <div class="bub bub-them">Which version? There are three</div>
+              <div class="bub bub-me">Ask Sarah, she has the latest</div>
+              <div class="bub bub-them">She's off today 😩</div>
+              <div class="bub bub-them bub-typing" aria-hidden="true"><i></i><i></i><i></i></div>
+            </div>
+            <div class="checklist">
+              <h3>How most teams work today</h3>
+              <ul>
+                <li><span class="tick tick-bad" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3l6 6M9 3l-6 6"/></svg></span>Tasks reworked daily</li>
+                <li><span class="tick tick-bad" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3l6 6M9 3l-6 6"/></svg></span>Details missed constantly</li>
+                <li><span class="tick tick-bad" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3l6 6M9 3l-6 6"/></svg></span>Manual fixes everywhere</li>
+                <li><span class="tick tick-bad" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3l6 6M9 3l-6 6"/></svg></span>Decisions made without context</li>
+              </ul>
+              <div class="verdict verdict-bad">Expensive · slow · frustrating</div>
+            </div>
           </div>
-          <div class="stats">
-            <div class="stat"><div class="stat-num" data-target="75">75<small>%</small></div><div class="stat-label">Less admin</div><p>Process time reduced from 2h to 30m.</p></div>
-            <div class="stat"><div class="stat-num" data-target="15">15<small>+ hrs</small></div><div class="stat-label">Saved weekly</div><p>Across the operations team.</p></div>
-            <div class="stat"><div class="stat-num" data-target="4">4<small>×</small></div><div class="stat-label">Capacity</div><p>More quotes handled.</p></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- COMPARE -->
-    <section class="sec sec-compare">
-      <div class="wrap">
-        <div class="sec-head">
-          <div class="kicker">Before &amp; after</div>
-          <h2>The difference is clear side by side.</h2>
-          <p class="sec-sub">Workarounds slow you down. A better way of working fixes that.</p>
-        </div>
-        <div class="compare">
-          <div class="compare-col then">
-            <h4>How most teams work today</h4>
-            <ul>
-              <li>Tasks reworked daily</li>
-              <li>Details missed constantly</li>
-              <li>Manual fixes everywhere</li>
-              <li>Decisions made without context</li>
-            </ul>
-            <div class="compare-foot">Expensive · slow · frustrating</div>
-          </div>
-          <div class="compare-col now">
-            <h4>How it works with Flovo</h4>
-            <ul>
-              <li>Joined-up, automated processes</li>
-              <li>Nothing falls through the cracks</li>
-              <li>Problems caught early</li>
-              <li>The full picture behind every decision</li>
-            </ul>
-            <div class="compare-foot">Fast · reliable · ready to scale</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- IN PRACTICE -->
-    <section class="sec sec-mocks">
-      <div class="wrap">
-        <div class="sec-head">
-          <div class="kicker">In practice</div>
-          <h2>What it looks like when everything connects.</h2>
-          <p class="sec-sub">Two examples from a joinery business: a quote built in minutes and a live job board, both running from one place.</p>
-        </div>
-        <div class="mocks">
-          <div class="mock">
-            <div class="mock-head"><span>Quote #0042 · Kitchen &amp; hallway joinery</span><span class="pill ok">Accepted</span></div>
-            <div class="mock-meta"><div><span>Customer</span>J. Thompson</div><div><span>Site visit</span>06 May 2026</div><div><span>Valid until</span>20 May 2026</div></div>
-            <table>
-              <thead><tr><th>Item</th><th>Qty</th><th>Rate</th><th>Total</th></tr></thead>
-              <tbody>
-                <tr><td>Bespoke fitted wardrobes</td><td>2</td><td>£1,450</td><td>£2,900</td></tr>
-                <tr><td>Oak staircase handrail</td><td>1</td><td>£680</td><td>£680</td></tr>
-                <tr><td>Skirting &amp; architrave (m)</td><td>38</td><td>£14</td><td>£532</td></tr>
-                <tr><td>Joiner labour (days)</td><td>4</td><td>£260</td><td>£1,040</td></tr>
-              </tbody>
-            </table>
-            <div class="mock-total"><span class="note">Prepared in 4 minutes</span><span>Total <strong>£5,152</strong></span></div>
-          </div>
-          <div class="mock">
-            <div class="mock-head"><span>Job board</span><span class="pill live">Live</span></div>
-            <div class="kpis"><div><strong>12</strong><span>Active jobs</span></div><div><strong>£86k</strong><span>Quoted pipeline</span></div><div><strong>94%</strong><span>On schedule</span></div></div>
-            <div class="jobs">
-              <div class="job"><span>#2241</span><span>Kitchen refit</span><span class="pill info">On site</span><div class="bar"><i style="width:60%"></i></div></div>
-              <div class="job"><span>#2238</span><span>Oak staircase</span><span class="pill ok">Complete</span><div class="bar"><i style="width:100%"></i></div></div>
-              <div class="job"><span>#2237</span><span>Fitted wardrobes</span><span class="pill warn">In workshop</span><div class="bar"><i style="width:35%"></i></div></div>
-              <div class="job"><span>#2235</span><span>Garden room</span><span class="pill muted">Quoted</span><div class="bar"><i style="width:15%"></i></div></div>
+          <div class="pane" id="pane-after" hidden>
+            <div class="chat" aria-label="Example team chat with Flovo">
+              <div class="chat-head">Office team · Flovo</div>
+              <div class="bub bub-them">Has the Thompson quote gone out?</div>
+              <div class="bub bub-me">Yes, built in 4 mins. Accepted this morning ✓</div>
+              <div class="bub bub-them">Great, is the job booked in?</div>
+              <div class="bub bub-me">Already on the board, materials ordered</div>
+              <div class="bub bub-them">Perfect 👌</div>
+            </div>
+            <div class="checklist">
+              <h3>How it works with Flovo</h3>
+              <ul>
+                <li><span class="tick tick-good" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.5l2.5 2.5 4.5-5"/></svg></span>Joined-up, automated processes</li>
+                <li><span class="tick tick-good" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.5l2.5 2.5 4.5-5"/></svg></span>Nothing falls through the cracks</li>
+                <li><span class="tick tick-good" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.5l2.5 2.5 4.5-5"/></svg></span>Problems caught early</li>
+                <li><span class="tick tick-good" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.5l2.5 2.5 4.5-5"/></svg></span>The full picture behind every decision</li>
+              </ul>
+              <div class="verdict verdict-good">Fast · reliable · ready to scale</div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- APPROACH -->
-    <section id="approach" class="sec sec-approach">
-      <div class="wrap approach">
-        <div>
-          <div class="kicker">Our approach</div>
-          <h2>Your business shouldn't have to bend around its tools.</h2>
-          <p class="lead">We start with how you work, not with software.</p>
-          <p>We sit down with your team, learn how work really gets done and design a better way of running it. Then we put the right tools in place, whether that's something you already use or something built for you.</p>
-          <p>The result: fewer tools, fewer workarounds and a way of working your team trusts.</p>
+    <!-- RESULTS: EXWORKS -->
+    <section id="results" class="sec dots tinted">
+      <div class="wrap">
+        <div class="sec-head">
+          <div class="kicker">Case study · Exworks Ltd</div>
+          <h2>From two-hour quotes to thirty minutes.</h2>
+          <p class="sec-sub">Exworks, a joinery business, now builds quotes and runs jobs from one place.</p>
         </div>
-        <div class="diagram" aria-hidden="true">
-          <svg viewBox="0 0 420 420">
-            <circle cx="210" cy="210" r="150" class="d-ring"/>
-            <circle cx="210" cy="210" r="95" class="d-ring2"/>
-            <g class="d-node"><circle cx="210" cy="60" r="40"/><text x="210" y="64">People</text></g>
-            <g class="d-node"><circle cx="360" cy="210" r="40"/><text x="360" y="214">Customers</text></g>
-            <g class="d-node"><circle cx="210" cy="360" r="40"/><text x="210" y="364">Operations</text></g>
-            <g class="d-node"><circle cx="60" cy="210" r="40"/><text x="60" y="214">Finance</text></g>
-            <circle cx="210" cy="210" r="62" class="d-core"/>
-            <text x="210" y="206" class="d-core-t1">Your</text>
-            <text x="210" y="226" class="d-core-t2">business</text>
-          </svg>
+        <div class="window" style="margin-top:clamp(3rem,6vw,4rem)" role="img" aria-label="Example: a joinery quote built in four minutes, next to a live job board">
+          <div class="titlebar"><i></i><i></i><i></i><em>Quotes &amp; jobs</em></div>
+          <div class="app" aria-hidden="true">
+            <div class="app-side">
+              <p>Workspace</p>
+              <span class="on">Quotes <small>12</small></span><span>Jobs <small>8</small></span><span>Customers</span><span>Suppliers</span>
+              <p>Reports</p>
+              <span>Pipeline</span><span>Capacity</span>
+            </div>
+            <div class="app-main">
+              <div class="quote-head"><h3>Quote #0042 · Kitchen &amp; hallway joinery</h3><span class="pill pill-green">Accepted</span></div>
+              <div class="quote-meta"><span>Customer <b>J. Thompson</b></span><span>Site visit <b>06 May 2026</b></span><span>Valid until <b>20 May 2026</b></span></div>
+              <table>
+                <tr><th>Item</th><th>Qty</th><th>Rate</th><th>Total</th></tr>
+                <tr><td>Bespoke fitted wardrobes</td><td>2</td><td>£1,450</td><td>£2,900</td></tr>
+                <tr><td>Oak staircase handrail</td><td>1</td><td>£680</td><td>£680</td></tr>
+                <tr><td>Skirting &amp; architrave (m)</td><td>38</td><td>£14</td><td>£532</td></tr>
+                <tr><td>Joiner labour (days)</td><td>4</td><td>£260</td><td>£1,040</td></tr>
+              </table>
+              <div class="quote-total"><span class="pill">⚡ Prepared in 4 minutes</span><span>Total <b>£5,152</b></span></div>
+            </div>
+            <div class="app-board">
+              <h4>Job board <span class="live">Live</span></h4>
+              <div class="kpis"><div><b>12</b><small>Active jobs</small></div><div><b>£86k</b><small>Pipeline</small></div><div><b>94%</b><small>On schedule</small></div></div>
+              <div class="job"><span>#2241 Kitchen refit</span><span class="pill">On site</span></div>
+              <div class="job"><span>#2238 Oak staircase</span><span class="pill pill-green">Complete</span></div>
+              <div class="job"><span>#2237 Fitted wardrobes</span><span class="pill">In workshop</span></div>
+              <div class="job"><span>#2235 Garden room</span><span class="pill pill-grey">Quoted</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="case-grid">
+          <figure class="quote-card">
+            <blockquote>“Being able to manage everything on one system means <mark>we can price things so much quicker.</mark> It saves time day to day, and lets us go after a significant amount more work. <mark>This software has truly changed the game for us.</mark>”</blockquote>
+            <figcaption class="quote-by"><i aria-hidden="true">E</i><span><b>Exworks Ltd</b>Operations team</span></figcaption>
+          </figure>
+          <div class="stats">
+            <div class="stat"><b><span data-target="75">75</span>%</b><div><strong>Less admin</strong><span>Process time reduced from 2h to 30m.</span></div></div>
+            <div class="stat"><b><span data-target="15">15</span>+ hrs</b><div><strong>Saved weekly</strong><span>Across the operations team.</span></div></div>
+            <div class="stat"><b><span data-target="4">4</span>×</b><div><strong>Capacity</strong><span>More quotes handled.</span></div></div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- SERVICES -->
-    <section id="services" class="sec sec-services">
+    <!-- SERVICES + HOW WE WORK -->
+    <section id="services" class="sec white">
       <div class="wrap">
         <div class="sec-head">
           <div class="kicker">Services</div>
-          <h2>Three ways <em>we</em> help.</h2>
-          <p class="sec-sub">Projects typically take 2 to 12 weeks. Choose one service or combine them.</p>
+          <h2>We start with how you work, not with software.</h2>
+          <p class="sec-sub">We learn how work really gets done, design a better way of running it, then put the right tools in place. Choose one service or combine them.</p>
         </div>
-        <div class="cards-3 services">
-          <article class="card service">
-            <div class="svc-num">01</div>
+        <div class="svc">
+          <article class="card">
+            <div class="card-icon" aria-hidden="true"><svg viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10" cy="10" r="6"/><path d="M15 15l4 4"/></svg></div>
+            <span class="card-num">01</span>
             <h3>Business review</h3>
             <p>We look at how work moves through your business, find what's costing you time and money, and give you a clear plan.</p>
-            <div class="svc-flow">Review <span>→</span> Plan</div>
+            <div class="svc-flow"><span>Review</span><i aria-hidden="true">→</i><span>Plan</span></div>
           </article>
-          <article class="card service">
-            <div class="svc-num">02</div>
+          <article class="card">
+            <div class="card-icon" aria-hidden="true"><svg viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 2L4 13h7l-1 7 8-11h-7z"/></svg></div>
+            <span class="card-num">02</span>
             <h3>Process improvement</h3>
             <p>We simplify slow, repetitive tasks and automate the ones that don't need a person, built around how your team works.</p>
-            <div class="svc-flow">Simplify <span>→</span> Automate</div>
+            <div class="svc-flow"><span>Simplify</span><i aria-hidden="true">→</i><span>Automate</span></div>
           </article>
-          <article class="card service">
-            <div class="svc-num">03</div>
+          <article class="card">
+            <div class="card-icon" aria-hidden="true"><svg viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5" cy="11" r="2.5"/><circle cx="17" cy="5" r="2.5"/><circle cx="17" cy="17" r="2.5"/><path d="M7.3 10l7.4-3.8M7.3 12l7.4 3.8"/></svg></div>
+            <span class="card-num">03</span>
             <h3>Joining up your tools</h3>
             <p>We link the tools you already use so everyone sees the same information, with no typing things in twice.</p>
-            <div class="svc-flow">Connect <span>→</span> Share</div>
+            <div class="svc-flow"><span>Connect</span><i aria-hidden="true">→</i><span>Share</span></div>
           </article>
         </div>
-      </div>
-    </section>
-
-    <!-- PROCESS -->
-    <section class="sec sec-process">
-      <div class="wrap">
-        <div class="sec-head">
-          <div class="kicker">How we work</div>
-          <h2>Three <em>simple</em> steps.</h2>
-        </div>
-        <div class="steps">
-          <div class="step"><div class="step-n">1</div><div class="step-when">Weeks 0 to 1</div><h4>Start small</h4><p>We tackle your biggest problem first, the one that pays for itself.</p></div>
-          <div class="step"><div class="step-n">2</div><div class="step-when">Weeks 2 to 8</div><h4>Work together</h4><p>Week by week, with you involved. No disappearing for months.</p></div>
-          <div class="step"><div class="step-n">3</div><div class="step-when">Week 8 onwards</div><h4>Keep improving</h4><p>Things keep improving as your business grows, without starting from scratch.</p></div>
+        <div class="howstrip">
+          <div class="howstrip-head"><span class="kicker">How we work</span><span>Projects typically take 2 to 12 weeks</span></div>
+          <ol class="steps">
+            <li class="step"><span class="step-n">1</span><span class="step-when">Weeks 0 to 1</span><h3>Start small</h3><p>We tackle your biggest problem first, the one that pays for itself.</p></li>
+            <li class="step"><span class="step-n">2</span><span class="step-when">Weeks 2 to 8</span><h3>Work together</h3><p>Week by week, with you involved. No disappearing for months.</p></li>
+            <li class="step"><span class="step-n">3</span><span class="step-when">Week 8 onwards</span><h3>Keep improving</h3><p>Things keep improving as your business grows, without starting from scratch.</p></li>
+          </ol>
         </div>
       </div>
     </section>
 
     <!-- FLOW SCORE -->
-    <section class="sec sec-flow">
-      <div class="wrap">
-        <div class="flow-tile">
-          <div class="flow-copy">
-            <div class="kicker">Flow Score</div>
-            <h2>How healthy is your business?</h2>
-            <p>Find out in just a few minutes. Answer 15 quick questions and get a score out of 100, with clear next steps.</p>
-            <a class="btn btn-green" href="/questionnaire">Check my Flow Score <span class="btn-arrow" aria-hidden="true">→</span></a>
-          </div>
-          <div class="flow-visual" aria-hidden="true">
-            <svg viewBox="0 0 200 200">
-              <circle cx="100" cy="100" r="84" class="fv-track"/>
-              <circle cx="100" cy="100" r="84" class="fv-fill"/>
-            </svg>
-            <div class="fv-center"><strong>72</strong><span>out of 100</span></div>
-            <div class="fv-chip">Ahead of the pack</div>
+    <section class="sec dots tinted">
+      <div class="wrap flow-tile">
+        <div class="flow-copy">
+          <div class="kicker">Flow Score</div>
+          <h2>How healthy is your business?</h2>
+          <p>Find out in just a few minutes. Answer 15 quick questions and get a score out of 100, with clear next steps.</p>
+          <a class="btn btn-green" href="/questionnaire">Check my Flow Score <span class="btn-arrow" aria-hidden="true">↵</span></a>
+        </div>
+        <div class="window flow-window" aria-hidden="true">
+          <div class="titlebar"><i></i><i></i><i></i><em>Your Flow Score</em></div>
+          <div class="score-body">
+            <div class="flow-visual">
+              <svg viewBox="0 0 170 170"><defs><linearGradient id="fvGrad"><stop offset="0" stop-color="#0F2A5F"/><stop offset="1" stop-color="#8FB1F7"/></linearGradient></defs><circle class="fv-track" cx="85" cy="85" r="70"/><circle class="fv-fill" cx="85" cy="85" r="70"/></svg>
+              <div class="fv-center"><strong>72</strong><span>out of 100</span></div>
+            </div>
+            <div class="score-bars">
+              <span class="fv-chip">Ahead of the pack</span>
+              <p><span>Tools</span><span>80</span></p><div class="bar"><i style="width:80%"></i></div>
+              <p><span>Admin load</span><span>64</span></p><div class="bar"><i style="width:64%"></i></div>
+              <p><span>Visibility</span><span>71</span></p><div class="bar"><i style="width:71%"></i></div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- CONTACT -->
-    <section id="contact" class="sec sec-contact">
+    <section id="contact" class="sec">
       <div class="wrap">
-        <div class="contact">
+        <div class="contact selected">
+          <i class="handle tl" aria-hidden="true"></i><i class="handle tr" aria-hidden="true"></i><i class="handle bl" aria-hidden="true"></i><i class="handle br" aria-hidden="true"></i>
           <div class="kicker">Get in touch</div>
           <h2>Let's see if there's a fit.</h2>
           <p>Thirty minutes, no pitch. Tell us what's slowing you down and we'll tell you honestly if we can help.</p>
-          <div class="hero-cta center">
-            <a class="btn btn-primary" href="https://cal.com/flovoai/30min" target="_blank" rel="noopener">Book a 30-min call <span class="btn-arrow" aria-hidden="true">→</span></a>
+          <div class="hero-cta">
+            <a class="btn btn-primary" href="https://cal.com/flovoai/30min" target="_blank" rel="noopener">Book a 30-min call <span class="btn-arrow" aria-hidden="true">↵</span></a>
           </div>
           <div class="contact-meta">30 minutes · No pitch · Honest answer</div>
         </div>
@@ -330,7 +298,7 @@
   <footer class="footer">
     <div class="wrap footer-row">
       <span class="logo" role="img" aria-label="FlovoAI"></span>
-      <div class="footer-links"><a href="#approach">Approach</a><a href="#services">Services</a><a href="/questionnaire">Flow Score</a><a href="#contact">Contact</a><a href="/privacy">Privacy</a></div>
+      <div class="footer-links"><a href="#how">How it works</a><a href="#results">Results</a><a href="#services">Services</a><a href="/questionnaire">Flow Score</a><a href="#contact">Contact</a><a href="/privacy">Privacy</a></div>
       <div class="footer-meta">© 2026 FlovoAI · All rights reserved</div>
     </div>
   </footer>
