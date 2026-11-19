@@ -26,9 +26,8 @@ document.addEventListener('DOMContentLoaded', function () {
   // With reduced motion the CSS swaps the movement for a short cross-fade.
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var revealSelectors = [
-    '.sec-head > *', '.case-left > *', '.approach > div:first-child > *', '.contact > *',
-    '.card', '.stat', '.step', '.mock', '.compare-col', '.diagram',
-    '.flow-copy > *', '.flow-visual'
+    '.sec-head > *', '.seg', '.panes', '.window', '.quote-card', '.stat',
+    '.svc-list', '.timeline', '.flow-copy > *', '.contact'
   ];
   var STAGGER = reduceMotion ? 0 : 80;
 
@@ -58,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.reveal').forEach(function (el) { revealObserver.observe(el); });
 
     // Process line draws across when the steps come into view
-    var steps = document.querySelector('.steps');
+    var steps = document.querySelector('.timeline');
     if (steps) {
       new IntersectionObserver(function (entries, obs) {
         if (entries[0].isIntersecting) { steps.classList.add('drawn'); obs.disconnect(); }
@@ -70,6 +69,15 @@ document.addEventListener('DOMContentLoaded', function () {
   } else {
     document.documentElement.classList.add('hero-in', 'no-motion');
   }
+
+  // ── Services list: open one at a time ────────────────────────────────────
+  var svcItems = document.querySelectorAll('.svc-item');
+  svcItems.forEach(function (d) {
+    d.addEventListener('toggle', function () {
+      if (!d.open) return;
+      svcItems.forEach(function (o) { if (o !== d) o.open = false; });
+    });
+  });
 
   // ── Wayfinding: highlight the nav link for the section in view ───────────
   var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav-link[href^="#"]'));
@@ -88,6 +96,23 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   window.addEventListener('scroll', updateActive, { passive: true });
   updateActive();
+
+  // ── Before / after switch ─────────────────────────────────────────────────
+  // A segmented control: one pane shows at a time, the other fades out.
+  var seg = document.getElementById('seg');
+  if (seg) {
+    seg.addEventListener('click', function (e) {
+      var btn = e.target.closest('button[data-view]');
+      if (!btn) return;
+      var view = btn.dataset.view;
+      seg.dataset.view = view;
+      seg.querySelectorAll('button[data-view]').forEach(function (b) {
+        b.setAttribute('aria-pressed', b.dataset.view === view ? 'true' : 'false');
+        var pane = document.getElementById(b.getAttribute('aria-controls'));
+        if (pane) pane.hidden = b.dataset.view !== view;
+      });
+    });
+  }
 
   // ── Number counter animation ──────────────────────────────────────────────
   // Handles both .stat-num[data-target] and .industry-num[data-target]
