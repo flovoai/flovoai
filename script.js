@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var revealSelectors = [
     '.sec-head > *', '.seg', '.panes', '.window', '.quote-card', '.stat',
-    '.svc-list', '.timeline', '.flow-copy > *', '.contact'
+    '.svc-list', '.timeline', '.flow-copy > *', '.book-copy > *'
   ];
   var STAGGER = reduceMotion ? 0 : 80;
 
@@ -78,6 +78,41 @@ document.addEventListener('DOMContentLoaded', function () {
       svcItems.forEach(function (o) { if (o !== d) o.open = false; });
     });
   });
+
+  // ── Booking window: the next five working days ───────────────────────────
+  // Picking a day opens Cal.com on that date, where the real times show.
+  var calDays = document.getElementById('calDays');
+  var calGo = document.getElementById('calGo');
+  if (calDays && calGo) {
+    var BOOK_URL = 'https://cal.com/flovoai/30min';
+    var dayName = new Intl.DateTimeFormat('en-GB', { weekday: 'short' });
+    var dayLong = new Intl.DateTimeFormat('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
+    var iso = function (d) {
+      return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    };
+    var pick = function (btn) {
+      calDays.querySelectorAll('.cal-day').forEach(function (b) { b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+      calGo.href = BOOK_URL + '?date=' + btn.dataset.date;
+      calGo.firstChild.nodeValue = 'See times on ' + btn.dataset.short + ' ';
+    };
+    var d = new Date();
+    d.setHours(12, 0, 0, 0);
+    for (var added = 0; added < 5;) {
+      d.setDate(d.getDate() + 1);
+      if (d.getDay() === 0 || d.getDay() === 6) continue;
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'cal-day';
+      btn.dataset.date = iso(d);
+      btn.dataset.short = dayName.format(d) + ' ' + d.getDate();
+      btn.setAttribute('aria-label', dayLong.format(d));
+      btn.innerHTML = '<small>' + dayName.format(d) + '</small><b>' + d.getDate() + '</b>';
+      btn.addEventListener('click', function () { pick(this); });
+      calDays.appendChild(btn);
+      added++;
+    }
+    pick(calDays.firstChild);
+  }
 
   // ── Wayfinding: highlight the nav link for the section in view ───────────
   var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav-link[href^="#"]'));
