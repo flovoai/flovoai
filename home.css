@@ -86,6 +86,7 @@ h2 { font-size: clamp(2.125rem, 4.6vw, 3.25rem); line-height: 1.08; letter-spaci
 h3 { font-size: 1.375rem; line-height: 1.2; letter-spacing: -0.02em; margin-bottom: .5rem; }
 h4 { font-size: 1.125rem; line-height: 1.3; letter-spacing: -0.015em; margin-bottom: .5rem; }
 h1 em, h2 em { font-style: normal; color: var(--blue); }
+.h1-soft { color: #8A93A6; display: inline-block; text-wrap: balance; }
 p { text-wrap: pretty; }
 .eyebrow, .kicker {
   display: inline-flex; align-items: center; gap: .5rem;
@@ -102,7 +103,7 @@ p { text-wrap: pretty; }
 .sel > b:nth-of-type(3) { left: -5px; bottom: -5px; } .sel > b:nth-of-type(4) { right: -5px; bottom: -5px; }
 
 /* A teammate's cursor, drifting gently */
-.cursor { position: absolute; right: -3.5rem; top: calc(100% - 4px); display: flex; gap: 2px; pointer-events: none; animation: drift 6s ease-in-out infinite; }
+.cursor { position: absolute; right: -4.25rem; bottom: calc(100% - 1.25rem); flex-direction: row; display: flex; gap: 2px; pointer-events: none; animation: drift 6s ease-in-out infinite; }
 .cursor span { font: 600 .8125rem/1 var(--font); letter-spacing: 0; background: var(--navy); color: #fff; padding: .375rem .625rem; border-radius: 99px 99px 99px 4px; margin-top: 1rem; white-space: nowrap; }
 @keyframes drift { 50% { transform: translate(-10px, -6px); } }
 
@@ -202,7 +203,7 @@ mark { background: linear-gradient(transparent 10%, rgba(59, 110, 224, .17) 10%,
 /* ---------- Hero ---------- */
 .hero { padding: clamp(4.5rem, 10vw, 7rem) 0 clamp(5rem, 10vw, 7.5rem); text-align: center; overflow: hidden; }
 .hero-copy { max-width: 62rem; }
-.hero-sub { font-size: clamp(1.125rem, 1.6vw, 1.25rem); line-height: 1.55; color: var(--text-soft); max-width: 40rem; margin: 2.375rem auto 0; letter-spacing: -0.01em; }
+.hero-sub { font-size: clamp(1.125rem, 1.6vw, 1.25rem); line-height: 1.55; color: var(--text-soft); max-width: 40rem; margin: 1.75rem auto 0; letter-spacing: -0.01em; }
 .hero-trust { display: flex; justify-content: center; flex-wrap: wrap; gap: .5rem 1.625rem; margin-top: 1.625rem; font-size: .875rem; color: var(--text-soft); }
 .hero-trust li { display: flex; align-items: center; gap: .4375rem; }
 .hero-trust li::before {
