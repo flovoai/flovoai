@@ -203,7 +203,7 @@ mark { background: linear-gradient(transparent 10%, rgba(59, 110, 224, .17) 10%,
 /* ---------- Hero ---------- */
 .hero { padding: clamp(4.5rem, 10vw, 7rem) 0 clamp(5rem, 10vw, 7.5rem); text-align: center; overflow: hidden; }
 .hero-copy { max-width: 62rem; }
-.hero-sub { font-size: clamp(1.125rem, 1.6vw, 1.25rem); line-height: 1.55; color: var(--text-soft); max-width: 40rem; margin: 1.75rem auto 0; letter-spacing: -0.01em; }
+.hero-sub { font-size: clamp(1.125rem, 1.6vw, 1.25rem); line-height: 1.55; color: var(--text-soft); max-width: 40rem; margin: 1.75rem auto 0; text-wrap: balance; letter-spacing: -0.01em; }
 .hero-trust { display: flex; justify-content: center; flex-wrap: wrap; gap: .5rem 1.625rem; margin-top: 1.625rem; font-size: .875rem; color: var(--text-soft); }
 .hero-trust li { display: flex; align-items: center; gap: .4375rem; }
 .hero-trust li::before {
@@ -462,6 +462,7 @@ mark { background: linear-gradient(transparent 10%, rgba(59, 110, 224, .17) 10%,
   .nav-link { display: none; }
   .nav-cta { margin-left: 0; }
   .hero-cta .btn { width: 100%; justify-content: center; }
+  .hero-trust { display: none; }
   .checklist, .chat { padding: 1.5rem; }
   .app-main { padding: 1.25rem; }
   .app table { font-size: .8125rem; }
